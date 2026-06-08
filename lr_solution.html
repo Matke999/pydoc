@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>1. Linear Regression — Full Solution &#8212; AI Course documentation</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23306998'/%3E%3Ctext x='6' y='23' font-family='monospace' font-size='18' font-weight='bold' fill='%23FFD43B'%3E&gt;_%3C/text%3E%3C/SVG%3E">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;0,900;1,400&display=swap');
+*{box-sizing:border-box}
+html{font-size:100%}
+body{margin:0;background:#1a1a1a;color:#c4c4c4;
+  font-family:'Lato','Segoe UI',Helvetica,Arial,sans-serif;font-size:15px;line-height:1.6}
+a{color:#6ab0de;text-decoration:none}
+a:hover{color:#8ec6ef;text-decoration:underline}
+::-webkit-scrollbar{width:12px;height:12px}
+::-webkit-scrollbar-track{background:#1a1a1a}
+::-webkit-scrollbar-thumb{background:#3a3a3a;border-radius:6px}
+.related{background:#1a1a1a;border-bottom:1px solid #333;font-size:13px;color:#888}
+.related .inner{max-width:1200px;margin:0 auto;padding:6px 20px;
+  display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px}
+.related .crumbs a,.related .crumbs span{color:#888}
+.related .crumbs a{color:#6ab0de}
+.related .sep{color:#555;margin:0 4px}
+.related .navlinks{display:flex;gap:14px;font-size:13px}
+.related .navlinks a{color:#6ab0de}
+.docheader{background:#1a1a1a;border-bottom:1px solid #333}
+.docheader .inner{max-width:1200px;margin:0 auto;padding:10px 20px}
+.docheader .crumb{font-size:12px;color:#666;text-transform:uppercase;letter-spacing:.04em}
+.layout{max-width:1200px;margin:0 auto;display:flex}
+.sphinxsidebar{width:240px;flex:0 0 240px;background:#1a1a1a;
+  border-right:1px solid #333;padding:18px 14px 60px;font-size:14px;
+  position:sticky;top:0;align-self:flex-start;max-height:100vh;overflow-y:auto}
+.sphinxsidebar h3{color:#e0e0e0;font-size:14px;font-weight:900;margin:16px 0 5px;border-bottom:1px solid #2a2a2a;padding-bottom:4px}
+.sphinxsidebar h3:first-child{margin-top:0}
+.sphinxsidebar ul{list-style:none;margin:0;padding:0}
+.sphinxsidebar ul ul{padding-left:12px}
+.sphinxsidebar li{margin:3px 0;line-height:1.35}
+.sphinxsidebar a{color:#b0b0b0;font-size:13px}
+.sphinxsidebar a:hover{color:#fff}
+.sphinxsidebar .topic-link{display:block;padding:3px 0;color:#6ab0de;font-weight:700}
+.sphinxsidebar .topic-link:hover{color:#8ec6ef}
+.document{flex:1 1 auto;min-width:0;padding:16px 38px 80px;max-width:860px}
+h1{font-size:28px;font-weight:900;color:#e8e8e8;margin:10px 0 18px}
+h2{font-size:20px;font-weight:700;color:#e8e8e8;margin:30px 0 8px;
+  padding-bottom:4px;border-bottom:1px solid #333}
+h3{font-size:17px;font-weight:700;color:#dcdcdc;margin:18px 0 5px}
+h4{font-size:15px;font-weight:700;color:#c8c8c8;margin:12px 0 4px}
+.headerlink{visibility:hidden;color:#555;padding-left:6px;font-weight:400;font-size:.85em}
+h1:hover .headerlink,h2:hover .headerlink,h3:hover .headerlink{visibility:visible}
+p{margin:8px 0}
+code,tt{font-family:'SFMono-Regular',Menlo,Consolas,'DejaVu Sans Mono',monospace;font-size:.91em}
+code.literal{background:#2b2b2b;border:1px solid #3a3a3a;border-radius:3px;
+  padding:1px 5px;color:#d6d6d6}
+.highlight{background:#1e1e1e;border:1px solid #333;border-radius:3px;margin:8px 0}
+.highlight pre{margin:0;padding:11px 13px;overflow-x:auto;line-height:1.5;font-size:13px;
+  font-family:'SFMono-Regular',Menlo,Consolas,'DejaVu Sans Mono',monospace;background:transparent}
+.cell-num{font-size:11px;color:#555;margin:18px 0 2px;font-family:monospace}
+ol,ul{margin:8px 0;padding-left:24px}
+li{margin:3px 0}
+.admonition{margin:12px 0;padding:9px 13px;border-radius:3px;font-size:14px}
+.admonition .admonition-title{font-weight:700;margin:0 0 4px;font-size:12px;
+  text-transform:uppercase;letter-spacing:.03em}
+.admonition.note{background:#16222e;border:1px solid #2f4f6a}
+.admonition.note .admonition-title{color:#8ab8e0}
+.admonition.warning{background:#2a1818;border:1px solid #6e3b3b}
+.admonition.warning .admonition-title{color:#f08a8a}
+table.docutils{border-collapse:collapse;width:100%;font-size:13.5px;margin:12px 0}
+table.docutils th,table.docutils td{border:1px solid #3a3a3a;padding:6px 9px;text-align:left}
+table.docutils thead th{background:#262626;color:#e0e0e0}
+table.docutils tbody tr:nth-child(even){background:#202020}
+details.sub-sec{margin:10px 0;border:1px solid #333;border-radius:3px}
+details.sub-sec>summary{cursor:pointer;list-style:none;padding:8px 13px;background:#242424;
+  font-weight:700;font-size:14px;color:#cfe3f2;display:flex;align-items:center;gap:9px;user-select:none}
+details.sub-sec>summary::-webkit-details-marker{display:none}
+details.sub-sec>summary::before{content:"\25B6";font-size:10px;color:#888;transition:transform .12s}
+details.sub-sec[open]>summary::before{transform:rotate(90deg)}
+details.sub-sec>summary:hover{background:#2c2c2c}
+.sub-tag{font-family:'SFMono-Regular',Menlo,monospace;font-size:11px;font-weight:700;
+  letter-spacing:.02em;color:#9a9a9a;border:1px solid #444;border-radius:3px;padding:0 6px}
+.sub-body{padding:6px 16px 14px}
+.footer{max-width:1200px;margin:0 auto;padding:16px 20px 40px;
+  border-top:1px solid #333;color:#666;font-size:12px}
+.footer a{color:#6ab0de}
+@media(max-width:860px){.sphinxsidebar{display:none}.document{padding:14px 18px 60px}}
+@media print{
+  body{background:#fff;color:#000}.related,.sphinxsidebar,.docheader{display:none}
+  .document{max-width:none}h1,h2,h3,h4{color:#000}.highlight,.highlight pre{background:#f8f8f8;color:#000}
+  a{color:#000;text-decoration:none}
+}
+</style>
+<style>pre { line-height: 125%; }
+td.linenos .normal { color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+span.linenos { color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+td.linenos .special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+.highlight .hll { background-color: #ffffcc }
+.highlight { background: #1e1e1e; color: #D4D4D4 }
+.highlight .c { color: #8A8A7A; font-style: italic } /* Comment */
+.highlight .err { color: #D4D4D4 } /* Error */
+.highlight .esc { color: #D4D4D4 } /* Escape */
+.highlight .g { color: #D4D4D4 } /* Generic */
+.highlight .k { color: #FF6188; font-weight: bold } /* Keyword */
+.highlight .l { color: #D4D4D4 } /* Literal */
+.highlight .n { color: #D4D4D4 } /* Name */
+.highlight .o { color: #D4D4D4 } /* Operator */
+.highlight .x { color: #D4D4D4 } /* Other */
+.highlight .p { color: #D4D4D4 } /* Punctuation */
+.highlight .ch { color: #8A8A7A; font-style: italic } /* Comment.Hashbang */
+.highlight .cm { color: #8A8A7A; font-style: italic } /* Comment.Multiline */
+.highlight .cp { color: #8A8A7A; font-style: italic } /* Comment.Preproc */
+.highlight .cpf { color: #8A8A7A; font-style: italic } /* Comment.PreprocFile */
+.highlight .c1 { color: #8A8A7A; font-style: italic } /* Comment.Single */
+.highlight .cs { color: #8A8A7A; font-style: italic } /* Comment.Special */
+.highlight .gd { color: #D4D4D4 } /* Generic.Deleted */
+.highlight .ge { color: #D4D4D4 } /* Generic.Emph */
+.highlight .ges { color: #D4D4D4 } /* Generic.EmphStrong */
+.highlight .gr { color: #F87171 } /* Generic.Error */
+.highlight .gh { color: #D4D4D4 } /* Generic.Heading */
+.highlight .gi { color: #D4D4D4 } /* Generic.Inserted */
+.highlight .go { color: #6EC1B8 } /* Generic.Output */
+.highlight .gp { color: #FF5F5F; font-weight: bold } /* Generic.Prompt */
+.highlight .gs { color: #D4D4D4 } /* Generic.Strong */
+.highlight .gu { color: #D4D4D4 } /* Generic.Subheading */
+.highlight .gt { color: #D4D4D4 } /* Generic.Traceback */
+.highlight .kc { color: #FF6188; font-weight: bold } /* Keyword.Constant */
+.highlight .kd { color: #FF6188; font-weight: bold } /* Keyword.Declaration */
+.highlight .kn { color: #FF6188; font-weight: bold } /* Keyword.Namespace */
+.highlight .kp { color: #FF6188; font-weight: bold } /* Keyword.Pseudo */
+.highlight .kr { color: #FF6188; font-weight: bold } /* Keyword.Reserved */
+.highlight .kt { color: #FF6188; font-weight: bold } /* Keyword.Type */
+.highlight .ld { color: #D4D4D4 } /* Literal.Date */
+.highlight .m { color: #D9A05B } /* Literal.Number */
+.highlight .s { color: #6EC1B8 } /* Literal.String */
+.highlight .na { color: #D4D4D4 } /* Name.Attribute */
+.highlight .nb { color: #6EC1B8 } /* Name.Builtin */
+.highlight .nc { color: #D4D4D4 } /* Name.Class */
+.highlight .no { color: #D4D4D4 } /* Name.Constant */
+.highlight .nd { color: #D4D4D4 } /* Name.Decorator */
+.highlight .ni { color: #D4D4D4 } /* Name.Entity */
+.highlight .ne { color: #D4D4D4 } /* Name.Exception */
+.highlight .nf { color: #D4D4D4 } /* Name.Function */
+.highlight .nl { color: #D4D4D4 } /* Name.Label */
+.highlight .nn { color: #D4D4D4 } /* Name.Namespace */
+.highlight .nx { color: #D4D4D4 } /* Name.Other */
+.highlight .py { color: #D4D4D4 } /* Name.Property */
+.highlight .nt { color: #D4D4D4 } /* Name.Tag */
+.highlight .nv { color: #D4D4D4 } /* Name.Variable */
+.highlight .ow { color: #FF6188; font-weight: bold } /* Operator.Word */
+.highlight .pm { color: #D4D4D4 } /* Punctuation.Marker */
+.highlight .w { color: #D4D4D4 } /* Text.Whitespace */
+.highlight .mb { color: #D9A05B } /* Literal.Number.Bin */
+.highlight .mf { color: #D9A05B } /* Literal.Number.Float */
+.highlight .mh { color: #D9A05B } /* Literal.Number.Hex */
+.highlight .mi { color: #D9A05B } /* Literal.Number.Integer */
+.highlight .mo { color: #D9A05B } /* Literal.Number.Oct */
+.highlight .sa { color: #6EC1B8 } /* Literal.String.Affix */
+.highlight .sb { color: #6EC1B8 } /* Literal.String.Backtick */
+.highlight .sc { color: #6EC1B8 } /* Literal.String.Char */
+.highlight .dl { color: #6EC1B8 } /* Literal.String.Delimiter */
+.highlight .sd { color: #8A8A7A; font-style: italic } /* Literal.String.Doc */
+.highlight .s2 { color: #6EC1B8 } /* Literal.String.Double */
+.highlight .se { color: #6EC1B8 } /* Literal.String.Escape */
+.highlight .sh { color: #6EC1B8 } /* Literal.String.Heredoc */
+.highlight .si { color: #6EC1B8 } /* Literal.String.Interpol */
+.highlight .sx { color: #6EC1B8 } /* Literal.String.Other */
+.highlight .sr { color: #6EC1B8 } /* Literal.String.Regex */
+.highlight .s1 { color: #6EC1B8 } /* Literal.String.Single */
+.highlight .ss { color: #6EC1B8 } /* Literal.String.Symbol */
+.highlight .bp { color: #6EC1B8 } /* Name.Builtin.Pseudo */
+.highlight .fm { color: #D4D4D4 } /* Name.Function.Magic */
+.highlight .vc { color: #D4D4D4 } /* Name.Variable.Class */
+.highlight .vg { color: #D4D4D4 } /* Name.Variable.Global */
+.highlight .vi { color: #D4D4D4 } /* Name.Variable.Instance */
+.highlight .vm { color: #D4D4D4 } /* Name.Variable.Magic */
+.highlight .il { color: #D9A05B } /* Literal.Number.Integer.Long */</style>
+</head>
+<body>
+<div class="related">
+  <div class="inner">
+    <div class="crumbs">
+      <a href="ml_exam_reference.html">AI Course</a>
+      <span class="sep">&#187;</span>
+      <span>1. Linear Regression — Full Solution</span>
+    </div>
+    <div class="navlinks"><a href="ml_exam_reference.html">&#8592; Machine Learning Exam Reference</a>
+<span style="color:#555">|</span>
+<a href="dt_solution.html">2. Decision Tree — Full Solution &#8594;</a></div>
+  </div>
+</div>
+<div class="docheader"><div class="inner">
+  <div class="crumb">Artificial Intelligence &#183; Exam preparation</div>
+</div></div>
+<div class="layout">
+  <nav class="sphinxsidebar">
+    <h3>AI Course</h3><ul>
+  <li><a href="ml_exam_reference.html">Machine Learning Exam Reference</a></li>
+  <li><a href="lr_solution.html" style="color:#fff;font-weight:700">1. Linear Regression — Full Solution</a></li>
+  <li><a href="dt_solution.html">2. Decision Tree — Full Solution</a></li>
+  <li><a href="knn_solution.html">3. k-NN — Full Solution</a></li>
+  <li><a href="nn_solution.html">4. Neural Network — Full Solution</a></li>
+  <li><a href="kmeans_solution.html">5. KMeans Clustering — Full Solution</a></li>
+  <li><a href="hier_solution.html">6. Hierarchical Clustering — Full Solution</a></li>
+</ul>
+<h3>Previous topic</h3>
+<ul><li><a class="topic-link" href="ml_exam_reference.html">Machine Learning Exam Reference</a></li></ul>
+<h3>Next topic</h3>
+<ul><li><a class="topic-link" href="dt_solution.html">2. Decision Tree — Full Solution</a></li></ul>
+<h3>This Page</h3>
+<ul><li><a href="#">Show Source</a></li></ul>
+    <h3>Contents</h3><ul><li style="padding-left:10px"><a href="#">Predikcija količine proteina u fast‑food proizvodima</a></li></ul>
+  </nav>
+  <div class="document" role="main">
+    <h1>1. Linear Regression — Full Solution<a class="headerlink" href="#" title="Permalink to this headline">&#182;</a></h1>
+<h2>Predikcija količine proteina u fast‑food proizvodima</h2>
+
+<p>&gt; Koraci: filtriranje podataka, imputacija, izbor atributa, LR model, evaluacija, dijagnostika, VIF.</p>
+<div class="cell-num">In&nbsp;[1]:</div>
+<div class="highlight"><pre><span class="c1"># 0) Neophodni importi</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">seaborn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sb</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">statsmodels.api</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sm</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">statsmodels.formula.api</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">smf</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.model_selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">statsmodels.stats.outliers_influence</span><span class="w"> </span><span class="kn">import</span> <span class="n">variance_inflation_factor</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.stats</span><span class="w"> </span><span class="kn">import</span> <span class="n">shapiro</span>
+</pre></div>
+<div class="cell-num">In&nbsp;[2]:</div>
+<div class="highlight"><pre><span class="c1"># 1) Učitavanje</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;fastfood.csv&#39;</span><span class="p">,</span> <span class="n">na_values</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;NA&#39;</span><span class="p">])</span>
+<span class="n">display</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">info</span><span class="p">())</span>
+
+<span class="n">data</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+
+<span class="c1"># Možemo primetiti da su se atributi restaurant, item, cal_fat, protein učitali kao &quot;object&quot;.</span>
+<span class="c1"># Item i restaurant možemo i ostaviti u ovom obliku, jer su po prirodi nenumeričke</span>
+<span class="c1"># Takođe, samo atributi fiber, protein i calcium poseduju NA vrednosti</span>
+</pre></div>
+<div class="cell-num">In&nbsp;[3]:</div>
+<div class="highlight"><pre><span class="c1"># 2) Podskup sa total_fat ≤ 125</span>
+<span class="n">data_subset</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;total_fat&#39;</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="mi">125</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Broj redova u data_subset: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">data_subset</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Broj redova u originalnom datesetu: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+<div class="cell-num">In&nbsp;[4]:</div>
+<div class="highlight"><pre><span class="c1"># 3) Obrada nedostajućih vrednosti</span>
+<span class="n">special_missing</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">]</span>
+
+<span class="c1"># Proverimo koje kolone poseduje specijalne karaktere</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">data_subset</span><span class="o">.</span><span class="n">isin</span><span class="p">([</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
+
+<span class="c1"># Zamenimo specijalne karaktere</span>
+<span class="n">data_subset</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">special_missing</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># Ponovna provera</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">data_subset</span><span class="o">.</span><span class="n">isin</span><span class="p">([</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
+
+<span class="c1"># Pretvaramo cal_fat i protein u numeričke (jer su trenutno object)</span>
+<span class="n">data_subset</span><span class="p">[</span><span class="s1">&#39;protein&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_numeric</span><span class="p">(</span><span class="n">data_subset</span><span class="p">[</span><span class="s1">&#39;protein&#39;</span><span class="p">],</span> <span class="n">errors</span><span class="o">=</span><span class="s1">&#39;coerce&#39;</span><span class="p">)</span>
+<span class="n">data_subset</span><span class="p">[</span><span class="s1">&#39;cal_fat&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_numeric</span><span class="p">(</span><span class="n">data_subset</span><span class="p">[</span><span class="s1">&#39;cal_fat&#39;</span><span class="p">],</span> <span class="n">errors</span><span class="o">=</span><span class="s1">&#39;coerce&#39;</span><span class="p">)</span>
+
+<span class="c1"># Pravimo subset, samo numerički podaci</span>
+<span class="n">data_numeric</span> <span class="o">=</span> <span class="n">data_subset</span><span class="o">.</span><span class="n">select_dtypes</span><span class="p">(</span><span class="n">include</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;number&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">data_numeric</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">data_numeric</span><span class="o">.</span><span class="n">info</span><span class="p">())</span>
+</pre></div>
+<div class="cell-num">In&nbsp;[5]:</div>
+<div class="highlight"><pre><span class="c1"># Provera NA -&gt; cal_fat, fiber, protein i calcium imaju NA vrednosti. Potrebno je zameniti ih</span>
+<span class="n">data_numeric</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+
+<span class="c1"># Provera NA u procentima -&gt; vidimo da calcium ima čak 41% NA vrednosti</span>
+<span class="nb">print</span><span class="p">((</span><span class="n">data_numeric</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="o">*</span> <span class="mi">100</span><span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
+
+<span class="c1">#Atribut calcium ima dosta nedostajućih vrednosti, pa neće biti ni zamenjene.</span>
+<span class="c1">#Atribut calcium se izbacuje iz dataseta, zbog prevelikog broja nedostajućih vrednosti. (Za granicu se može uzeti &gt;20%)</span>
+<span class="n">data_numeric</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="s1">&#39;calcium&#39;</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+<div class="cell-num">In&nbsp;[6]:</div>
+<div class="highlight"><pre><span class="c1"># Atributi sa NA (ali koji nisu izbačeni kao calcium)</span>
+<span class="n">cols_with_na</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;cal_fat&#39;</span><span class="p">,</span> <span class="s1">&#39;fiber&#39;</span><span class="p">,</span> <span class="s1">&#39;protein&#39;</span><span class="p">]</span>
+
+<span class="c1"># Provera normalne raspodele</span>
+<span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">cols_with_na</span><span class="p">:</span>
+    <span class="n">series</span> <span class="o">=</span> <span class="n">data_numeric</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
+    <span class="n">stat</span><span class="p">,</span> <span class="n">p</span> <span class="o">=</span> <span class="n">shapiro</span><span class="p">(</span><span class="n">series</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">col</span><span class="si">}</span><span class="s2">: p = </span><span class="si">{</span><span class="n">p</span><span class="si">:</span><span class="s2">.5f</span><span class="si">}</span><span class="s2"> → </span><span class="si">{</span><span class="s1">&#39;nije normalna&#39;</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">p</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mf">0.05</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">&#39;normalna&#39;</span><span class="si">}</span><span class="s2"> distribucija&quot;</span><span class="p">)</span>
+
+<span class="c1"># S obzirom da ni jedna od ovih kolona nema normalnu raspodelu, nedostajuće vrednosti menjamo medijanom</span>
+<span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">cols_with_na</span><span class="p">:</span>
+    <span class="n">median</span> <span class="o">=</span> <span class="n">data_numeric</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">median</span><span class="p">()</span>
+    <span class="n">data_numeric</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">data_numeric</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="n">median</span><span class="p">)</span>
+
+<span class="c1"># Provera da li smo uspešno uklonili NA</span>
+<span class="n">data_numeric</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+</pre></div>
+<div class="cell-num">In&nbsp;[7]:</div>
+<div class="highlight"><pre><span class="c1"># Prikaz matrice korelacije</span>
+<span class="n">corr</span> <span class="o">=</span> <span class="n">data_numeric</span><span class="o">.</span><span class="n">corr</span><span class="p">(</span><span class="n">numeric_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">11</span><span class="p">,</span><span class="mi">8</span><span class="p">))</span>
+<span class="n">sb</span><span class="o">.</span><span class="n">heatmap</span><span class="p">(</span><span class="n">corr</span><span class="p">,</span> <span class="n">annot</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;coolwarm&#39;</span><span class="p">,</span> <span class="n">vmin</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Korelaciona matrica&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">data_numeric</span><span class="p">[[</span><span class="s1">&#39;total_fat&#39;</span><span class="p">,</span> <span class="s1">&#39;protein&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">20</span><span class="p">))</span>
+</pre></div>
+<div class="cell-num">In&nbsp;[8]:</div>
+<div class="highlight"><pre><span class="c1"># 4) Izbor prediktora</span>
+<span class="n">target</span> <span class="o">=</span> <span class="s1">&#39;protein&#39;</span>
+<span class="n">features</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;cholesterol&#39;</span><span class="p">,</span> <span class="s1">&#39;calories&#39;</span><span class="p">,</span> <span class="s1">&#39;sodium&#39;</span><span class="p">]</span>
+
+<span class="c1">#Na korelacionoj matrici se može primetiti da su za predviđaje atributa protein najznačajni(najveća korelisanost) atributi:</span>
+<span class="c1">#   1)cholesterol - 0.87 (jedinično povećanje atributa cholesterol dovešće do povećanja atributa protein za 0.87)</span>
+<span class="c1">#   2)calories - 0.8 (jedinično povećanje atributa calories dovešće do povećanja atributa protein za 0.8)</span>
+<span class="c1">#   3)sodium - 0.76 (jedinično povećanje atributa sodium dovešće do povećanja atributa protein za 0.76)</span>
+</pre></div>
+<div class="cell-num">In&nbsp;[9]:</div>
+<div class="highlight"><pre><span class="c1"># 5) Podela na train i test</span>
+<span class="n">train_df</span><span class="p">,</span> <span class="n">test_df</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">data_subset</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">123</span><span class="p">)</span>
+
+<span class="c1"># Provera train i test</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Broj redova u train skupu: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">train_df</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Broj redova u test skupu: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">test_df</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+<div class="cell-num">In&nbsp;[10]:</div>
+<div class="highlight"><pre><span class="c1"># 6) Pravljenje modela</span>
+<span class="n">lm1</span> <span class="o">=</span> <span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">target</span><span class="si">}</span><span class="s1"> ~ &#39;</span> <span class="o">+</span> <span class="s1">&#39; + &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">features</span><span class="p">),</span> <span class="n">data</span><span class="o">=</span><span class="n">train_df</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">lm1</span><span class="o">.</span><span class="n">summary</span><span class="p">())</span>
+</pre></div>
+<div class="cell-num">In&nbsp;[11]:</div>
+<div class="highlight"><pre><span class="c1"># Reziduali predstavljaju razliku između stvarnih i predviđenih vrednosti ciljne promenljive (protein).</span>
+<span class="c1"># Idealno je da su ravnomerno raspodeljeni oko nule.</span>
+
+<span class="c1"># Medijana reziduala je -0.702, što znači da je polovina grešaka manja, a polovina veća od te vrednosti.</span>
+
+<span class="c1"># Intercept (presretanje) iznosi 2.5108.</span>
+<span class="c1"># To znači da kada su sve nezavisne promenljive jednake nuli, očekivana vrednost proteina je oko 2.51.</span>
+
+<span class="c1"># Koeficijenti:</span>
+<span class="c1"># - cholesterol: koeficijent 0.1970 → povećanje za 1 jedinicu dovodi do rasta proteina za ~0.197.</span>
+<span class="c1"># - calories:    koeficijent 0.0057 → povećanje za 1 jedinicu dovodi do rasta proteina za ~0.0057.</span>
+<span class="c1"># - sodium:      koeficijent 0.0066 → povećanje za 1 jedinicu dovodi do rasta proteina za ~0.0066.</span>
+
+<span class="c1"># Statistička značajnost:</span>
+<span class="c1"># - cholesterol i sodium imaju p-vrednosti &lt; 0.001 → vrlo značajni prediktori.</span>
+<span class="c1"># - calories ima p = 0.015 → takođe je statistički značajan (p &lt; 0.05).</span>
+
+<span class="c1"># R-kvadrat iznosi 0.852 → model objašnjava oko 85.2% varijabilnosti ciljne promenljive.</span>
+
+<span class="c1"># F-statistika je visoka (778.0), a p-vrednost skoro nula → model kao celina je značajan.</span>
+
+<span class="c1"># Upozorenje: Condition number je 3.45e+03 → može postojati multikolinearnost.</span>
+<span class="c1"># Preporučuje se dodatna provera (npr. putem VIF vrednosti).</span>
+</pre></div>
+<div class="cell-num">In&nbsp;[12]:</div>
+<div class="highlight"><pre><span class="c1"># 7) Predikcija na test skupu</span>
+<span class="n">y_true</span> <span class="o">=</span> <span class="n">test_df</span><span class="p">[</span><span class="s1">&#39;protein&#39;</span><span class="p">]</span>
+<span class="n">X_test</span> <span class="o">=</span> <span class="n">test_df</span><span class="p">[[</span><span class="s1">&#39;cholesterol&#39;</span><span class="p">,</span> <span class="s1">&#39;calories&#39;</span><span class="p">,</span> <span class="s1">&#39;sodium&#39;</span><span class="p">]]</span>
+
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">lm1</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+
+<span class="c1"># Napravimo DataFrame sa poređenjem</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
+    <span class="s1">&#39;Stvarno&#39;</span><span class="p">:</span> <span class="n">y_true</span><span class="o">.</span><span class="n">values</span><span class="p">,</span>
+    <span class="s1">&#39;Predviđeno&#39;</span><span class="p">:</span> <span class="n">y_pred</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="p">})</span>
+
+<span class="c1"># Prikaz prvih 10 predikcija</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">results</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>
+</pre></div>
+<div class="cell-num">In&nbsp;[13]:</div>
+<div class="highlight"><pre><span class="c1"># 8) Dijagnostički grafikoni</span>
+<span class="n">sb</span><span class="o">.</span><span class="n">residplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">lm1</span><span class="o">.</span><span class="n">fittedvalues</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">lm1</span><span class="o">.</span><span class="n">resid</span><span class="p">,</span> <span class="n">lowess</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">line_kws</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;color&#39;</span><span class="p">:</span><span class="s1">&#39;red&#39;</span><span class="p">})</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Residuals vs Fitted&#39;</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="n">sm</span><span class="o">.</span><span class="n">qqplot</span><span class="p">(</span><span class="n">lm1</span><span class="o">.</span><span class="n">resid</span><span class="p">,</span> <span class="n">fit</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">line</span><span class="o">=</span><span class="s1">&#39;45&#39;</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Normal Q-Q&#39;</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="n">sqrt_abs_resid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">lm1</span><span class="o">.</span><span class="n">resid</span><span class="p">))</span>
+<span class="n">sb</span><span class="o">.</span><span class="n">scatterplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">lm1</span><span class="o">.</span><span class="n">fittedvalues</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">sqrt_abs_resid</span><span class="p">)</span>
+<span class="n">sb</span><span class="o">.</span><span class="n">regplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">lm1</span><span class="o">.</span><span class="n">fittedvalues</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">sqrt_abs_resid</span><span class="p">,</span> <span class="n">scatter</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">lowess</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">line_kws</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;color&#39;</span><span class="p">:</span><span class="s1">&#39;red&#39;</span><span class="p">})</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Scale-Location&#39;</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="n">sm</span><span class="o">.</span><span class="n">graphics</span><span class="o">.</span><span class="n">influence_plot</span><span class="p">(</span><span class="n">lm1</span><span class="p">,</span> <span class="n">criterion</span><span class="o">=</span><span class="s1">&#39;cooks&#39;</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Residuals vs Leverage&#39;</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+<div class="cell-num">In&nbsp;[14]:</div>
+<div class="highlight"><pre><span class="c1"># - Residuals vs Fitted -</span>
+<span class="c1"># Grafikon prikazuje raspodelu reziduala (razlike između stvarnih i predviđenih vrednosti) u odnosu na predviđene vrednosti.</span>
+<span class="c1"># Ovaj grafikon se koristi da proveri da li je zadovoljena pretpostavka linearne veze.</span>
+<span class="c1"># Residuali bi trebalo da budu raspoređeni oko horizontalne linije (vrednost bliska nuli).</span>
+<span class="c1"># Sa grafikona se može zaključiti da postoje manja odstupanja (nelineranost), što može ukazivati na neadekvatnost modela.</span>
+
+<span class="c1"># - Normal Q-Q -</span>
+<span class="c1"># Ovaj grafikon prikazuje da li reziduali imaju normalnu raspodelu.</span>
+<span class="c1"># Tačke bi trebalo da leže duž dijagonale.</span>
+<span class="c1"># Pošto tačke odstupaju od dijagonale na krajevima, pretpostavka normalnosti nije u potpunosti ispunjena.</span>
+
+<span class="c1"># - Scale-Location -</span>
+<span class="c1"># Prikazuje da li je varijabilnost (varijansa) reziduala konstantna duž predikcija.</span>
+<span class="c1"># Idealno, crvena linija treba da bude horizontalna i da tačke budu ravnomerno raspoređene.</span>
+<span class="c1"># U ovom slučaju, varijansa reziduala nije potpuno konstantna, što ukazuje na moguću heteroskedastičnost.</span>
+
+<span class="c1"># - Residuals vs Leverage -</span>
+<span class="c1"># Ovaj grafikon identifikuje ekstremno visoke/niske vrednosti (outliere) i njihove uticaje na model.</span>
+<span class="c1"># Većina tačaka bi trebalo da bude unutar granica, a ekstremne vrednosti retke.</span>
+<span class="c1"># Na osnovu Cookove distance vidi se da postoji nekoliko potencijalnih outliera, što može uticati na stabilnost modela.</span>
+</pre></div>
+<div class="cell-num">In&nbsp;[15]:</div>
+<div class="highlight"><pre><span class="c1"># 9) Provera multikolinearnosti</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">add_constant</span><span class="p">(</span><span class="n">train_df</span><span class="p">[</span><span class="n">features</span><span class="p">])</span>
+<span class="n">vif</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">([</span><span class="n">variance_inflation_factor</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])],</span> <span class="n">index</span><span class="o">=</span><span class="n">X</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;√VIF prve verzije:</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">vif</span><span class="p">))</span>
+
+<span class="c1">#S obzirom da je za atribut calories sqrt(vif) vrednost &gt;2, može se zaključiti da postoji multikorelisanost, koja može dovesti do nepouzdanih procena.</span>
+<span class="c1">#Novi model za predikciju proteina treba kreirati sa atributima cholesterol i sodium.</span>
+<span class="n">lm2</span> <span class="o">=</span> <span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">target</span><span class="si">}</span><span class="s1"> ~ cholesterol + sodium&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">train_df</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+
+<span class="c1"># Provera VIF za novi model</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">add_constant</span><span class="p">(</span><span class="n">train_df</span><span class="p">[[</span><span class="s1">&#39;cholesterol&#39;</span><span class="p">,</span> <span class="s1">&#39;sodium&#39;</span><span class="p">]])</span>
+<span class="n">vif</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">([</span><span class="n">variance_inflation_factor</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])],</span> <span class="n">index</span><span class="o">=</span><span class="n">X</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;√VIF druge verzije:</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">vif</span><span class="p">))</span>
+<span class="c1">#Multikolienearnost ne postoji više.</span>
+</pre></div>
+  </div>
+</div>
+<div class="footer">
+  &#169; Copyright, AI Course. &nbsp;
+  Created using <a href="#">Sphinx</a> 7.2.6.
+</div>
+</body>
+</html>

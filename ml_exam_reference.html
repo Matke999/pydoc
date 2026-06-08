@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Machine Learning Exam Reference &#8212; AI Course documentation</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;0,900;1,400&display=swap');
+
+:root{
+  --link:#0b487a; --link-hover:#1a64a0; --text:#333; --head:#0b487a;
+  --code-bg:#f8f8f8; --code-border:#e1e4e5; --side-bg:#fff;
+  --kw:#008000; --str:#ba2121; --num:#666666; --com:#408080; --bi:#008000;
+}
+*{box-sizing:border-box}
+html{font-size:100%}
+body{margin:0;background:#fff;color:var(--text);
+  font-family:'Lato','Segoe UI',Helvetica,Arial,sans-serif;font-size:15px;line-height:1.6}
+a{color:var(--link);text-decoration:none}
+a:hover{color:var(--link-hover);text-decoration:underline}
+
+/* related / breadcrumb bar */
+.related{background:#fff;border-bottom:1px solid #e1e4e5;font-size:13px;color:#555}
+.related .inner{max-width:1180px;margin:0 auto;padding:8px 20px}
+.related a{color:var(--link)}
+.related .sep{color:#aaa;margin:0 4px}
+
+/* header band with title */
+.docheader{background:#fff;border-bottom:1px solid #e1e4e5}
+.docheader .inner{max-width:1180px;margin:0 auto;padding:14px 20px}
+.docheader .crumb{font-size:12px;color:#888;text-transform:uppercase;letter-spacing:.04em}
+
+/* layout */
+.layout{max-width:1180px;margin:0 auto;display:flex;gap:0}
+.sphinxsidebar{width:250px;flex:0 0 250px;background:var(--side-bg);
+  border-right:1px solid #e1e4e5;padding:20px 16px 60px;font-size:14px;
+  position:sticky;top:0;align-self:flex-start;max-height:100vh;overflow-y:auto}
+.sphinxsidebar h3{color:var(--head);font-size:15px;font-weight:900;margin:18px 0 6px}
+.sphinxsidebar h3:first-child{margin-top:0}
+.sphinxsidebar ul{list-style:none;margin:0;padding:0}
+.sphinxsidebar ul ul{padding-left:14px}
+.sphinxsidebar li{margin:3px 0;line-height:1.4}
+.sphinxsidebar a{color:var(--link)}
+
+.document{flex:1 1 auto;min-width:0;padding:14px 36px 80px;max-width:840px}
+
+/* headings + pilcrow */
+h1{font-size:30px;font-weight:900;color:var(--head);margin:14px 0 18px;line-height:1.25}
+h2{font-size:22px;font-weight:700;color:var(--head);margin:32px 0 8px;
+  padding-bottom:4px;border-bottom:1px solid #e1e4e5}
+h3{font-size:17px;font-weight:700;color:#333;margin:18px 0 6px}
+.headerlink{visibility:hidden;color:#ccc;padding-left:6px;font-weight:400}
+h1:hover .headerlink,h2:hover .headerlink,h3:hover .headerlink,
+.sub-sec>summary:hover .headerlink{visibility:visible}
+p{margin:8px 0}
+
+/* inline + block code */
+code,tt{font-family:'SFMono-Regular',Menlo,Consolas,'DejaVu Sans Mono',monospace;font-size:.92em}
+code.literal{background:#f5f5f5;border:1px solid #e6e6e6;border-radius:3px;
+  padding:1px 4px;color:#222}
+.highlight{background:var(--code-bg);border:1px solid var(--code-border);
+  border-radius:3px;margin:10px 0;overflow:hidden}
+.highlight pre{margin:0;padding:11px 13px;overflow-x:auto;line-height:1.5;
+  font-size:13px;color:#111;background:transparent;
+  font-family:'SFMono-Regular',Menlo,Consolas,'DejaVu Sans Mono',monospace}
+.kw{color:var(--kw);font-weight:bold}
+.str{color:var(--str)}
+.num{color:var(--num)}
+.com{color:var(--com);font-style:italic}
+.bi{color:var(--bi)}
+.fn{color:#000}
+
+ol,ul{margin:8px 0;padding-left:26px}
+li{margin:3px 0}
+
+/* admonitions */
+.admonition{margin:14px 0;padding:10px 14px;border-radius:3px;font-size:14px}
+.admonition .admonition-title{font-weight:700;margin:0 0 4px;font-size:13px;
+  text-transform:uppercase;letter-spacing:.03em}
+.admonition.note{background:#eef3f8;border:1px solid #b6cce0}
+.admonition.note .admonition-title{color:#2a5d8a}
+.admonition.warning{background:#fdf3f2;border:1px solid #e7b8b3}
+.admonition.warning .admonition-title{color:#a33}
+.admonition.seealso{background:#f3f0f8;border:1px solid #cfc2e6}
+.admonition.seealso .admonition-title{color:#5b3a8c}
+
+/* tables (docutils style) */
+table.docutils{border-collapse:collapse;margin:14px 0;font-size:13.5px;width:100%}
+table.docutils th,table.docutils td{border:1px solid #cfcfcf;padding:6px 9px;text-align:left;vertical-align:top}
+table.docutils thead th{background:#ededed;font-weight:700}
+table.docutils tbody tr:nth-child(even){background:#f7f7f7}
+
+/* collapsible subsections, styled to fit theme */
+details.sub-sec{margin:10px 0;border:1px solid #e1e4e5;border-radius:3px;overflow:hidden}
+details.sub-sec>summary{cursor:pointer;list-style:none;padding:8px 13px;
+  background:#f5f7f9;font-weight:700;font-size:14px;color:var(--head);
+  display:flex;align-items:center;gap:9px;user-select:none}
+details.sub-sec>summary::-webkit-details-marker{display:none}
+details.sub-sec>summary::before{content:"\25B6";font-size:10px;color:#888;transition:transform .12s}
+details.sub-sec[open]>summary::before{transform:rotate(90deg)}
+details.sub-sec>summary:hover{background:#eef1f4}
+.sub-tag{font-family:'SFMono-Regular',Menlo,monospace;font-size:11px;font-weight:700;
+  letter-spacing:.02em;color:#777;border:1px solid #cdd3d8;border-radius:3px;padding:0 6px}
+.sub-body{padding:6px 16px 14px}
+
+/* footer */
+.footer{max-width:1180px;margin:0 auto;padding:18px 20px 40px;
+  border-top:1px solid #e1e4e5;color:#888;font-size:12px}
+
+@media(max-width:860px){
+  .sphinxsidebar{display:none}
+  .document{padding:14px 18px 60px}
+}
+@media print{
+  .related,.sphinxsidebar,.docheader{display:none}
+  .document{max-width:none}
+  details.sub-sec>summary::before{content:""}
+  a{color:#000;text-decoration:none}
+}
+</style>
+
+<!-- Neutral original favicon (NOT the trademarked PSF Python logo). See note in chat to swap in the official one. -->
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23306998'/%3E%3Ctext x='6' y='23' font-family='monospace' font-size='18' font-weight='bold' fill='%23FFD43B'%3E&gt;_%3C/text%3E%3C/svg%3E">
+
+<!-- ============ DARK THEME (matches docs.python.org dark) ============ -->
+<style>
+:root{
+  --link:#6ab0de; --link-hover:#8ec6ef; --text:#c4c4c4; --head:#e8e8e8;
+  --code-bg:#1e1e1e; --code-border:#333; --side-bg:#1a1a1a;
+  --kw:#ff6188; --str:#6ec1b8; --num:#d9a05b; --com:#8a8a7a; --bi:#6ec1b8;
+}
+body{background:#1a1a1a;color:var(--text)}
+::-webkit-scrollbar{width:12px;height:12px}
+::-webkit-scrollbar-track{background:#1a1a1a}
+::-webkit-scrollbar-thumb{background:#3a3a3a;border-radius:6px}
+
+.related{background:#1a1a1a;border-bottom:1px solid #333;color:#999}
+.related .sep{color:#666}
+.docheader{background:#1a1a1a;border-bottom:1px solid #333}
+.docheader .crumb{color:#7a7a7a}
+
+.sphinxsidebar{background:var(--side-bg);border-right:1px solid #333}
+.sphinxsidebar h3{color:#e0e0e0}
+.sphinxsidebar a{color:#b8b8b8}
+.sphinxsidebar a:hover{color:#fff}
+
+h1,h2,h3{color:var(--head)}
+h2{border-bottom:1px solid #333}
+h3{color:#dcdcdc}
+.headerlink{color:#555}
+h1:hover .headerlink,h2:hover .headerlink,h3:hover .headerlink,
+.sub-sec>summary:hover .headerlink{color:var(--link)}
+
+code.literal{background:#2b2b2b;border:1px solid #3a3a3a;color:#d6d6d6}
+.highlight{background:var(--code-bg);border:1px solid var(--code-border)}
+.highlight pre{color:#d4d4d4;background:transparent}
+.com{color:var(--com);font-style:italic}
+.fn{color:#d4d4d4}
+
+.admonition.note{background:#16222e;border:1px solid #2f4f6a}
+.admonition.note .admonition-title{color:#8ab8e0}
+.admonition.warning{background:#2a1818;border:1px solid #6e3b3b}
+.admonition.warning .admonition-title{color:#f08a8a}
+.admonition.seealso{background:#21250f;border:1px solid #565b22}
+.admonition.seealso .admonition-title{color:#c9d18a}
+
+table.docutils th,table.docutils td{border:1px solid #3a3a3a}
+table.docutils thead th{background:#262626;color:#e0e0e0}
+table.docutils tbody tr:nth-child(even){background:#202020}
+
+details.sub-sec{border:1px solid #333}
+details.sub-sec>summary{background:#242424;color:#cfe3f2}
+details.sub-sec>summary::before{color:#888}
+details.sub-sec>summary:hover{background:#2c2c2c}
+.sub-tag{color:#9a9a9a;border:1px solid #444}
+
+.footer{border-top:1px solid #333;color:#777}
+.footer a{color:var(--link)}
+
+@media print{
+  body{background:#fff;color:#000}
+  .related,.sphinxsidebar,.docheader{display:none}
+  h1,h2,h3{color:#000}
+  .highlight,code.literal{background:#f8f8f8;border-color:#ddd}
+  .highlight pre,.fn{color:#111}
+}
+</style>
+</head>
+<body>
+
+<div class="related">
+  <div class="inner">
+    <div class="crumbs">
+      <a href="ml_exam_reference.html">AI Course</a>
+      <span class="sep">&#187;</span>
+      <span>Machine Learning Exam Reference</span>
+    </div>
+    <div class="navlinks" style="display:flex;gap:14px;font-size:13px">
+      <span style="color:#555">&#8592; previous</span>
+      <span style="color:#555">|</span>
+      <a href="lr_solution.html">1. Linear Regression — Full Solution &#8594;</a>
+    </div>
+  </div>
+</div>
+
+<div class="docheader">
+  <div class="inner">
+    <div class="crumb">Artificial Intelligence &#183; Quiz preparation</div>
+  </div>
+</div>
+
+<div class="layout">
+
+  <!-- SIDEBAR -->
+  <nav class="sphinxsidebar">
+    <h3>AI Course</h3>
+    <ul>
+      <li><a href="ml_exam_reference.html" style="color:#fff;font-weight:700">Machine Learning Exam Reference</a></li>
+      <li><a href="lr_solution.html">1. Linear Regression — Full Solution</a></li>
+      <li><a href="dt_solution.html">2. Decision Tree — Full Solution</a></li>
+      <li><a href="knn_solution.html">3. k-NN — Full Solution</a></li>
+      <li><a href="nn_solution.html">4. Neural Network — Full Solution</a></li>
+      <li><a href="kmeans_solution.html">5. KMeans Clustering — Full Solution</a></li>
+      <li><a href="hier_solution.html">6. Hierarchical Clustering — Full Solution</a></li>
+    </ul>
+    <h3>Table of Contents</h3>
+    <ul>
+      <li><a href="#univ">0. Universal pipeline</a></li>
+      <li><a href="#lr">1. Linear Regression</a>
+        <ul><li><a href="#lr">Concept</a></li><li><a href="#lr">Pseudocode</a></li><li><a href="#lr">Solution</a></li></ul></li>
+      <li><a href="#dt">2. Decision Tree</a>
+        <ul><li><a href="#dt">Concept</a></li><li><a href="#dt">Pseudocode</a></li><li><a href="#dt">Solution</a></li></ul></li>
+      <li><a href="#knn">3. k-Nearest Neighbors</a>
+        <ul><li><a href="#knn">Concept</a></li><li><a href="#knn">Pseudocode</a></li><li><a href="#knn">Solution</a></li></ul></li>
+      <li><a href="#nn">4. Neural Network (MLP)</a>
+        <ul><li><a href="#nn">Concept</a></li><li><a href="#nn">Pseudocode</a></li><li><a href="#nn">Solution</a></li></ul></li>
+      <li><a href="#clu">5. Clustering</a>
+        <ul><li><a href="#clu">Concept</a></li><li><a href="#clu">Pseudocode</a></li><li><a href="#clu">Solution</a></li></ul></li>
+      <li><a href="#gotchas">6. Pitfalls table</a></li>
+    </ul>
+    <h3>Legend</h3>
+    <ul>
+      <li><span class="sub-tag">VERIFIED</span> verbatim from repo</li>
+      <li><span class="sub-tag">PATTERN</span> standard pattern, not found in repo &#8212; verify yourself</li>
+    </ul>
+    <h3>Next topic</h3>
+    <ul><li><a class="topic-link" href="lr_solution.html">1. Linear Regression — Full Solution</a></li></ul>
+    <h3>This Page</h3>
+    <ul><li><a href="#">Show Source</a></li></ul>
+  </nav>
+
+  <!-- MAIN -->
+  <div class="document" role="main">
+  <h1>Machine Learning Exam Reference<a class="headerlink" href="#" title="Permalink to this headline">&#182;</a></h1>
+  <p>Organized by task type. Each model section contains three independently collapsible subsections: <em>concept</em>, <em>pseudocode</em>, and <em>worked task + solution</em>. The <code class="literal">VERIFIED</code> tag marks code taken verbatim from the course repositories; <code class="literal">PATTERN</code> marks a standard idiom that was not found in the repo and should be checked.</p>
+
+  <!-- ===================== UNIVERSAL ===================== -->
+  <h2 id="univ">0. Universal pipeline (everything except clustering)<a class="headerlink" href="#univ" title="Permalink">&#182;</a></h2>
+  <p>Every classification/regression task is the same skeleton &#8212; only the model in step 9 changes.</p>
+  <ol>
+    <li><strong>Load:</strong> <code class="literal">pd.read_csv(path, na_values=['-',' ',''])</code> &#8212; missing values are ALWAYS those three plus <code class="literal">NA</code>.</li>
+    <li><strong>Subset</strong> by the condition in the task text, always with <code class="literal">.copy()</code>.</li>
+    <li><strong>Target</strong> (classification only): <code class="literal">q = df['x'].quantile(0.75)</code> &#8594; <code class="literal">np.where(df['x']&gt;q,'Yes','No')</code> &#8594; <code class="literal">.map({'Yes':1,'No':0})</code> &#8594; drop the original.</li>
+    <li><strong>Missing values:</strong> run <code class="literal">shapiro()</code>; if <code class="literal">p&lt;0.05</code> (not normal) &#8594; <code class="literal">fillna(median)</code>; categorical &#8594; <code class="literal">fillna(mode()[0])</code>.</li>
+    <li><strong>Feature selection:</strong> inspect <code class="literal">sns.kdeplot(hue=target)</code> / <code class="literal">countplot</code> &#8594; drop features whose per-class distributions overlap.</li>
+    <li><strong>Encoding:</strong> binary &#8594; <code class="literal">.map({...})</code>; multi-category &#8594; <code class="literal">OneHotEncoder(drop='first')</code> or <code class="literal">get_dummies</code>.</li>
+    <li><strong>Scaling:</strong> <code class="literal">StandardScaler</code>, or <code class="literal">RobustScaler</code> if outliers (IQR check). Always after the split: <code class="literal">fit_transform</code> on train, <code class="literal">transform</code> on test.</li>
+    <li><strong>Split:</strong> <code class="literal">train_test_split(X,y,test_size=0.2,random_state=42,stratify=y)</code>.</li>
+    <li><strong>Model + GridSearchCV</strong> for the hyperparameter.</li>
+    <li><strong>Evaluate:</strong> <code class="literal">confusion_matrix</code> + accuracy / precision / recall / f1.</li>
+  </ol>
+  <div class="admonition note"><p class="admonition-title">Note</p>
+    <p>For object columns loaded as text, first <code class="literal">df.replace(['-',' ',''], np.nan, inplace=True)</code> then <code class="literal">pd.to_numeric(col, errors='coerce')</code> before imputing.</p></div>
+
+  <table class="docutils">
+    <thead><tr><th>Model</th><th>Scaling?</th><th>Split / stratify?</th><th>random_state</th><th>Evaluation</th></tr></thead>
+    <tbody>
+      <tr><td>Linear regression</td><td>No</td><td>split yes, stratify no</td><td><strong>123</strong></td><td>.summary() (R&#178;, F), VIF</td></tr>
+      <tr><td>Decision tree</td><td>No (not needed)</td><td>yes, stratify=y</td><td>42</td><td>confusion_matrix + metrics</td></tr>
+      <tr><td>k-NN</td><td><strong>Yes (required)</strong></td><td>yes, stratify=y</td><td>42</td><td>confusion_matrix + metrics</td></tr>
+      <tr><td>Neural network</td><td><strong>Yes (required)</strong></td><td>yes, stratify=y</td><td>42</td><td>confusion_matrix + metrics</td></tr>
+      <tr><td>Clustering</td><td>Yes (normalization)</td><td>no target, no split</td><td>0</td><td>size / centers / dispersion</td></tr>
+    </tbody>
+  </table>
+
+  <!-- ===================== LR ===================== -->
+  <h2 id="lr">1. Linear Regression<a class="headerlink" href="#lr" title="Permalink">&#182;</a></h2>
+
+  <details class="sub-sec"><summary><span class="sub-tag">1 &#183; CONCEPT</span> What / how / why<a class="headerlink" href="#lr">&#182;</a></summary>
+  <div class="sub-body">
+    <p><strong>Goal:</strong> predict a <em>continuous number</em> (e.g. how much protein a product has) as a linear combination of inputs: <code class="literal">protein &#8776; b0 + b1&#183;cholesterol + b2&#183;calories + &#8230;</code>. The model finds coefficients <code class="literal">b</code> that minimize the sum of squared errors (OLS &#8212; ordinary least squares).</p>
+    <p><strong>Reading the output:</strong> <code class="literal">R&#178;</code> = fraction of target variance the model explains (0&#8211;1, higher is better). <code class="literal">F-statistic</code> and its <code class="literal">p</code> = whether the model is meaningful as a whole. The <code class="literal">p</code> next to each coefficient = whether that specific feature contributes (p&lt;0.05 = it does).</p>
+    <p><strong>Why VIF / multicollinearity:</strong> if two inputs are strongly correlated (e.g. calories and fat), the model cannot separate their individual effects and coefficients become unstable. VIF measures that overlapping information; if &#8730;VIF is large, drop one of the pair and refit (hence <code class="literal">lm2</code>).</p>
+    <p><strong>Why the diagnostic plots:</strong> linear regression has assumptions (errors random, normally distributed, constant variance). The four plots check them visually &#8212; e.g. Q-Q checks residual normality, Residuals-vs-Fitted checks there is no leftover pattern in the errors.</p>
+    <p><strong>Why NO scaling or stratify:</strong> coefficients live in the units of the features (easier to interpret), and the target is continuous, so there are no classes to balance with stratification.</p>
+  </div>
+  </details>
+
+  <details class="sub-sec"><summary><span class="sub-tag">2 &#183; PSEUDOCODE</span> Bridge to code<a class="headerlink" href="#lr">&#182;</a></summary>
+  <div class="sub-body">
+  <div class="highlight"><pre><span class="com"># Mnemonic: LOAD &#8594; CLEAN &#8594; CORRELATION &#8594; FIT &#8594; CHECK &#8594; VIF &#8594; REFIT</span>
+1. load CSV (na_values = '-', ' ', '')
+2. build subset by the task condition  (+ .copy())
+3. object columns -&gt; to_numeric(errors='coerce')
+4. keep only numeric; drop any column with many NA (&gt;20%)
+5. for columns with NA: shapiro -&gt; if not normal, fill with median
+6. plot correlation heatmap  (predictor selection)
+7. choose target and 2-3 features
+8. split  (test_size=0.2, random_state=123)   # NOTE: 123, no stratify
+9. fit OLS:  smf.ols('y ~ x1 + x2 + x3', train).fit()
+10. read .summary()  (R&#178;, F, p-values)
+11. predict on test
+12. VIF -&gt; if a feature is collinear, drop it
+13. refit lm2 without that feature, compare
+14. four diagnostic plots</pre></div>
+  </div>
+  </details>
+
+  <details class="sub-sec" open><summary><span class="sub-tag">3 &#183; SOLUTION</span> Worked task &#8212; code <span class="sub-tag">VERIFIED</span><a class="headerlink" href="#lr">&#182;</a></summary>
+  <div class="sub-body">
+  <p>statsmodels OLS (not sklearn). Example: <code class="literal">fastfood.csv</code>, predicting <code class="literal">protein</code>.</p>
+  <div class="highlight"><pre><span class="kw">import</span> pandas <span class="kw">as</span> pd, numpy <span class="kw">as</span> np, matplotlib.pyplot <span class="kw">as</span> plt, seaborn <span class="kw">as</span> sb
+<span class="kw">import</span> statsmodels.api <span class="kw">as</span> sm, statsmodels.formula.api <span class="kw">as</span> smf
+<span class="kw">from</span> sklearn.model_selection <span class="kw">import</span> train_test_split
+<span class="kw">from</span> statsmodels.stats.outliers_influence <span class="kw">import</span> variance_inflation_factor
+<span class="kw">from</span> scipy.stats <span class="kw">import</span> shapiro
+
+data = pd.read_csv(<span class="str">'fastfood.csv'</span>, na_values=[<span class="str">'NA'</span>])
+sub  = data.loc[data[<span class="str">'total_fat'</span>] &lt;= <span class="num">125</span>].copy()
+sub.replace([<span class="str">'-'</span>,<span class="str">' '</span>,<span class="str">''</span>], np.nan, inplace=<span class="kw">True</span>)
+sub[<span class="str">'protein'</span>] = pd.to_numeric(sub[<span class="str">'protein'</span>], errors=<span class="str">'coerce'</span>)
+num = sub.select_dtypes(include=[<span class="str">'number'</span>]).copy()
+num.drop(columns=<span class="str">'calcium'</span>, inplace=<span class="kw">True</span>)   <span class="com"># &gt;20% missing -&gt; drop column</span>
+
+<span class="kw">for</span> col <span class="kw">in</span> [<span class="str">'cal_fat'</span>,<span class="str">'fiber'</span>,<span class="str">'protein'</span>]:
+    stat, p = shapiro(num[col].dropna())
+    num[col] = num[col].fillna(num[col].median())   <span class="com"># p&lt;0.05 -&gt; median</span>
+
+sb.heatmap(num.corr(numeric_only=<span class="kw">True</span>).round(<span class="num">4</span>), annot=<span class="kw">True</span>, cmap=<span class="str">'coolwarm'</span>, vmin=-<span class="num">1</span>, vmax=<span class="num">1</span>)
+
+target=<span class="str">'protein'</span>; features=[<span class="str">'cholesterol'</span>,<span class="str">'calories'</span>,<span class="str">'sodium'</span>]
+train_df, test_df = train_test_split(sub, test_size=<span class="num">0.2</span>, random_state=<span class="num">123</span>)
+lm1 = smf.ols(<span class="str">f'{target} ~ '</span> + <span class="str">' + '</span>.join(features), data=train_df).fit()
+lm1.summary()                          <span class="com"># R-squared, F-statistic, p-values</span>
+y_pred = lm1.predict(test_df[features])
+
+<span class="com"># Multicollinearity (VIF)</span>
+X = sm.add_constant(train_df[features])
+vif = pd.Series([variance_inflation_factor(X.values,i) <span class="kw">for</span> i <span class="kw">in</span> <span class="bi">range</span>(X.shape[<span class="num">1</span>])], index=X.columns)
+lm2 = smf.ols(<span class="str">'protein ~ cholesterol + sodium'</span>, data=train_df).fit()  <span class="com"># refit without collinear feature</span></pre></div>
+  <h3>Four diagnostic plots</h3>
+  <div class="highlight"><pre><span class="com"># 1 Residuals vs Fitted</span>  sb.residplot(x=lm1.fittedvalues, y=lm1.resid, lowess=<span class="kw">True</span>, line_kws={<span class="str">'color'</span>:<span class="str">'red'</span>})
+<span class="com"># 2 Normal Q-Q</span>          sm.qqplot(lm1.resid, fit=<span class="kw">True</span>, line=<span class="str">'45'</span>)
+<span class="com"># 3 Scale-Location</span>      influence = lm1.get_influence(); std = influence.resid_studentized_internal
+<span class="com"># 4 Residuals vs Leverage</span> sm.graphics.influence_plot(lm1, criterion=<span class="str">'cooks'</span>)  <span class="com"># Cook's D threshold = 4/n</span></pre></div>
+  <div class="admonition warning"><p class="admonition-title">Pitfall</p>
+    <p>Here <code class="literal">random_state=123</code> (not 42), no scaling and no stratify. Evaluation is through <code class="literal">.summary()</code>, NOT through sklearn metrics.</p></div>
+  </div>
+  </details>
+
+  <!-- ===================== DT ===================== -->
+  <h2 id="dt">2. Decision Tree<a class="headerlink" href="#dt" title="Permalink">&#182;</a></h2>
+
+  <details class="sub-sec"><summary><span class="sub-tag">1 &#183; CONCEPT</span> What / how / why<a class="headerlink" href="#dt">&#182;</a></summary>
+  <div class="sub-body">
+    <p><strong>Goal:</strong> classification through a series of yes/no questions. At each node the tree picks the feature and threshold that best separates the classes (e.g. &#8220;Age &gt; 40?&#8221; &#8594; branch). Leaves are final decisions (class 0 or 1).</p>
+    <p><strong>How it splits:</strong> it looks for the split that most reduces node &#8220;impurity&#8221; (Gini/entropy) &#8212; i.e. after the split each branch is as pure as possible by class.</p>
+    <p><strong>Why tree1 then tree2 (ccp_alpha):</strong> an unconstrained tree overfits &#8212; it memorizes noise in the training set and generalizes poorly. <code class="literal">ccp_alpha</code> is the pruning &#8220;cost&#8221;: larger = more aggressive pruning. GridSearch finds the value that gives the best CV accuracy &#8212; that is <code class="literal">tree2</code>, a smoother and more robust tree.</p>
+    <p><strong>Why OneHot for Geography/Gender:</strong> the tree works with numbers. Binary (Gender) becomes a 0/1 map; multi-class (Geography) becomes OneHot in separate 0/1 columns, with <code class="literal">drop='first'</code> to avoid a redundant column.</p>
+    <p><strong>Why scaling is NOT needed:</strong> the tree compares thresholds one feature at a time (&#8220;is it &gt; X?&#8221;), so it does not care whether a feature ranges 0&#8211;1 or 0&#8211;1M. Scaling changes nothing.</p>
+  </div>
+  </details>
+
+  <details class="sub-sec"><summary><span class="sub-tag">2 &#183; PSEUDOCODE</span> Bridge to code<a class="headerlink" href="#dt">&#182;</a></summary>
+  <div class="sub-body">
+  <div class="highlight"><pre><span class="com"># Mnemonic: TARGET &#8594; ENCODE &#8594; SPLIT &#8594; TREE1 &#8594; MEASURE &#8594; GRID(ccp_alpha) &#8594; TREE2 &#8594; COMPARE</span>
+1. load + clean (same as the universal pipeline)
+2. build binary target (e.g. Exited -&gt; Stayed 0/1), drop the original
+3. feature selection: kdeplot/countplot by class -&gt; drop overlapping ones
+4. encoding: binary .map(), multi-class OneHotEncoder(drop='first')
+5. split  (test_size=0.2, random_state=42, stratify=y)
+6. tree1 = DecisionTreeClassifier(random_state=42).fit(...)
+7. predict + confusion_matrix
+8. GridSearchCV over ccp_alpha, StratifiedKFold(10), scoring='accuracy'
+9. take best_ccp_alpha
+10. tree2 = DecisionTreeClassifier(ccp_alpha=best, random_state=42).fit(...)
+11. compare tree1 vs tree2; plot_tree(tree2)</pre></div>
+  </div>
+  </details>
+
+  <details class="sub-sec" open><summary><span class="sub-tag">3 &#183; SOLUTION</span> Worked task &#8212; code <span class="sub-tag">VERIFIED</span><a class="headerlink" href="#dt">&#182;</a></summary>
+  <div class="sub-body">
+  <p>From the exercise (carseats, target <code class="literal">HighSales</code>) and the example (bank, target <code class="literal">Stayed</code>). Pattern: tree1 &#8594; GridSearch <code class="literal">ccp_alpha</code> &#8594; tree2.</p>
+  <div class="highlight"><pre><span class="kw">from</span> sklearn.tree <span class="kw">import</span> DecisionTreeClassifier, plot_tree
+<span class="kw">from</span> sklearn.model_selection <span class="kw">import</span> train_test_split, GridSearchCV, StratifiedKFold
+<span class="kw">from</span> sklearn.metrics <span class="kw">import</span> confusion_matrix
+<span class="kw">from</span> sklearn.preprocessing <span class="kw">import</span> OneHotEncoder
+
+<span class="com"># encoding: binary .map(), categories OneHot drop='first'</span>
+ohe = OneHotEncoder(sparse_output=<span class="kw">False</span>, drop=<span class="str">'first'</span>)
+enc = ohe.fit_transform(df[[<span class="str">'Geography'</span>,<span class="str">'Gender'</span>]])
+df = df.drop(columns=[<span class="str">'Geography'</span>,<span class="str">'Gender'</span>]).join(
+        pd.DataFrame(enc, columns=ohe.get_feature_names_out([<span class="str">'Geography'</span>,<span class="str">'Gender'</span>]), index=df.index))
+
+X_train,X_test,y_train,y_test = train_test_split(X,y, test_size=<span class="num">0.2</span>, random_state=<span class="num">42</span>, stratify=y)
+
+tree1 = DecisionTreeClassifier(random_state=<span class="num">42</span>).fit(X_train,y_train)
+y_pred1 = tree1.predict(X_test)
+confusion_matrix(y_test, y_pred1)
+
+<span class="com"># Pruning optimization via ccp_alpha (10-fold stratified CV)</span>
+cv = StratifiedKFold(n_splits=<span class="num">10</span>)
+grid = GridSearchCV(DecisionTreeClassifier(random_state=<span class="num">42</span>),
+                    param_grid={<span class="str">'ccp_alpha'</span>: np.linspace(<span class="num">0</span>,<span class="num">0.02</span>,<span class="num">50</span>)}, cv=cv, scoring=<span class="str">'accuracy'</span>)
+grid.fit(X_train,y_train)
+best = grid.best_params_[<span class="str">'ccp_alpha'</span>]
+tree2 = DecisionTreeClassifier(ccp_alpha=best, random_state=<span class="num">42</span>).fit(X_train,y_train)
+plot_tree(tree2)</pre></div>
+  <div class="admonition seealso"><p class="admonition-title">Pattern</p>
+    <p>The exact <code class="literal">param_grid</code> range for <code class="literal">ccp_alpha</code> and the metric values were not extracted from the repo &#8212; the range above is a reasonable default, adjust as needed.</p></div>
+  </div>
+  </details>
+
+  <!-- ===================== kNN ===================== -->
+  <h2 id="knn">3. k-Nearest Neighbors (k-NN)<a class="headerlink" href="#knn" title="Permalink">&#182;</a></h2>
+
+  <details class="sub-sec"><summary><span class="sub-tag">1 &#183; CONCEPT</span> What / how / why<a class="headerlink" href="#knn">&#182;</a></summary>
+  <div class="sub-body">
+    <p><strong>Goal:</strong> classify a new point by finding its <code class="literal">k</code> nearest neighbors in feature space and letting them vote by majority. There is no real &#8220;training&#8221; &#8212; the model just stores the data and measures distances at prediction time.</p>
+    <p><strong>Why scaling is REQUIRED:</strong> k-NN relies on Euclidean distance. If one feature ranges 0&#8211;1,000,000 (e.g. <code class="literal">in_spotify_playlists</code>) and another 0&#8211;1 (<code class="literal">energy</code>), distance is practically just a function of the large one &#8212; small features vanish. Scaling gives them equal influence. Hence <code class="literal">RobustScaler</code> (robust to outliers) or <code class="literal">StandardScaler</code>.</p>
+    <p><strong>Why knn1 then knn2:</strong> <code class="literal">k=5</code> is an arbitrary first try. The real question is &#8220;which k gives the best accuracy&#8221; &#8212; that is what <code class="literal">GridSearchCV</code> searches over odd k. Small k = sensitive to noise, large k = over-smoothed. Hence <code class="literal">knn2</code> with the optimal k.</p>
+    <p><strong>Why odd k:</strong> with two classes an even k can tie 50:50 among neighbors; an odd k avoids that.</p>
+  </div>
+  </details>
+
+  <details class="sub-sec"><summary><span class="sub-tag">2 &#183; PSEUDOCODE</span> Bridge to code<a class="headerlink" href="#knn">&#182;</a></summary>
+  <div class="sub-body">
+  <div class="highlight"><pre><span class="com"># Mnemonic: SCALE &#8594; SPLIT &#8594; KNN1(k=5) &#8594; MEASURE &#8594; GRID(odd k) &#8594; KNN2(best_k) &#8594; COMPARE</span>
+1. load + clean + binary target + feature selection (universal pipeline)
+2. SCALE (RobustScaler if outliers, else StandardScaler)
+3. split  (test_size=0.2, random_state=42, stratify=y)
+4. knn1 = KNeighborsClassifier(n_neighbors=5).fit(...)
+5. predict + confusion_matrix + metrics  (pos_label=0!)
+6. GridSearchCV: param_grid={'n_neighbors': range(3,26,2)}, cv=10, scoring='accuracy'
+7. best_k = grid.best_params_['n_neighbors']
+8. knn2 = KNeighborsClassifier(n_neighbors=best_k).fit(...)
+9. compare metrics knn1 vs knn2 in a DataFrame</pre></div>
+  </div>
+  </details>
+
+  <details class="sub-sec" open><summary><span class="sub-tag">3 &#183; SOLUTION</span> Worked task &#8212; code <span class="sub-tag">VERIFIED</span><a class="headerlink" href="#knn">&#182;</a></summary>
+  <div class="sub-body">
+  <p>From exercise <code class="literal">dvocas6</code> (full code). Pattern: knn1 (k=5) &#8594; GridSearch over odd k &#8594; knn2.</p>
+  <div class="highlight"><pre><span class="kw">from</span> sklearn.neighbors <span class="kw">import</span> KNeighborsClassifier
+<span class="kw">from</span> sklearn.model_selection <span class="kw">import</span> train_test_split, GridSearchCV
+<span class="kw">from</span> sklearn.preprocessing <span class="kw">import</span> RobustScaler   <span class="com"># RobustScaler if outliers, else StandardScaler</span>
+<span class="kw">from</span> sklearn.metrics <span class="kw">import</span> confusion_matrix, accuracy_score, precision_score, recall_score, f1_score
+
+<span class="com"># MUST scale before k-NN</span>
+X_train,X_test,y_train,y_test = train_test_split(X,y, test_size=<span class="num">0.2</span>, random_state=<span class="num">42</span>, stratify=y)
+
+knn1 = KNeighborsClassifier(n_neighbors=<span class="num">5</span>).fit(X_train,y_train)
+y_pred1 = knn1.predict(X_test)
+
+knn = KNeighborsClassifier()
+param_grid = {<span class="str">'n_neighbors'</span>: <span class="bi">list</span>(<span class="bi">range</span>(<span class="num">3</span>,<span class="num">26</span>,<span class="num">2</span>))}     <span class="com"># k = 3,5,7,...,25</span>
+grid = GridSearchCV(knn, param_grid, cv=<span class="num">10</span>, scoring=<span class="str">'accuracy'</span>)
+grid.fit(X_train,y_train)
+best_k = grid.best_params_[<span class="str">'n_neighbors'</span>]
+knn2 = KNeighborsClassifier(n_neighbors=best_k).fit(X_train,y_train)
+y_pred2 = knn2.predict(X_test)
+
+<span class="kw">def</span> compute_eval_metrics(y_true, y_pred):
+    <span class="kw">return</span> {<span class="str">'accuracy'</span>:  accuracy_score(y_true,y_pred),
+            <span class="str">'precision'</span>: precision_score(y_true,y_pred, pos_label=<span class="num">0</span>),
+            <span class="str">'recall'</span>:    recall_score(y_true,y_pred, pos_label=<span class="num">0</span>),
+            <span class="str">'f1'</span>:        f1_score(y_true,y_pred, pos_label=<span class="num">0</span>)}</pre></div>
+  <div class="admonition warning"><p class="admonition-title">Pitfall</p>
+    <p>The metrics use <code class="literal">pos_label=0</code> (the positive class is 0, not the default 1). GridSearch <code class="literal">cv=10</code>, range <code class="literal">range(3,26,2)</code> &#8212; odd k only.</p></div>
+  </div>
+  </details>
+
+  <!-- ===================== NN ===================== -->
+  <h2 id="nn">4. Neural Network (MLP)<a class="headerlink" href="#nn" title="Permalink">&#182;</a></h2>
+
+  <details class="sub-sec"><summary><span class="sub-tag">1 &#183; CONCEPT</span> What / how / why<a class="headerlink" href="#nn">&#182;</a></summary>
+  <div class="sub-body">
+    <p><strong>Goal:</strong> classification with layers of &#8220;neurons.&#8221; Each neuron is a weighted sum of its inputs passed through a non-linear function; stacking layers lets the network learn complex, non-linear class boundaries that a tree or a linear model cannot.</p>
+    <p><strong>Architecture <code class="literal">(64,32)</code>:</strong> the input has as many neurons as there are features (e.g. 30), then a hidden layer of 64, then 32, then the output (1 neuron for a binary class). The numbers are a choice &#8212; more neurons = more capacity, but also more risk of overfitting.</p>
+    <p><strong>How it learns (<code class="literal">solver='sgd'</code>):</strong> stochastic gradient descent &#8212; the network makes a prediction, measures the error, and adjusts the weights backward in small steps (backpropagation) to reduce the error. <code class="literal">max_iter=1000</code> = how many passes over the data before stopping.</p>
+    <p><strong>Why scaling is REQUIRED (StandardScaler):</strong> gradient descent is very sensitive to input scale. If features are on different scales the gradient zig-zags and convergence is slow/poor. StandardScaler (mean 0, variance 1) fixes that. Scale after the split: <code class="literal">fit_transform</code> on train, <code class="literal">transform</code> on test (so the test set does not leak into the scaler).</p>
+  </div>
+  </details>
+
+  <details class="sub-sec"><summary><span class="sub-tag">2 &#183; PSEUDOCODE</span> Bridge to code<a class="headerlink" href="#nn">&#182;</a></summary>
+  <div class="sub-body">
+  <div class="highlight"><pre><span class="com"># Mnemonic: SPLIT &#8594; SCALE(train/test separately) &#8594; MLP(64,32) &#8594; FIT &#8594; MEASURE</span>
+1. load + clean + (target / feature selection as needed)
+2. X = everything except the target; y = target
+3. split  (test_size=0.2, random_state=42, stratify=y)
+4. scaler = StandardScaler()
+   X_train = scaler.fit_transform(X_train)   # fit on train only!
+   X_test  = scaler.transform(X_test)        # transform on test only
+5. mlp = MLPClassifier(hidden_layer_sizes=(64,32), max_iter=1000,
+                       random_state=42, solver='sgd')
+6. mlp.fit(X_train, y_train)
+7. predict + confusion_matrix + accuracy/precision/recall/f1</pre></div>
+  </div>
+  </details>
+
+  <details class="sub-sec" open><summary><span class="sub-tag">3 &#183; SOLUTION</span> Worked task &#8212; code <span class="sub-tag">VERIFIED</span><a class="headerlink" href="#nn">&#182;</a></summary>
+  <div class="sub-body">
+  <p>sklearn <code class="literal">MLPClassifier</code> (NOT PyTorch &#8212; that is not on the exam). Example: <code class="literal">breast_cancer.csv</code>, target <code class="literal">isBenign</code>.</p>
+  <div class="highlight"><pre><span class="kw">from</span> sklearn.neural_network <span class="kw">import</span> MLPClassifier
+<span class="kw">from</span> sklearn.preprocessing <span class="kw">import</span> StandardScaler
+<span class="kw">from</span> sklearn.model_selection <span class="kw">import</span> train_test_split
+<span class="kw">from</span> sklearn.metrics <span class="kw">import</span> confusion_matrix, ConfusionMatrixDisplay, accuracy_score, precision_score, recall_score, f1_score
+
+X = df.drop(columns=<span class="str">'isBenign'</span>); y = df[<span class="str">'isBenign'</span>]
+X_train,X_test,y_train,y_test = train_test_split(X,y, test_size=<span class="num">0.2</span>, random_state=<span class="num">42</span>, stratify=y)
+
+scaler = StandardScaler()                  <span class="com"># REQUIRED for a neural network</span>
+X_train = scaler.fit_transform(X_train)
+X_test  = scaler.transform(X_test)
+
+mlp1 = MLPClassifier(hidden_layer_sizes=(<span class="num">64</span>,<span class="num">32</span>), max_iter=<span class="num">1000</span>, random_state=<span class="num">42</span>, solver=<span class="str">'sgd'</span>)
+mlp1.fit(X_train,y_train)
+<span class="com"># architecture: input(=n_features) - 64 - 32 - 1</span>
+y_pred = mlp1.predict(X_test)
+accuracy_score(y_test,y_pred)  <span class="com"># + precision/recall/f1/confusion_matrix</span></pre></div>
+  <div class="admonition warning"><p class="admonition-title">Remember</p>
+    <p><code class="literal">hidden_layer_sizes</code> is the tuple <code class="literal">(64,32)</code>, <code class="literal">solver='sgd'</code>, <code class="literal">max_iter=1000</code>. Scaling is mandatory before training.</p></div>
+  </div>
+  </details>
+
+  <!-- ===================== CLUSTERING ===================== -->
+  <h2 id="clu">5. Clustering (KMeans + hierarchical)<a class="headerlink" href="#clu" title="Permalink">&#182;</a></h2>
+
+  <details class="sub-sec"><summary><span class="sub-tag">1 &#183; CONCEPT</span> What / how / why<a class="headerlink" href="#clu">&#182;</a></summary>
+  <div class="sub-body">
+    <p><strong>Goal:</strong> this is <em>unsupervised</em> learning &#8212; there is NO target and no correct answers. You look for natural groups (clusters) in the data based on similarity. Hence no train/test split and no accuracy.</p>
+    <p><strong>KMeans &#8212; how it works:</strong> you pick the number of clusters <code class="literal">k</code>; the algorithm places <code class="literal">k</code> centers, assigns each point to the nearest center, moves the centers to the mean of their points, and repeats until stable. <code class="literal">inertia_</code> = sum of squared distances of points from their centers (lower = tighter clusters).</p>
+    <p><strong>Elbow method &#8212; why:</strong> you do not know the right <code class="literal">k</code> in advance. Try k=1..10, plot inertia; it always falls as k grows, but at one point the curve &#8220;bends&#8221; &#8212; after that extra clusters add little. That elbow is a good <code class="literal">k</code>.</p>
+    <p><strong>Hierarchical &#8212; how it works:</strong> it starts with each point as its own cluster and merges the closest pairs step by step (agglomerative). The result is a <code class="literal">dendrogram</code> &#8212; a merge tree. You pick <code class="literal">k</code> by &#8220;cutting&#8221; the dendrogram at a height where the distance jumps are large. The <code class="literal">linkage</code> method (ward/complete/average/single) defines how distance between groups is measured; <code class="literal">ward</code> tends toward compact clusters.</p>
+    <p><strong>Interpretation:</strong> clusters have no names &#8212; you interpret them. Size (how many in each), center (mean feature values &#8212; e.g. &#8220;cluster 1 = old, expensive songs&#8221;), dispersion (how spread out they are around the center).</p>
+  </div>
+  </details>
+
+  <details class="sub-sec"><summary><span class="sub-tag">2 &#183; PSEUDOCODE</span> Bridge to code<a class="headerlink" href="#clu">&#182;</a></summary>
+  <div class="sub-body">
+  <div class="highlight"><pre><span class="com"># Mnemonic: CLEAN &#8594; (SCALE?) &#8594; FIND k &#8594; FIT &#8594; ASSIGN labels &#8594; INTERPRET</span>
+1. load + filter by condition + drop non-numeric/irrelevant + encode categories
+2. (scaling is a judgment call &#8212; see pitfall; if you scale, map centers back to
+    original units for interpretation)
+KMeans branch:
+3a. elbow: for k in 1..10 -&gt; fit KMeans -&gt; store inertia_ -&gt; plot
+4a. choose k at the elbow
+5a. kmeans = KMeans(n_clusters=k, init='k-means++', n_init=1000,
+                   max_iter=100, random_state=0).fit(df)
+6a. df['cluster'] = kmeans.labels_
+Hierarchical branch:
+3b. for method in [ward,complete,average,single]: linkage(df, method, 'euclidean') -&gt; dendrogram
+4b. choose k and linkage from the dendrogram
+5b. labels = fcluster(Z, t=k, criterion='maxclust')   # or AgglomerativeClustering
+INTERPRETATION (both):
+7. value_counts() = size | groupby('cluster').mean() = centers | .std() = dispersion</pre></div>
+  </div>
+  </details>
+
+  <details class="sub-sec" open><summary><span class="sub-tag">3 &#183; SOLUTION</span> Worked task &#8212; code <span class="sub-tag">VERIFIED</span> + <span class="sub-tag">PATTERN</span><a class="headerlink" href="#clu">&#182;</a></summary>
+  <div class="sub-body">
+  <p>No target, no split. Example: <code class="literal">spotify.csv</code> (drop <code class="literal">track_name</code>, <code class="literal">instrumentalness</code>; <code class="literal">mode</code>&#8594;0/1; <code class="literal">in_spotify_charts</code> to numeric). Exercise: Titanic (survivors only).</p>
+
+  <h3>Preparation &#8594; KMeans fit <span class="sub-tag">VERIFIED</span></h3>
+  <div class="highlight"><pre><span class="kw">import</span> pandas <span class="kw">as</span> pd, matplotlib.pyplot <span class="kw">as</span> plt
+<span class="kw">import</span> sklearn.cluster <span class="kw">as</span> cluster
+<span class="kw">from</span> scipy.cluster.hierarchy <span class="kw">import</span> linkage, dendrogram
+
+<span class="com"># ...data preparation (filter, drop, encode, missing) -&gt; df ready, numeric only...</span>
+
+kmeans = cluster.KMeans(n_clusters=<span class="num">2</span>, init=<span class="str">"k-means++"</span>, n_init=<span class="num">1000</span>, max_iter=<span class="num">100</span>, random_state=<span class="num">0</span>).fit(titanik)
+twocl = titanik.copy()
+twocl[<span class="str">"cluster"</span>] = kmeans.labels_
+twocl.head()</pre></div>
+
+  <h3>Elbow method <span class="sub-tag">PATTERN</span></h3>
+  <div class="highlight"><pre>inertias = []
+<span class="kw">for</span> k <span class="kw">in</span> <span class="bi">range</span>(<span class="num">1</span>,<span class="num">11</span>):
+    km = cluster.KMeans(n_clusters=k, init=<span class="str">"k-means++"</span>, n_init=<span class="num">1000</span>, max_iter=<span class="num">100</span>, random_state=<span class="num">0</span>).fit(df)
+    inertias.append(km.inertia_)
+plt.plot(<span class="bi">range</span>(<span class="num">1</span>,<span class="num">11</span>), inertias, marker=<span class="str">'o'</span>); plt.xlabel(<span class="str">'k'</span>); plt.ylabel(<span class="str">'inertia'</span>); plt.show()
+<span class="com"># pick k at the elbow of the curve</span></pre></div>
+
+  <h3>Hierarchical: dendrogram &#8594; clusters <span class="sub-tag">PATTERN</span></h3>
+  <p>Verified: it goes through scipy <code class="literal">linkage</code>/<code class="literal">dendrogram</code>, Euclidean distance, comparing linkage methods. The code below is the standard idiom.</p>
+  <div class="highlight"><pre><span class="kw">from</span> scipy.cluster.hierarchy <span class="kw">import</span> linkage, dendrogram, fcluster
+
+<span class="com"># try several linkage methods, always Euclidean distance</span>
+<span class="kw">for</span> m <span class="kw">in</span> [<span class="str">'ward'</span>,<span class="str">'complete'</span>,<span class="str">'average'</span>,<span class="str">'single'</span>]:
+    Z = linkage(df, method=m, metric=<span class="str">'euclidean'</span>)
+    dendrogram(Z); plt.title(m); plt.show()
+
+Z = linkage(df, method=<span class="str">'ward'</span>, metric=<span class="str">'euclidean'</span>)   <span class="com"># chosen method</span>
+labels = fcluster(Z, t=<span class="num">2</span>, criterion=<span class="str">'maxclust'</span>)        <span class="com"># t = chosen k</span>
+
+<span class="com"># alternative via sklearn:</span>
+<span class="kw">from</span> sklearn.cluster <span class="kw">import</span> AgglomerativeClustering
+agg = AgglomerativeClustering(n_clusters=<span class="num">2</span>, metric=<span class="str">'euclidean'</span>, linkage=<span class="str">'ward'</span>)
+labels = agg.fit_predict(df)</pre></div>
+
+  <h3>Cluster interpretation <span class="sub-tag">PATTERN</span></h3>
+  <p>The task asks for exactly these three:</p>
+  <div class="highlight"><pre>df[<span class="str">'cluster'</span>] = labels
+df[<span class="str">'cluster'</span>].value_counts()        <span class="com"># 1) number of songs / cluster size</span>
+df.groupby(<span class="str">'cluster'</span>).mean()        <span class="com"># 2) cluster centers (mean values)</span>
+df.groupby(<span class="str">'cluster'</span>).std()         <span class="com"># 3) dispersion from the center</span></pre></div>
+  <div class="admonition warning"><p class="admonition-title">Open question</p>
+    <p>The verified KMeans fit was run directly on the dataframe (no visible <code class="literal">StandardScaler</code>), but the <code class="literal">dvocas10</code> exercise template explicitly lists &#8220;Scaling (normalization)&#8221; as a step. If you scale, cluster centers are in scaled space &#8212; harder to interpret. Many in this course therefore cluster on unscaled data so the centers stay readable. <strong>Decide and justify</strong> &#8212; that is part of the grading.</p></div>
+  </div>
+  </details>
+
+  <!-- ===================== PITFALLS ===================== -->
+  <h2 id="gotchas">6. Pitfalls table<a class="headerlink" href="#gotchas" title="Permalink">&#182;</a></h2>
+  <table class="docutils">
+    <thead><tr><th>Pitfall</th><th>Correct</th></tr></thead>
+    <tbody>
+      <tr><td>random_state for regression</td><td><strong>123</strong>, not 42</td></tr>
+      <tr><td>Scaling for k-NN / NN</td><td>MANDATORY, after the split (fit_transform train, transform test)</td></tr>
+      <tr><td>Scaling for tree / regression</td><td>NOT needed</td></tr>
+      <tr><td>pos_label in metrics</td><td><code class="literal">pos_label=0</code> (positive class is 0)</td></tr>
+      <tr><td>Missing markers</td><td><code class="literal">na_values=['-',' ','']</code> always</td></tr>
+      <tr><td>Imputation</td><td>shapiro p&lt;0.05 &#8594; median; categorical &#8594; mode()[0]; many NA (&gt;20%) &#8594; drop column</td></tr>
+      <tr><td>Binary target</td><td>quantile(0.75) &#8594; np.where &#8594; map(Yes/No&#8594;1/0) &#8594; drop original</td></tr>
+      <tr><td>RobustScaler vs StandardScaler</td><td>RobustScaler if IQR shows outliers</td></tr>
+      <tr><td>k-NN GridSearch</td><td>cv=10, range(3,26,2) &#8212; odd k</td></tr>
+      <tr><td>Tree 2nd model</td><td>GridSearch over ccp_alpha &#8594; tree2</td></tr>
+      <tr><td>MLP architecture</td><td>hidden_layer_sizes=(64,32), solver='sgd', max_iter=1000</td></tr>
+      <tr><td>Clustering</td><td>no split/target; KMeans n_init=1000, max_iter=100, random_state=0; hierarchical = Euclidean</td></tr>
+    </tbody>
+  </table>
+
+  </div><!-- /document -->
+</div><!-- /layout -->
+
+<div class="footer">
+  &#169; Copyright, AI Course. &nbsp;Last updated manually. &nbsp;Created using <a href="#">Sphinx</a> 7.2.6.
+</div>
+
+</body>
+</html>

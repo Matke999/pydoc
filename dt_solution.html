@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2. Decision Tree — Full Solution &#8212; AI Course documentation</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23306998'/%3E%3Ctext x='6' y='23' font-family='monospace' font-size='18' font-weight='bold' fill='%23FFD43B'%3E&gt;_%3C/text%3E%3C/SVG%3E">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;0,900;1,400&display=swap');
+*{box-sizing:border-box}
+html{font-size:100%}
+body{margin:0;background:#1a1a1a;color:#c4c4c4;
+  font-family:'Lato','Segoe UI',Helvetica,Arial,sans-serif;font-size:15px;line-height:1.6}
+a{color:#6ab0de;text-decoration:none}
+a:hover{color:#8ec6ef;text-decoration:underline}
+::-webkit-scrollbar{width:12px;height:12px}
+::-webkit-scrollbar-track{background:#1a1a1a}
+::-webkit-scrollbar-thumb{background:#3a3a3a;border-radius:6px}
+.related{background:#1a1a1a;border-bottom:1px solid #333;font-size:13px;color:#888}
+.related .inner{max-width:1200px;margin:0 auto;padding:6px 20px;
+  display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px}
+.related .crumbs a,.related .crumbs span{color:#888}
+.related .crumbs a{color:#6ab0de}
+.related .sep{color:#555;margin:0 4px}
+.related .navlinks{display:flex;gap:14px;font-size:13px}
+.related .navlinks a{color:#6ab0de}
+.docheader{background:#1a1a1a;border-bottom:1px solid #333}
+.docheader .inner{max-width:1200px;margin:0 auto;padding:10px 20px}
+.docheader .crumb{font-size:12px;color:#666;text-transform:uppercase;letter-spacing:.04em}
+.layout{max-width:1200px;margin:0 auto;display:flex}
+.sphinxsidebar{width:240px;flex:0 0 240px;background:#1a1a1a;
+  border-right:1px solid #333;padding:18px 14px 60px;font-size:14px;
+  position:sticky;top:0;align-self:flex-start;max-height:100vh;overflow-y:auto}
+.sphinxsidebar h3{color:#e0e0e0;font-size:14px;font-weight:900;margin:16px 0 5px;border-bottom:1px solid #2a2a2a;padding-bottom:4px}
+.sphinxsidebar h3:first-child{margin-top:0}
+.sphinxsidebar ul{list-style:none;margin:0;padding:0}
+.sphinxsidebar ul ul{padding-left:12px}
+.sphinxsidebar li{margin:3px 0;line-height:1.35}
+.sphinxsidebar a{color:#b0b0b0;font-size:13px}
+.sphinxsidebar a:hover{color:#fff}
+.sphinxsidebar .topic-link{display:block;padding:3px 0;color:#6ab0de;font-weight:700}
+.sphinxsidebar .topic-link:hover{color:#8ec6ef}
+.document{flex:1 1 auto;min-width:0;padding:16px 38px 80px;max-width:860px}
+h1{font-size:28px;font-weight:900;color:#e8e8e8;margin:10px 0 18px}
+h2{font-size:20px;font-weight:700;color:#e8e8e8;margin:30px 0 8px;
+  padding-bottom:4px;border-bottom:1px solid #333}
+h3{font-size:17px;font-weight:700;color:#dcdcdc;margin:18px 0 5px}
+h4{font-size:15px;font-weight:700;color:#c8c8c8;margin:12px 0 4px}
+.headerlink{visibility:hidden;color:#555;padding-left:6px;font-weight:400;font-size:.85em}
+h1:hover .headerlink,h2:hover .headerlink,h3:hover .headerlink{visibility:visible}
+p{margin:8px 0}
+code,tt{font-family:'SFMono-Regular',Menlo,Consolas,'DejaVu Sans Mono',monospace;font-size:.91em}
+code.literal{background:#2b2b2b;border:1px solid #3a3a3a;border-radius:3px;
+  padding:1px 5px;color:#d6d6d6}
+.highlight{background:#1e1e1e;border:1px solid #333;border-radius:3px;margin:8px 0}
+.highlight pre{margin:0;padding:11px 13px;overflow-x:auto;line-height:1.5;font-size:13px;
+  font-family:'SFMono-Regular',Menlo,Consolas,'DejaVu Sans Mono',monospace;background:transparent}
+.cell-num{font-size:11px;color:#555;margin:18px 0 2px;font-family:monospace}
+ol,ul{margin:8px 0;padding-left:24px}
+li{margin:3px 0}
+.admonition{margin:12px 0;padding:9px 13px;border-radius:3px;font-size:14px}
+.admonition .admonition-title{font-weight:700;margin:0 0 4px;font-size:12px;
+  text-transform:uppercase;letter-spacing:.03em}
+.admonition.note{background:#16222e;border:1px solid #2f4f6a}
+.admonition.note .admonition-title{color:#8ab8e0}
+.admonition.warning{background:#2a1818;border:1px solid #6e3b3b}
+.admonition.warning .admonition-title{color:#f08a8a}
+table.docutils{border-collapse:collapse;width:100%;font-size:13.5px;margin:12px 0}
+table.docutils th,table.docutils td{border:1px solid #3a3a3a;padding:6px 9px;text-align:left}
+table.docutils thead th{background:#262626;color:#e0e0e0}
+table.docutils tbody tr:nth-child(even){background:#202020}
+details.sub-sec{margin:10px 0;border:1px solid #333;border-radius:3px}
+details.sub-sec>summary{cursor:pointer;list-style:none;padding:8px 13px;background:#242424;
+  font-weight:700;font-size:14px;color:#cfe3f2;display:flex;align-items:center;gap:9px;user-select:none}
+details.sub-sec>summary::-webkit-details-marker{display:none}
+details.sub-sec>summary::before{content:"\25B6";font-size:10px;color:#888;transition:transform .12s}
+details.sub-sec[open]>summary::before{transform:rotate(90deg)}
+details.sub-sec>summary:hover{background:#2c2c2c}
+.sub-tag{font-family:'SFMono-Regular',Menlo,monospace;font-size:11px;font-weight:700;
+  letter-spacing:.02em;color:#9a9a9a;border:1px solid #444;border-radius:3px;padding:0 6px}
+.sub-body{padding:6px 16px 14px}
+.footer{max-width:1200px;margin:0 auto;padding:16px 20px 40px;
+  border-top:1px solid #333;color:#666;font-size:12px}
+.footer a{color:#6ab0de}
+@media(max-width:860px){.sphinxsidebar{display:none}.document{padding:14px 18px 60px}}
+@media print{
+  body{background:#fff;color:#000}.related,.sphinxsidebar,.docheader{display:none}
+  .document{max-width:none}h1,h2,h3,h4{color:#000}.highlight,.highlight pre{background:#f8f8f8;color:#000}
+  a{color:#000;text-decoration:none}
+}
+</style>
+<style>pre { line-height: 125%; }
+td.linenos .normal { color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+span.linenos { color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+td.linenos .special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+.highlight .hll { background-color: #ffffcc }
+.highlight { background: #1e1e1e; color: #D4D4D4 }
+.highlight .c { color: #8A8A7A; font-style: italic } /* Comment */
+.highlight .err { color: #D4D4D4 } /* Error */
+.highlight .esc { color: #D4D4D4 } /* Escape */
+.highlight .g { color: #D4D4D4 } /* Generic */
+.highlight .k { color: #FF6188; font-weight: bold } /* Keyword */
+.highlight .l { color: #D4D4D4 } /* Literal */
+.highlight .n { color: #D4D4D4 } /* Name */
+.highlight .o { color: #D4D4D4 } /* Operator */
+.highlight .x { color: #D4D4D4 } /* Other */
+.highlight .p { color: #D4D4D4 } /* Punctuation */
+.highlight .ch { color: #8A8A7A; font-style: italic } /* Comment.Hashbang */
+.highlight .cm { color: #8A8A7A; font-style: italic } /* Comment.Multiline */
+.highlight .cp { color: #8A8A7A; font-style: italic } /* Comment.Preproc */
+.highlight .cpf { color: #8A8A7A; font-style: italic } /* Comment.PreprocFile */
+.highlight .c1 { color: #8A8A7A; font-style: italic } /* Comment.Single */
+.highlight .cs { color: #8A8A7A; font-style: italic } /* Comment.Special */
+.highlight .gd { color: #D4D4D4 } /* Generic.Deleted */
+.highlight .ge { color: #D4D4D4 } /* Generic.Emph */
+.highlight .ges { color: #D4D4D4 } /* Generic.EmphStrong */
+.highlight .gr { color: #F87171 } /* Generic.Error */
+.highlight .gh { color: #D4D4D4 } /* Generic.Heading */
+.highlight .gi { color: #D4D4D4 } /* Generic.Inserted */
+.highlight .go { color: #6EC1B8 } /* Generic.Output */
+.highlight .gp { color: #FF5F5F; font-weight: bold } /* Generic.Prompt */
+.highlight .gs { color: #D4D4D4 } /* Generic.Strong */
+.highlight .gu { color: #D4D4D4 } /* Generic.Subheading */
+.highlight .gt { color: #D4D4D4 } /* Generic.Traceback */
+.highlight .kc { color: #FF6188; font-weight: bold } /* Keyword.Constant */
+.highlight .kd { color: #FF6188; font-weight: bold } /* Keyword.Declaration */
+.highlight .kn { color: #FF6188; font-weight: bold } /* Keyword.Namespace */
+.highlight .kp { color: #FF6188; font-weight: bold } /* Keyword.Pseudo */
+.highlight .kr { color: #FF6188; font-weight: bold } /* Keyword.Reserved */
+.highlight .kt { color: #FF6188; font-weight: bold } /* Keyword.Type */
+.highlight .ld { color: #D4D4D4 } /* Literal.Date */
+.highlight .m { color: #D9A05B } /* Literal.Number */
+.highlight .s { color: #6EC1B8 } /* Literal.String */
+.highlight .na { color: #D4D4D4 } /* Name.Attribute */
+.highlight .nb { color: #6EC1B8 } /* Name.Builtin */
+.highlight .nc { color: #D4D4D4 } /* Name.Class */
+.highlight .no { color: #D4D4D4 } /* Name.Constant */
+.highlight .nd { color: #D4D4D4 } /* Name.Decorator */
+.highlight .ni { color: #D4D4D4 } /* Name.Entity */
+.highlight .ne { color: #D4D4D4 } /* Name.Exception */
+.highlight .nf { color: #D4D4D4 } /* Name.Function */
+.highlight .nl { color: #D4D4D4 } /* Name.Label */
+.highlight .nn { color: #D4D4D4 } /* Name.Namespace */
+.highlight .nx { color: #D4D4D4 } /* Name.Other */
+.highlight .py { color: #D4D4D4 } /* Name.Property */
+.highlight .nt { color: #D4D4D4 } /* Name.Tag */
+.highlight .nv { color: #D4D4D4 } /* Name.Variable */
+.highlight .ow { color: #FF6188; font-weight: bold } /* Operator.Word */
+.highlight .pm { color: #D4D4D4 } /* Punctuation.Marker */
+.highlight .w { color: #D4D4D4 } /* Text.Whitespace */
+.highlight .mb { color: #D9A05B } /* Literal.Number.Bin */
+.highlight .mf { color: #D9A05B } /* Literal.Number.Float */
+.highlight .mh { color: #D9A05B } /* Literal.Number.Hex */
+.highlight .mi { color: #D9A05B } /* Literal.Number.Integer */
+.highlight .mo { color: #D9A05B } /* Literal.Number.Oct */
+.highlight .sa { color: #6EC1B8 } /* Literal.String.Affix */
+.highlight .sb { color: #6EC1B8 } /* Literal.String.Backtick */
+.highlight .sc { color: #6EC1B8 } /* Literal.String.Char */
+.highlight .dl { color: #6EC1B8 } /* Literal.String.Delimiter */
+.highlight .sd { color: #8A8A7A; font-style: italic } /* Literal.String.Doc */
+.highlight .s2 { color: #6EC1B8 } /* Literal.String.Double */
+.highlight .se { color: #6EC1B8 } /* Literal.String.Escape */
+.highlight .sh { color: #6EC1B8 } /* Literal.String.Heredoc */
+.highlight .si { color: #6EC1B8 } /* Literal.String.Interpol */
+.highlight .sx { color: #6EC1B8 } /* Literal.String.Other */
+.highlight .sr { color: #6EC1B8 } /* Literal.String.Regex */
+.highlight .s1 { color: #6EC1B8 } /* Literal.String.Single */
+.highlight .ss { color: #6EC1B8 } /* Literal.String.Symbol */
+.highlight .bp { color: #6EC1B8 } /* Name.Builtin.Pseudo */
+.highlight .fm { color: #D4D4D4 } /* Name.Function.Magic */
+.highlight .vc { color: #D4D4D4 } /* Name.Variable.Class */
+.highlight .vg { color: #D4D4D4 } /* Name.Variable.Global */
+.highlight .vi { color: #D4D4D4 } /* Name.Variable.Instance */
+.highlight .vm { color: #D4D4D4 } /* Name.Variable.Magic */
+.highlight .il { color: #D9A05B } /* Literal.Number.Integer.Long */</style>
+</head>
+<body>
+<div class="related">
+  <div class="inner">
+    <div class="crumbs">
+      <a href="ml_exam_reference.html">AI Course</a>
+      <span class="sep">&#187;</span>
+      <span>2. Decision Tree — Full Solution</span>
+    </div>
+    <div class="navlinks"><a href="lr_solution.html">&#8592; 1. Linear Regression — Full Solution</a>
+<span style="color:#555">|</span>
+<a href="knn_solution.html">3. k-NN — Full Solution &#8594;</a></div>
+  </div>
+</div>
+<div class="docheader"><div class="inner">
+  <div class="crumb">Artificial Intelligence &#183; Exam preparation</div>
+</div></div>
+<div class="layout">
+  <nav class="sphinxsidebar">
+    <h3>AI Course</h3><ul>
+  <li><a href="ml_exam_reference.html">Machine Learning Exam Reference</a></li>
+  <li><a href="lr_solution.html">1. Linear Regression — Full Solution</a></li>
+  <li><a href="dt_solution.html" style="color:#fff;font-weight:700">2. Decision Tree — Full Solution</a></li>
+  <li><a href="knn_solution.html">3. k-NN — Full Solution</a></li>
+  <li><a href="nn_solution.html">4. Neural Network — Full Solution</a></li>
+  <li><a href="kmeans_solution.html">5. KMeans Clustering — Full Solution</a></li>
+  <li><a href="hier_solution.html">6. Hierarchical Clustering — Full Solution</a></li>
+</ul>
+<h3>Previous topic</h3>
+<ul><li><a class="topic-link" href="lr_solution.html">1. Linear Regression — Full Solution</a></li></ul>
+<h3>Next topic</h3>
+<ul><li><a class="topic-link" href="knn_solution.html">3. k-NN — Full Solution</a></li></ul>
+<h3>This Page</h3>
+<ul><li><a href="#">Show Source</a></li></ul>
+    <h3>Contents</h3><ul><li style="padding-left:10px"><a href="#">Predikcija odliva klijenata banaka - Stablo olučivanja</a></li></ul>
+  </nav>
+  <div class="document" role="main">
+    <h1>2. Decision Tree — Full Solution<a class="headerlink" href="#" title="Permalink to this headline">&#182;</a></h1>
+<h2>Predikcija odliva klijenata banaka - Stablo olučivanja</h2>
+<div class="cell-num">In&nbsp;[1]:</div>
+<div class="highlight"><pre><span class="c1"># Uključivanje potrebnih biblioteka</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.model_selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.tree</span><span class="w"> </span><span class="kn">import</span> <span class="n">DecisionTreeClassifier</span><span class="p">,</span> <span class="n">plot_tree</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="n">confusion_matrix</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">seaborn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sns</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+</pre></div>
+<div class="cell-num">In&nbsp;[2]:</div>
+<div class="highlight"><pre><span class="c1"># Učitavanje detaseta</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;data/bank.csv&#39;</span><span class="p">,</span> <span class="n">na_values</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">])</span>
+
+<span class="n">display</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
+<span class="n">df</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
+</pre></div>
+<div class="cell-num">In&nbsp;[3]:</div>
+<div class="highlight"><pre><span class="c1"># Kreiranje varijable Stayed na osnovu vrednosti varijable Exited</span>
+<span class="c1">#Provera da li ima NA u Exited</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Exited ima NA vrednosti:&quot;</span><span class="p">,</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;Exited&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">any</span><span class="p">())</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;Stayed&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;Exited&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;Yes&#39;</span><span class="p">,</span> <span class="s1">&#39;No&#39;</span><span class="p">)</span>   <span class="c1"># pozitivna klasa je Yes</span>
+<span class="c1">#Izlazna varijabla se prebacuje u 1 i 0 zato što DecisionTreeClassifier iz scikit-learn biblioteke radi samo sa numeričkim tipovima podataka</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;Stayed&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;Stayed&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">map</span><span class="p">({</span><span class="s1">&#39;Yes&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;No&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">})</span>
+
+<span class="c1">#Uklanjanje varijable Exited jer je korišćena za kreiranje izlazne varijable</span>
+<span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="s1">&#39;Exited&#39;</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+<div class="cell-num">In&nbsp;[4]:</div>
+<div class="highlight"><pre><span class="c1">#Kreiranje podskupa</span>
+<span class="c1">#Zamena nedostajućih vrednosti</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;Age&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;Age&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;Age&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">median</span><span class="p">())</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;Age&#39;</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="mi">87</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;Age&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">describe</span><span class="p">())</span>
+</pre></div>
+<h4>Zamena nedostajućih vrednosti</h4>
+<div class="cell-num">In&nbsp;[5]:</div>
+<div class="highlight"><pre><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Neodostajuće vrednosti:</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">df</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
+<span class="c1">#Varijable Surname i Geography imaju nedostajuće vrednosti</span>
+<span class="c1">#Varijablu Surname ćemo kasnije izbaciti, jer nije relevantna za predviđanje izlazne varijable</span>
+</pre></div>
+<div class="cell-num">In&nbsp;[6]:</div>
+<div class="highlight"><pre><span class="c1">#Nedostajuće vrednosti varijable Geography zamenjujemo sa najčešćom vrednošću</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;Geography&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;Geography&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;Geography&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">mode</span><span class="p">()[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">df</span><span class="o">.</span><span class="n">Geography</span><span class="o">.</span><span class="n">isnull</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+</pre></div>
+<h4>Procena značajnosti atributa za uključivanje u model</h4>
+<div class="cell-num">In&nbsp;[7]:</div>
+<div class="highlight"><pre><span class="n">df</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
+</pre></div>
+<div class="cell-num">In&nbsp;[8]:</div>
+<div class="highlight"><pre><span class="c1">#Varijabla surname se uklanja jer nije značajna za procenu odliva klijenta</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Surname&#39;</span><span class="p">])</span>
+</pre></div>
+<div class="cell-num">In&nbsp;[9]:</div>
+<div class="highlight"><pre><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">4</span><span class="p">))</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">kdeplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s1">&#39;CreditScore&#39;</span><span class="p">,</span> <span class="n">hue</span><span class="o">=</span><span class="s1">&#39;Stayed&#39;</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.55</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="c1">#Ne treba zadržati CreditScore jer se raspodele za varijablu Stayed (Yes/No) gotovo potpuno preklapaju i atribut ne doprinosi razdvajanju klasa.</span>
+<span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;CreditScore&#39;</span><span class="p">],</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+<div class="cell-num">In&nbsp;[10]:</div>
+<div class="highlight"><pre><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">4</span><span class="p">))</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">kdeplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s1">&#39;Age&#39;</span><span class="p">,</span> <span class="n">hue</span><span class="o">=</span><span class="s1">&#39;Stayed&#39;</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.55</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="c1"># Na grafiku se može videti da se vrednosti varijable Age razlikuju u pogledu izlazne varijable. Varijabla Age će se uključiti u model</span>
+</pre></div>
+<div class="cell-num">In&nbsp;[11]:</div>
+<div class="highlight"><pre><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">4</span><span class="p">))</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">kdeplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s1">&#39;Tenure&#39;</span><span class="p">,</span> <span class="n">hue</span><span class="o">=</span><span class="s1">&#39;Stayed&#39;</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.55</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="c1">#Ne treba zadržati varijablu Tenure jer se raspodele za varijablu Stayed (Yes/No) gotovo potpuno preklapaju i atribut ne doprinosi razdvajanju klasa.</span>
+<span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Tenure&#39;</span><span class="p">],</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+<div class="cell-num">In&nbsp;[12]:</div>
+<div class="highlight"><pre><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">4</span><span class="p">))</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">kdeplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s1">&#39;Balance&#39;</span><span class="p">,</span> <span class="n">hue</span><span class="o">=</span><span class="s1">&#39;Stayed&#39;</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.55</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="c1">#Na grafiku se može videti da se raspodela varijable Balance razlikuje za različite klase izlazne promenljive, pa će varijabla Balance biti uključena u model.</span>
+</pre></div>
+<div class="cell-num">In&nbsp;[13]:</div>
+<div class="highlight"><pre><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">4</span><span class="p">))</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">kdeplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s1">&#39;EstimatedSalary&#39;</span><span class="p">,</span> <span class="n">hue</span><span class="o">=</span><span class="s1">&#39;Stayed&#39;</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.55</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="c1"># EstimatedSalary ne treba zadržati jer se gustinske krive za obe klase dosta poklapaju i atribut ne može doprineti razdvajanju klasa izlazne varijable.</span>
+<span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;EstimatedSalary&#39;</span><span class="p">],</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+<div class="cell-num">In&nbsp;[14]:</div>
+<div class="highlight"><pre><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">4</span><span class="p">))</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">kdeplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s1">&#39;NumOfProducts&#39;</span><span class="p">,</span> <span class="n">hue</span><span class="o">=</span><span class="s1">&#39;Stayed&#39;</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.55</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="c1">#NumOfProducts može doprineti proceni razlikovanja klijenata koji ostaju od onih koji odlaze iz banke.</span>
+</pre></div>
+<div class="cell-num">In&nbsp;[15]:</div>
+<div class="highlight"><pre><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">4</span><span class="p">))</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">countplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s1">&#39;HasCrCard&#39;</span><span class="p">,</span> <span class="n">hue</span><span class="o">=</span><span class="s1">&#39;Stayed&#39;</span><span class="p">,</span> <span class="n">palette</span><span class="o">=</span><span class="s1">&#39;pastel&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;HasCrCard&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Broj klijenata&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s1">&#39;Stayed&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="c1">#HasCrCard ne treba zadržati jer se proporcije klijenata sa i bez kreditne kartice među onima koji ostaju i odlaze gotovo poklapaju i ne doprinosi razdvajanju klasa.</span>
+<span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;HasCrCard&#39;</span><span class="p">],</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+<div class="cell-num">In&nbsp;[16]:</div>
+<div class="highlight"><pre><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">4</span><span class="p">))</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">countplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s1">&#39;IsActiveMember&#39;</span><span class="p">,</span> <span class="n">hue</span><span class="o">=</span><span class="s1">&#39;Stayed&#39;</span><span class="p">,</span> <span class="n">palette</span><span class="o">=</span><span class="s1">&#39;pastel&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;IsActiveMember&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Broj klijenata&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s1">&#39;Stayed&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="c1">#Na grafiku se može videti da se proporcije klijenata sa IsActiveMember=0 i IsActiveMember=1 razlikuju u odnosu na izlaznu promenljivu, pa će varijabla IsActiveMember biti uključena u model.</span>
+</pre></div>
+<div class="cell-num">In&nbsp;[17]:</div>
+<div class="highlight"><pre><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">4</span><span class="p">))</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">countplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s1">&#39;Satisfaction.Score&#39;</span><span class="p">,</span> <span class="n">hue</span><span class="o">=</span><span class="s1">&#39;Stayed&#39;</span><span class="p">,</span> <span class="n">palette</span><span class="o">=</span><span class="s1">&#39;pastel&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Satisfaction.Score&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Broj klijenata&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s1">&#39;Stayed&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="c1">#Na bar plotu se vidi da se proporcije „stayed“ i „not stayed“ gotovo podudaraju za sve nivoe Satisfaction.Score, pa se ta varijabla neće uključiti u model.</span>
+<span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Satisfaction.Score&#39;</span><span class="p">],</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+<div class="cell-num">In&nbsp;[18]:</div>
+<div class="highlight"><pre><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">4</span><span class="p">))</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">kdeplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s1">&#39;Point.Earned&#39;</span><span class="p">,</span> <span class="n">hue</span><span class="o">=</span><span class="s1">&#39;Stayed&#39;</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.55</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="c1"># Point.Earned ne treba zadržati jer se gustinske krive za obe klase dosta poklapaju i atribut ne može doprineti razdvajanju klasa izlazne varijable.</span>
+<span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Point.Earned&#39;</span><span class="p">],</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+<div class="cell-num">In&nbsp;[19]:</div>
+<div class="highlight"><pre><span class="c1"># Bar plotovi za Geography, Gender i Card.Type grupisani po Stayed</span>
+<span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;Geography&#39;</span><span class="p">,</span> <span class="s1">&#39;Gender&#39;</span><span class="p">,</span> <span class="s1">&#39;Card.Type&#39;</span><span class="p">]:</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">4</span><span class="p">))</span>
+    <span class="n">sns</span><span class="o">.</span><span class="n">countplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="n">col</span><span class="p">,</span> <span class="n">hue</span><span class="o">=</span><span class="s1">&#39;Stayed&#39;</span><span class="p">,</span> <span class="n">palette</span><span class="o">=</span><span class="s1">&#39;pastel&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Distribucija </span><span class="si">{</span><span class="n">col</span><span class="si">}</span><span class="s1"> po klasi Stayed&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="n">col</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Broj klijenata&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s1">&#39;Stayed&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+<div class="cell-num">In&nbsp;[20]:</div>
+<div class="highlight"><pre><span class="c1">#Geography treba zadržati jer se proporcije za varijablu Stayed značajno razlikuju po zemljama (npr. klijenti iz Francuske ostaju u mnogo većem delu nego oni iz Španije i Nemačke).</span>
+<span class="c1">#IsActiveMember pokazuje jasnu razliku u proporcijama Stayed/Not stayed i treba je zadržati, dok HasCrCard nema značajan doprinos.</span>
+<span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Card.Type&#39;</span><span class="p">],</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+<h4>Priprema podataka za uključivanje u model - Prebacivanje u numeric</h4>
+<div class="cell-num">In&nbsp;[21]:</div>
+<div class="highlight"><pre><span class="n">df</span><span class="o">.</span><span class="n">select_dtypes</span><span class="p">(</span><span class="n">include</span><span class="o">=</span><span class="nb">object</span><span class="p">)</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
+</pre></div>
+<div class="cell-num">In&nbsp;[22]:</div>
+<div class="highlight"><pre><span class="c1">#Druge karakter varijable se procenjuju na osnovu njihovog tipa (ordinalna ili kategorička), broja različitih vrednosti i raspodele vrednosti</span>
+<span class="n">df_vars</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">select_dtypes</span><span class="p">(</span><span class="n">include</span><span class="o">=</span><span class="nb">object</span><span class="p">)</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">df_var</span> <span class="ow">in</span> <span class="n">df_vars</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">df_var</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">df</span><span class="p">[</span><span class="n">df_var</span><span class="p">]</span><span class="o">.</span><span class="n">nunique</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="c1">#Obe varijable imaju mali broj različitih vrednosti</span>
+</pre></div>
+<div class="cell-num">In&nbsp;[23]:</div>
+<div class="highlight"><pre><span class="n">df</span><span class="o">.</span><span class="n">Geography</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+</pre></div>
+<div class="cell-num">In&nbsp;[24]:</div>
+<div class="highlight"><pre><span class="n">df</span><span class="o">.</span><span class="n">Gender</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+</pre></div>
+<div class="cell-num">In&nbsp;[25]:</div>
+<div class="highlight"><pre><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.preprocessing</span><span class="w"> </span><span class="kn">import</span> <span class="n">OneHotEncoder</span>
+
+<span class="c1">#S obzirom da su varijable Geography i Gender kategoričke, koristi se One-Hot Encoding</span>
+<span class="n">ohe</span> <span class="o">=</span> <span class="n">OneHotEncoder</span><span class="p">(</span><span class="n">sparse_output</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">drop</span><span class="o">=</span><span class="s1">&#39;first&#39;</span><span class="p">)</span>
+<span class="n">cats</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Geography&#39;</span><span class="p">,</span> <span class="s1">&#39;Gender&#39;</span><span class="p">]</span>
+<span class="n">encoded_array</span> <span class="o">=</span> <span class="n">ohe</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">cats</span><span class="p">])</span>
+<span class="n">encoded_cols</span> <span class="o">=</span> <span class="n">ohe</span><span class="o">.</span><span class="n">get_feature_names_out</span><span class="p">(</span><span class="n">cats</span><span class="p">)</span>
+
+<span class="n">df_ohe</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">encoded_array</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">encoded_cols</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="n">cats</span><span class="p">)</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">df_ohe</span><span class="p">)</span>
+</pre></div>
+<div class="cell-num">In&nbsp;[26]:</div>
+<div class="highlight"><pre><span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+</pre></div>
+<h4>Podela podataka na train i test dataset</h4>
+<div class="cell-num">In&nbsp;[27]:</div>
+<div class="highlight"><pre><span class="n">X</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="s1">&#39;Stayed&#39;</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;Stayed&#39;</span><span class="p">]</span>
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">stratify</span><span class="o">=</span><span class="n">y</span><span class="p">)</span>
+
+<span class="c1"># Raspodela klasa u trening i test skupu</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">y_train</span><span class="o">.</span><span class="n">value_counts</span><span class="p">(</span><span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">y_test</span><span class="o">.</span><span class="n">value_counts</span><span class="p">(</span><span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+</pre></div>
+<h4>Izračunavanje optimalne vrednosti parametra ccp_alpha</h4>
+<div class="cell-num">In&nbsp;[28]:</div>
+<div class="highlight"><pre><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.tree</span><span class="w"> </span><span class="kn">import</span> <span class="n">DecisionTreeClassifier</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.model_selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">GridSearchCV</span><span class="p">,</span><span class="n">StratifiedKFold</span>
+
+<span class="n">cv</span>  <span class="o">=</span> <span class="n">StratifiedKFold</span><span class="p">(</span><span class="n">n_splits</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+<span class="n">param_grid</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;ccp_alpha&#39;</span><span class="p">:</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">0.05</span><span class="p">,</span><span class="mf">0.0025</span><span class="p">)}</span>
+<span class="n">grid</span> <span class="o">=</span> <span class="n">GridSearchCV</span><span class="p">(</span><span class="n">DecisionTreeClassifier</span><span class="p">(</span><span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">),</span>
+                    <span class="n">param_grid</span><span class="o">=</span><span class="n">param_grid</span><span class="p">,</span>
+                    <span class="n">cv</span><span class="o">=</span><span class="n">cv</span><span class="p">,</span>
+                    <span class="n">scoring</span><span class="o">=</span><span class="s1">&#39;accuracy&#39;</span><span class="p">)</span>
+<span class="n">grid</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+
+<span class="n">best_ccp_alpha</span> <span class="o">=</span> <span class="n">grid</span><span class="o">.</span><span class="n">best_params_</span><span class="p">[</span><span class="s1">&#39;ccp_alpha&#39;</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Najbolja vrednost ccp_alpha:&quot;</span><span class="p">,</span><span class="n">best_ccp_alpha</span><span class="p">)</span>
+</pre></div>
+<h4>Kreiranje modela stabla odlučivanja</h4>
+<div class="cell-num">In&nbsp;[29]:</div>
+<div class="highlight"><pre><span class="n">tree</span> <span class="o">=</span> <span class="n">DecisionTreeClassifier</span><span class="p">(</span><span class="n">ccp_alpha</span><span class="o">=</span><span class="n">best_ccp_alpha</span><span class="p">,</span><span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+<span class="n">tree</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+
+<span class="c1"># Vizualizacija stabla odlučivanja</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">[</span><span class="mi">30</span><span class="p">,</span><span class="mi">10</span><span class="p">])</span>
+<span class="n">plot_tree</span><span class="p">(</span><span class="n">tree</span><span class="p">,</span>
+          <span class="n">feature_names</span><span class="o">=</span><span class="n">X_train</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span>
+          <span class="n">class_names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;No&#39;</span><span class="p">,</span><span class="s1">&#39;Yes&#39;</span><span class="p">],</span>
+          <span class="n">filled</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+          <span class="n">rounded</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+          <span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Stablo odlučivanja - tree&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+<div class="cell-num">In&nbsp;[30]:</div>
+<div class="highlight"><pre><span class="c1"># Kreiranje predikcije za test skup za tree</span>
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+</pre></div>
+<h4>Kreiranje matrice konfuzije</h4>
+<div class="cell-num">In&nbsp;[31]:</div>
+<div class="highlight"><pre><span class="n">cm</span> <span class="o">=</span> <span class="n">confusion_matrix</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Matrica kofuzije:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">cm</span><span class="p">)</span>
+
+<span class="c1"># Kreiraj DataFrame sa oznakama redova i kolona</span>
+<span class="n">cm_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">cm</span><span class="p">,</span>
+                       <span class="n">index</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Stvarno:No&#39;</span><span class="p">,</span><span class="s1">&#39;Stvarno:Yes&#39;</span><span class="p">],</span>
+                       <span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Predviđeno:No&#39;</span><span class="p">,</span><span class="s1">&#39;Predviđeno:Yes&#39;</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">cm_df</span><span class="p">)</span>
+</pre></div>
+<p>44 vrednosti postoje u matrici konfuzije TP, TN, FP i FN: True-Positive(TP) - koliko klijenata smo predvideli da će ostati u banci i oni su zaista ostali - 745  True-Negative(TN) - koliko klijenata smo predvideli da će napustiti banku i oni su je zaista napustili - 92  False-Positive(FP) - koliko klijenata smo predvideli da će ostati u banci, a oni su je ipak napustili - 112  False-Negative(FN) - koliko klijenata smo predvideli da će napustiti banku, a oni su ipak ostali - 30</p>
+<p>4 metrike se koriste za evaluaciju performansi klasifikacionog modela:     Accuracy (tačnost) - procenat tačnih predikcija (i pozitivnih i negativnih);     Precision (preciznost) - procenat tačno predviđenih pozitivnih predikcija u odnosu na sve pozitivne predikcije koje je model napravio;     Recall (odziv) - procenat pozitivnih predikcija koje je model tačno identifikovao kao pozitivne u odnosu na ukupan broj stvarno pozitivnih;     F1 - mera za balansiranje vrednosti precision-a i recall-a.</p>
+<div class="cell-num">In&nbsp;[32]:</div>
+<div class="highlight"><pre><span class="k">def</span><span class="w"> </span><span class="nf">compute_basic_eval_measures</span><span class="p">(</span><span class="n">cm</span><span class="p">,</span> <span class="n">model_name</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
+
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="kn">import</span> <span class="n">Series</span>
+
+    <span class="n">TP</span> <span class="o">=</span> <span class="n">cm</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">TN</span> <span class="o">=</span> <span class="n">cm</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">FP</span> <span class="o">=</span> <span class="n">cm</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">FN</span> <span class="o">=</span> <span class="n">cm</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="n">accuracy</span> <span class="o">=</span> <span class="p">(</span><span class="n">TP</span> <span class="o">+</span> <span class="n">TN</span><span class="p">)</span><span class="o">/</span><span class="n">cm</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+    <span class="n">precision</span> <span class="o">=</span> <span class="n">TP</span><span class="o">/</span><span class="p">(</span><span class="n">TP</span> <span class="o">+</span> <span class="n">FP</span><span class="p">)</span>
+    <span class="n">recall</span> <span class="o">=</span> <span class="n">TP</span><span class="o">/</span><span class="p">(</span><span class="n">TP</span> <span class="o">+</span> <span class="n">FN</span><span class="p">)</span>
+    <span class="n">F1</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">precision</span><span class="o">*</span><span class="n">recall</span><span class="o">/</span><span class="p">(</span><span class="n">precision</span> <span class="o">+</span> <span class="n">recall</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">Series</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="p">[</span><span class="n">accuracy</span><span class="p">,</span> <span class="n">precision</span><span class="p">,</span> <span class="n">recall</span><span class="p">,</span> <span class="n">F1</span><span class="p">],</span>
+                  <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;accuracy&#39;</span><span class="p">,</span> <span class="s1">&#39;precision&#39;</span><span class="p">,</span> <span class="s1">&#39;recall&#39;</span><span class="p">,</span> <span class="s1">&#39;F1&#39;</span><span class="p">],</span>
+                  <span class="n">name</span><span class="o">=</span><span class="n">model_name</span><span class="p">)</span>
+</pre></div>
+<div class="cell-num">In&nbsp;[33]:</div>
+<div class="highlight"><pre><span class="n">eval1</span> <span class="o">=</span> <span class="n">compute_basic_eval_measures</span><span class="p">(</span><span class="n">cm</span><span class="p">,</span> <span class="s1">&#39;tree1&#39;</span><span class="p">)</span>
+<span class="n">eval1</span>
+</pre></div>
+<p>accuracy - koliko tačno predviđamo izlaznu varijablu. Od 979 klijenata tačno je predviđeno 837, odnosno, za 85.5% klijenata je tačno predviđeno da li će ostati u banci ili ne.</p>
+
+<p>precision - od svih klijenata predviđenih da će ostati banci, koji procenat klijenata je zaista ostao. Od svih klijenata za predviđenih da će ostati u banci, 87% njih je stvarno ostalo.</p>
+
+<p>recall - od svih klijenata koji su zaista ostali u banci, koji procenat klijenata je predviđeno da će ostati u banci. Među svim klijentima koji su zaista ostali u banci, tačno je predviđeno 96%.</p>
+
+<p>F1 - predstavlja meru performansi modela za balansirane vrednosti precision i recall. S obzirom da su recision i recall u antagonističkom odnosu, povećanje jedne dovodi do smanjenja druge i obrnuto. Kako su i precision i recall visoki, vrednost ove metrike je visoka 0.91. U kontekstu zadatka, ova metrika pokazuje da nismo pravili mnogo grešaka predviđajući ostanak klijenata u banci.</p>
+
+<p><strong>Napomena:</strong> Prikazane interpretacije metrika i matrice konfuzije služe samo kao ilustracija jednog od mogućih načina i ne predstavljaju jedini ispravan način njihovog iznošenja u okviru zadatka.</p>
+  </div>
+</div>
+<div class="footer">
+  &#169; Copyright, AI Course. &nbsp;
+  Created using <a href="#">Sphinx</a> 7.2.6.
+</div>
+</body>
+</html>

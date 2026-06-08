@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>3. k-NN — Full Solution &#8212; AI Course documentation</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23306998'/%3E%3Ctext x='6' y='23' font-family='monospace' font-size='18' font-weight='bold' fill='%23FFD43B'%3E&gt;_%3C/text%3E%3C/SVG%3E">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;0,900;1,400&display=swap');
+*{box-sizing:border-box}
+html{font-size:100%}
+body{margin:0;background:#1a1a1a;color:#c4c4c4;
+  font-family:'Lato','Segoe UI',Helvetica,Arial,sans-serif;font-size:15px;line-height:1.6}
+a{color:#6ab0de;text-decoration:none}
+a:hover{color:#8ec6ef;text-decoration:underline}
+::-webkit-scrollbar{width:12px;height:12px}
+::-webkit-scrollbar-track{background:#1a1a1a}
+::-webkit-scrollbar-thumb{background:#3a3a3a;border-radius:6px}
+.related{background:#1a1a1a;border-bottom:1px solid #333;font-size:13px;color:#888}
+.related .inner{max-width:1200px;margin:0 auto;padding:6px 20px;
+  display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px}
+.related .crumbs a,.related .crumbs span{color:#888}
+.related .crumbs a{color:#6ab0de}
+.related .sep{color:#555;margin:0 4px}
+.related .navlinks{display:flex;gap:14px;font-size:13px}
+.related .navlinks a{color:#6ab0de}
+.docheader{background:#1a1a1a;border-bottom:1px solid #333}
+.docheader .inner{max-width:1200px;margin:0 auto;padding:10px 20px}
+.docheader .crumb{font-size:12px;color:#666;text-transform:uppercase;letter-spacing:.04em}
+.layout{max-width:1200px;margin:0 auto;display:flex}
+.sphinxsidebar{width:240px;flex:0 0 240px;background:#1a1a1a;
+  border-right:1px solid #333;padding:18px 14px 60px;font-size:14px;
+  position:sticky;top:0;align-self:flex-start;max-height:100vh;overflow-y:auto}
+.sphinxsidebar h3{color:#e0e0e0;font-size:14px;font-weight:900;margin:16px 0 5px;border-bottom:1px solid #2a2a2a;padding-bottom:4px}
+.sphinxsidebar h3:first-child{margin-top:0}
+.sphinxsidebar ul{list-style:none;margin:0;padding:0}
+.sphinxsidebar ul ul{padding-left:12px}
+.sphinxsidebar li{margin:3px 0;line-height:1.35}
+.sphinxsidebar a{color:#b0b0b0;font-size:13px}
+.sphinxsidebar a:hover{color:#fff}
+.sphinxsidebar .topic-link{display:block;padding:3px 0;color:#6ab0de;font-weight:700}
+.sphinxsidebar .topic-link:hover{color:#8ec6ef}
+.document{flex:1 1 auto;min-width:0;padding:16px 38px 80px;max-width:860px}
+h1{font-size:28px;font-weight:900;color:#e8e8e8;margin:10px 0 18px}
+h2{font-size:20px;font-weight:700;color:#e8e8e8;margin:30px 0 8px;
+  padding-bottom:4px;border-bottom:1px solid #333}
+h3{font-size:17px;font-weight:700;color:#dcdcdc;margin:18px 0 5px}
+h4{font-size:15px;font-weight:700;color:#c8c8c8;margin:12px 0 4px}
+.headerlink{visibility:hidden;color:#555;padding-left:6px;font-weight:400;font-size:.85em}
+h1:hover .headerlink,h2:hover .headerlink,h3:hover .headerlink{visibility:visible}
+p{margin:8px 0}
+code,tt{font-family:'SFMono-Regular',Menlo,Consolas,'DejaVu Sans Mono',monospace;font-size:.91em}
+code.literal{background:#2b2b2b;border:1px solid #3a3a3a;border-radius:3px;
+  padding:1px 5px;color:#d6d6d6}
+.highlight{background:#1e1e1e;border:1px solid #333;border-radius:3px;margin:8px 0}
+.highlight pre{margin:0;padding:11px 13px;overflow-x:auto;line-height:1.5;font-size:13px;
+  font-family:'SFMono-Regular',Menlo,Consolas,'DejaVu Sans Mono',monospace;background:transparent}
+.cell-num{font-size:11px;color:#555;margin:18px 0 2px;font-family:monospace}
+ol,ul{margin:8px 0;padding-left:24px}
+li{margin:3px 0}
+.admonition{margin:12px 0;padding:9px 13px;border-radius:3px;font-size:14px}
+.admonition .admonition-title{font-weight:700;margin:0 0 4px;font-size:12px;
+  text-transform:uppercase;letter-spacing:.03em}
+.admonition.note{background:#16222e;border:1px solid #2f4f6a}
+.admonition.note .admonition-title{color:#8ab8e0}
+.admonition.warning{background:#2a1818;border:1px solid #6e3b3b}
+.admonition.warning .admonition-title{color:#f08a8a}
+table.docutils{border-collapse:collapse;width:100%;font-size:13.5px;margin:12px 0}
+table.docutils th,table.docutils td{border:1px solid #3a3a3a;padding:6px 9px;text-align:left}
+table.docutils thead th{background:#262626;color:#e0e0e0}
+table.docutils tbody tr:nth-child(even){background:#202020}
+details.sub-sec{margin:10px 0;border:1px solid #333;border-radius:3px}
+details.sub-sec>summary{cursor:pointer;list-style:none;padding:8px 13px;background:#242424;
+  font-weight:700;font-size:14px;color:#cfe3f2;display:flex;align-items:center;gap:9px;user-select:none}
+details.sub-sec>summary::-webkit-details-marker{display:none}
+details.sub-sec>summary::before{content:"\25B6";font-size:10px;color:#888;transition:transform .12s}
+details.sub-sec[open]>summary::before{transform:rotate(90deg)}
+details.sub-sec>summary:hover{background:#2c2c2c}
+.sub-tag{font-family:'SFMono-Regular',Menlo,monospace;font-size:11px;font-weight:700;
+  letter-spacing:.02em;color:#9a9a9a;border:1px solid #444;border-radius:3px;padding:0 6px}
+.sub-body{padding:6px 16px 14px}
+.footer{max-width:1200px;margin:0 auto;padding:16px 20px 40px;
+  border-top:1px solid #333;color:#666;font-size:12px}
+.footer a{color:#6ab0de}
+@media(max-width:860px){.sphinxsidebar{display:none}.document{padding:14px 18px 60px}}
+@media print{
+  body{background:#fff;color:#000}.related,.sphinxsidebar,.docheader{display:none}
+  .document{max-width:none}h1,h2,h3,h4{color:#000}.highlight,.highlight pre{background:#f8f8f8;color:#000}
+  a{color:#000;text-decoration:none}
+}
+</style>
+<style>pre { line-height: 125%; }
+td.linenos .normal { color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+span.linenos { color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+td.linenos .special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+.highlight .hll { background-color: #ffffcc }
+.highlight { background: #1e1e1e; color: #D4D4D4 }
+.highlight .c { color: #8A8A7A; font-style: italic } /* Comment */
+.highlight .err { color: #D4D4D4 } /* Error */
+.highlight .esc { color: #D4D4D4 } /* Escape */
+.highlight .g { color: #D4D4D4 } /* Generic */
+.highlight .k { color: #FF6188; font-weight: bold } /* Keyword */
+.highlight .l { color: #D4D4D4 } /* Literal */
+.highlight .n { color: #D4D4D4 } /* Name */
+.highlight .o { color: #D4D4D4 } /* Operator */
+.highlight .x { color: #D4D4D4 } /* Other */
+.highlight .p { color: #D4D4D4 } /* Punctuation */
+.highlight .ch { color: #8A8A7A; font-style: italic } /* Comment.Hashbang */
+.highlight .cm { color: #8A8A7A; font-style: italic } /* Comment.Multiline */
+.highlight .cp { color: #8A8A7A; font-style: italic } /* Comment.Preproc */
+.highlight .cpf { color: #8A8A7A; font-style: italic } /* Comment.PreprocFile */
+.highlight .c1 { color: #8A8A7A; font-style: italic } /* Comment.Single */
+.highlight .cs { color: #8A8A7A; font-style: italic } /* Comment.Special */
+.highlight .gd { color: #D4D4D4 } /* Generic.Deleted */
+.highlight .ge { color: #D4D4D4 } /* Generic.Emph */
+.highlight .ges { color: #D4D4D4 } /* Generic.EmphStrong */
+.highlight .gr { color: #F87171 } /* Generic.Error */
+.highlight .gh { color: #D4D4D4 } /* Generic.Heading */
+.highlight .gi { color: #D4D4D4 } /* Generic.Inserted */
+.highlight .go { color: #6EC1B8 } /* Generic.Output */
+.highlight .gp { color: #FF5F5F; font-weight: bold } /* Generic.Prompt */
+.highlight .gs { color: #D4D4D4 } /* Generic.Strong */
+.highlight .gu { color: #D4D4D4 } /* Generic.Subheading */
+.highlight .gt { color: #D4D4D4 } /* Generic.Traceback */
+.highlight .kc { color: #FF6188; font-weight: bold } /* Keyword.Constant */
+.highlight .kd { color: #FF6188; font-weight: bold } /* Keyword.Declaration */
+.highlight .kn { color: #FF6188; font-weight: bold } /* Keyword.Namespace */
+.highlight .kp { color: #FF6188; font-weight: bold } /* Keyword.Pseudo */
+.highlight .kr { color: #FF6188; font-weight: bold } /* Keyword.Reserved */
+.highlight .kt { color: #FF6188; font-weight: bold } /* Keyword.Type */
+.highlight .ld { color: #D4D4D4 } /* Literal.Date */
+.highlight .m { color: #D9A05B } /* Literal.Number */
+.highlight .s { color: #6EC1B8 } /* Literal.String */
+.highlight .na { color: #D4D4D4 } /* Name.Attribute */
+.highlight .nb { color: #6EC1B8 } /* Name.Builtin */
+.highlight .nc { color: #D4D4D4 } /* Name.Class */
+.highlight .no { color: #D4D4D4 } /* Name.Constant */
+.highlight .nd { color: #D4D4D4 } /* Name.Decorator */
+.highlight .ni { color: #D4D4D4 } /* Name.Entity */
+.highlight .ne { color: #D4D4D4 } /* Name.Exception */
+.highlight .nf { color: #D4D4D4 } /* Name.Function */
+.highlight .nl { color: #D4D4D4 } /* Name.Label */
+.highlight .nn { color: #D4D4D4 } /* Name.Namespace */
+.highlight .nx { color: #D4D4D4 } /* Name.Other */
+.highlight .py { color: #D4D4D4 } /* Name.Property */
+.highlight .nt { color: #D4D4D4 } /* Name.Tag */
+.highlight .nv { color: #D4D4D4 } /* Name.Variable */
+.highlight .ow { color: #FF6188; font-weight: bold } /* Operator.Word */
+.highlight .pm { color: #D4D4D4 } /* Punctuation.Marker */
+.highlight .w { color: #D4D4D4 } /* Text.Whitespace */
+.highlight .mb { color: #D9A05B } /* Literal.Number.Bin */
+.highlight .mf { color: #D9A05B } /* Literal.Number.Float */
+.highlight .mh { color: #D9A05B } /* Literal.Number.Hex */
+.highlight .mi { color: #D9A05B } /* Literal.Number.Integer */
+.highlight .mo { color: #D9A05B } /* Literal.Number.Oct */
+.highlight .sa { color: #6EC1B8 } /* Literal.String.Affix */
+.highlight .sb { color: #6EC1B8 } /* Literal.String.Backtick */
+.highlight .sc { color: #6EC1B8 } /* Literal.String.Char */
+.highlight .dl { color: #6EC1B8 } /* Literal.String.Delimiter */
+.highlight .sd { color: #8A8A7A; font-style: italic } /* Literal.String.Doc */
+.highlight .s2 { color: #6EC1B8 } /* Literal.String.Double */
+.highlight .se { color: #6EC1B8 } /* Literal.String.Escape */
+.highlight .sh { color: #6EC1B8 } /* Literal.String.Heredoc */
+.highlight .si { color: #6EC1B8 } /* Literal.String.Interpol */
+.highlight .sx { color: #6EC1B8 } /* Literal.String.Other */
+.highlight .sr { color: #6EC1B8 } /* Literal.String.Regex */
+.highlight .s1 { color: #6EC1B8 } /* Literal.String.Single */
+.highlight .ss { color: #6EC1B8 } /* Literal.String.Symbol */
+.highlight .bp { color: #6EC1B8 } /* Name.Builtin.Pseudo */
+.highlight .fm { color: #D4D4D4 } /* Name.Function.Magic */
+.highlight .vc { color: #D4D4D4 } /* Name.Variable.Class */
+.highlight .vg { color: #D4D4D4 } /* Name.Variable.Global */
+.highlight .vi { color: #D4D4D4 } /* Name.Variable.Instance */
+.highlight .vm { color: #D4D4D4 } /* Name.Variable.Magic */
+.highlight .il { color: #D9A05B } /* Literal.Number.Integer.Long */</style>
+</head>
+<body>
+<div class="related">
+  <div class="inner">
+    <div class="crumbs">
+      <a href="ml_exam_reference.html">AI Course</a>
+      <span class="sep">&#187;</span>
+      <span>3. k-NN — Full Solution</span>
+    </div>
+    <div class="navlinks"><a href="dt_solution.html">&#8592; 2. Decision Tree — Full Solution</a>
+<span style="color:#555">|</span>
+<a href="nn_solution.html">4. Neural Network — Full Solution &#8594;</a></div>
+  </div>
+</div>
+<div class="docheader"><div class="inner">
+  <div class="crumb">Artificial Intelligence &#183; Exam preparation</div>
+</div></div>
+<div class="layout">
+  <nav class="sphinxsidebar">
+    <h3>AI Course</h3><ul>
+  <li><a href="ml_exam_reference.html">Machine Learning Exam Reference</a></li>
+  <li><a href="lr_solution.html">1. Linear Regression — Full Solution</a></li>
+  <li><a href="dt_solution.html">2. Decision Tree — Full Solution</a></li>
+  <li><a href="knn_solution.html" style="color:#fff;font-weight:700">3. k-NN — Full Solution</a></li>
+  <li><a href="nn_solution.html">4. Neural Network — Full Solution</a></li>
+  <li><a href="kmeans_solution.html">5. KMeans Clustering — Full Solution</a></li>
+  <li><a href="hier_solution.html">6. Hierarchical Clustering — Full Solution</a></li>
+</ul>
+<h3>Previous topic</h3>
+<ul><li><a class="topic-link" href="dt_solution.html">2. Decision Tree — Full Solution</a></li></ul>
+<h3>Next topic</h3>
+<ul><li><a class="topic-link" href="nn_solution.html">4. Neural Network — Full Solution</a></li></ul>
+<h3>This Page</h3>
+<ul><li><a href="#">Show Source</a></li></ul>
+    
+  </nav>
+  <div class="document" role="main">
+    <h1>3. k-NN — Full Solution<a class="headerlink" href="#" title="Permalink to this headline">&#182;</a></h1>
+<h3>Primer zadatka klasifikacije - kNN</h3>
+<div class="cell-num">In&nbsp;[1]:</div>
+<div class="highlight"><pre><span class="c1"># Import potrebnih biblioteka</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.stats</span><span class="w"> </span><span class="kn">import</span> <span class="n">shapiro</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">seaborn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sns</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.preprocessing</span><span class="w"> </span><span class="kn">import</span> <span class="n">RobustScaler</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.model_selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.model_selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">GridSearchCV</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.neighbors</span><span class="w"> </span><span class="kn">import</span> <span class="n">KNeighborsClassifier</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="n">confusion_matrix</span><span class="p">,</span> <span class="n">ConfusionMatrixDisplay</span><span class="p">,</span> <span class="n">accuracy_score</span><span class="p">,</span><span class="n">precision_score</span><span class="p">,</span><span class="n">recall_score</span><span class="p">,</span><span class="n">f1_score</span>
+</pre></div>
+<div class="cell-num">In&nbsp;[2]:</div>
+<div class="highlight"><pre><span class="c1"># Učitavamo podatke (navodimo koje vrednosti ćemo smatrati nedostajućim: &#39;-&#39;, &#39; &#39;, &#39;&#39;)</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;./data/spotify.csv&quot;</span><span class="p">,</span> <span class="n">na_values</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">],</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;latin1&#39;</span><span class="p">)</span>
+
+<span class="n">display</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
+<span class="n">df</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
+</pre></div>
+<h3>Kreiranje izlazne varijable</h3>
+<div class="cell-num">In&nbsp;[3]:</div>
+<div class="highlight"><pre><span class="c1"># Proveravamo da li varijabla streams ima nedostajuće vrednosti jer na osnovu nje kreiramo izlaznu varijablu</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Broj nedostajućih vrednosti varijable streams:&quot;</span><span class="p">,</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;streams&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
+<span class="c1"># Nema nedostajućih vrednosti</span>
+
+<span class="c1"># Računamo treći kvartil</span>
+<span class="n">streams_3Q</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;streams&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="mf">0.75</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">streams_3Q</span><span class="p">)</span>
+
+<span class="c1"># Kreiramo izlaznu varijablu HighStreams na osnovu vrednosti varijable streams</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;HighStreams&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;streams&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">streams_3Q</span><span class="p">,</span> <span class="s1">&#39;Yes&#39;</span><span class="p">,</span> <span class="s1">&#39;No&#39;</span><span class="p">)</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;HighStreams&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;HighStreams&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">map</span><span class="p">({</span><span class="s1">&#39;Yes&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;No&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">})</span>
+
+<span class="c1"># Odmah izbacujemo varijablu streams jer smo je koristili za kreiranje izlazne varijable</span>
+<span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="s1">&#39;streams&#39;</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+<h3>Zamena nedostajućih vrednosti</h3>
+<div class="cell-num">In&nbsp;[4]:</div>
+<div class="highlight"><pre><span class="c1"># Proveravamo da li varijable imaju nedostajuće vrednosti</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
+<span class="c1"># Varijable in_spotify_charts i in_apple_charts imaju po 2 nedostajuće vrednosti</span>
+</pre></div>
+<p>Varijable <code class="literal">in_spotify_charts</code> i <code class="literal">in_apple_charts</code> su numeričkog tipa i imaju mali broj nedostajućih vrednosti. Zbog toga ćemo koristiti metod zamene prosečnom vrednošću (<code class="literal">mean</code> ili <code class="literal">median</code>). Da bismo odlučili da li da koristimo mean ili median, prvo ćemo proveriti raspodelu ovih varijabli pomoću Shapiro-Wilk testa. Ako varijable imaju normalnu raspodelu, nedostajuće vrednosti ćemo zameniti mean-om, a ako nemaju normalnu raspodelu, koristićemo median.</p>
+<div class="cell-num">In&nbsp;[5]:</div>
+<div class="highlight"><pre><span class="c1"># Proveravamo da li varijable imaju normalnu raspodelu</span>
+<span class="n">p_spotify</span> <span class="o">=</span> <span class="n">shapiro</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;in_spotify_charts&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">dropna</span><span class="p">())[</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">p_apple</span> <span class="o">=</span> <span class="n">shapiro</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;in_apple_charts&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">dropna</span><span class="p">())[</span><span class="mi">1</span><span class="p">]</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;p-vrednost za in_spotify_charts:&quot;</span><span class="p">,</span> <span class="n">p_spotify</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;p-vrednost za in_apple_charts:&quot;</span><span class="p">,</span> <span class="n">p_apple</span><span class="p">)</span>
+<span class="c1"># Obe varijable imaju vrednost p &lt; 0.05 što znači da nemaju normalnu raspodelu i nedostajuće vrednosti zamenićemo medijanom</span>
+
+<span class="n">median_spotify</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;in_spotify_charts&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">median</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">median_spotify</span><span class="p">)</span>
+<span class="n">median_apple</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;in_apple_charts&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">median</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">median_apple</span><span class="p">)</span>
+<span class="c1"># Dobili smo da su medijane 3 i 38 za spotify i apple respektivno</span>
+
+<span class="c1"># Zamena nedostajućih vrednosti medijanama</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;in_spotify_charts&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;in_spotify_charts&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="n">median_spotify</span><span class="p">)</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;in_apple_charts&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;in_apple_charts&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="n">median_apple</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
+<span class="c1"># Nema više nedostajućih vrednosti</span>
+</pre></div>
+<h4>Procena značajnosti atributa za uključivanje u model</h4>
+<div class="cell-num">In&nbsp;[6]:</div>
+<div class="highlight"><pre><span class="c1"># Prvo izbacujemo varijablu track_name, jer je očigledno da nema smisla koristiti je za predviđanje</span>
+<span class="c1"># Svaka pesma ima jedinstveno ime, pa ova varijabla neće uticati na to da li pesma ima veliki broj puštanja</span>
+<span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="s1">&#39;track_name&#39;</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+<div class="cell-num">In&nbsp;[7]:</div>
+<div class="highlight"><pre><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">4</span><span class="p">))</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">kdeplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s1">&#39;released_year&#39;</span><span class="p">,</span> <span class="n">hue</span><span class="o">=</span><span class="s1">&#39;HighStreams&#39;</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="c1"># Na osnovu grafikona vidimo da varijabla released_year ima različitu raspodelu za pesme sa visokim i niskim brojem puštanja, što ukazuje da bi released_year mogla biti značajna varijabla za predviđanje</span>
+</pre></div>
+<div class="cell-num">In&nbsp;[8]:</div>
+<div class="highlight"><pre><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">4</span><span class="p">))</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">kdeplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s1">&#39;in_spotify_playlists&#39;</span><span class="p">,</span> <span class="n">hue</span><span class="o">=</span><span class="s1">&#39;HighStreams&#39;</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="c1"># Na osnovu grafikona vidimo da varijabla in_spotify_playlists ima različitu raspodelu za pesme sa visokim i niskim brojem puštanja. Pesme koje se nalaze na većem broju Spotify plejlista češće imaju veći broj puštanja, pa ova varijabla može biti značajna za predviđanje</span>
+</pre></div>
+<div class="cell-num">In&nbsp;[9]:</div>
+<div class="highlight"><pre><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">4</span><span class="p">))</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">kdeplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s1">&#39;in_spotify_charts&#39;</span><span class="p">,</span> <span class="n">hue</span><span class="o">=</span><span class="s1">&#39;HighStreams&#39;</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="c1"># Na osnovu grafikona vidimo da varijabla in_spotify_charts ima različitu raspodelu za pesme sa visokim i niskim brojem puštanja. Pesme koje su bolje rangirane na Spotify listi (manji broj pozicije) češće imaju veći broj puštanja, pa ova varijabla može biti značajna za predviđanje</span>
+</pre></div>
+<div class="cell-num">In&nbsp;[10]:</div>
+<div class="highlight"><pre><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">4</span><span class="p">))</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">kdeplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s1">&#39;in_apple_playlists&#39;</span><span class="p">,</span> <span class="n">hue</span><span class="o">=</span><span class="s1">&#39;HighStreams&#39;</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="c1"># Na osnovu grafikona vidimo da varijabla in_apple_playlists ima različitu raspodelu za pesme sa visokim i niskim brojem puštanja. Pesme koje se nalaze na većem broju Apple plejlista češće imaju veći broj puštanja, pa ova varijabla može biti značajna za predviđanje</span>
+</pre></div>
+<div class="cell-num">In&nbsp;[11]:</div>
+<div class="highlight"><pre><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">4</span><span class="p">))</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">kdeplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s1">&#39;in_apple_charts&#39;</span><span class="p">,</span> <span class="n">hue</span><span class="o">=</span><span class="s1">&#39;HighStreams&#39;</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="c1"># Na osnovu grafikona vidimo da varijabla in_apple_charts ima različitu raspodelu za pesme sa visokim i niskim brojem puštanja. Pesme koje su bolje rangirane na Apple listi (manji broj pozicije) češće imaju veći broj puštanja, pa ova varijabla može biti značajna za predviđanje</span>
+</pre></div>
+<div class="cell-num">In&nbsp;[12]:</div>
+<div class="highlight"><pre><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">4</span><span class="p">))</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">kdeplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s1">&#39;bpm&#39;</span><span class="p">,</span> <span class="n">hue</span><span class="o">=</span><span class="s1">&#39;HighStreams&#39;</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="c1"># Na osnovu grafikona vidimo da varijabla bpm ima sličnu raspodelu za pesme sa visokim i niskim brojem puštanja. Zato ovu varijablu možemo izostaviti, izbacujemo je</span>
+<span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="s1">&#39;bpm&#39;</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+<div class="cell-num">In&nbsp;[13]:</div>
+<div class="highlight"><pre><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">4</span><span class="p">))</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">kdeplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s1">&#39;liveness&#39;</span><span class="p">,</span> <span class="n">hue</span><span class="o">=</span><span class="s1">&#39;HighStreams&#39;</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="c1"># Na osnovu grafikona vidimo da varijabla liveness ima sličnu raspodelu za pesme sa visokim i niskim brojem puštanja. Zato ovu varijablu možemo izostaviti, izbacujemo je</span>
+<span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="s1">&#39;liveness&#39;</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+<div class="cell-num">In&nbsp;[14]:</div>
+<div class="highlight"><pre><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">4</span><span class="p">))</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">kdeplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s1">&#39;energy&#39;</span><span class="p">,</span> <span class="n">hue</span><span class="o">=</span><span class="s1">&#39;HighStreams&#39;</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="c1"># Na osnovu grafikona vidimo da varijabla energy ima sličnu raspodelu za pesme sa visokim i niskim brojem puštanja. Zato ovu varijablu možemo izostaviti, izbacujemo je</span>
+<span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="s1">&#39;energy&#39;</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+<div class="cell-num">In&nbsp;[15]:</div>
+<div class="highlight"><pre><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">4</span><span class="p">))</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">kdeplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s1">&#39;instrumentalness&#39;</span><span class="p">,</span> <span class="n">hue</span><span class="o">=</span><span class="s1">&#39;HighStreams&#39;</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="c1"># Na osnovu grafikona vidimo da varijabla instrumentalness ima sličnu raspodelu za pesme sa visokim i niskim brojem puštanja. Zato ovu varijablu možemo izostaviti, izbacujemo je</span>
+<span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="s1">&#39;instrumentalness&#39;</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+<div class="cell-num">In&nbsp;[16]:</div>
+<div class="highlight"><pre><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">4</span><span class="p">))</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">kdeplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s1">&#39;speechiness&#39;</span><span class="p">,</span> <span class="n">hue</span><span class="o">=</span><span class="s1">&#39;HighStreams&#39;</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="c1"># Na osnovu grafikona vidimo da varijabla speechiness ima sličnu raspodelu za pesme sa visokim i niskim brojem puštanja. Zato ovu varijablu možemo izostaviti, izbacujemo je</span>
+<span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="s1">&#39;speechiness&#39;</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+<div class="cell-num">In&nbsp;[17]:</div>
+<div class="highlight"><pre><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">4</span><span class="p">))</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">countplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s1">&#39;mode&#39;</span><span class="p">,</span> <span class="n">hue</span><span class="o">=</span><span class="s1">&#39;HighStreams&#39;</span><span class="p">,</span> <span class="n">palette</span><span class="o">=</span><span class="s1">&#39;pastel&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="c1"># Na osnovu grafikona vidimo da pesme u minor modu imaju malo veću šansu da imaju manji broj puštanja. Iako ne deluje kao toliko jak prediktor kao neke od prethodnih varijabli, može biti značajna pa je ostavljamo</span>
+</pre></div>
+<h3>Skaliranje numeričkih varijabli</h3>
+<div class="cell-num">In&nbsp;[18]:</div>
+<div class="highlight"><pre><span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">describe</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">info</span><span class="p">())</span>
+</pre></div>
+<div class="cell-num">In&nbsp;[19]:</div>
+<div class="highlight"><pre><span class="n">numeric_vars</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;released_year&#39;</span><span class="p">,</span> <span class="s1">&#39;in_spotify_playlists&#39;</span><span class="p">,</span> <span class="s1">&#39;in_spotify_charts&#39;</span><span class="p">,</span> <span class="s1">&#39;in_apple_playlists&#39;</span><span class="p">,</span> <span class="s1">&#39;in_apple_charts&#39;</span><span class="p">]</span>
+</pre></div>
+<p>Proveravamo da li numeričke varijable imaju autlajere kako bismo odlučili da li ćemo koristiti <code class="literal">normalizaciju</code> ili <code class="literal">standardizaciju</code> za skaliranje podataka. Ako varijable nemaju autlajere, koristićemo normalizaciju, a ako imaju, koristićemo standardizaciju.</p>
+<div class="cell-num">In&nbsp;[20]:</div>
+<div class="highlight"><pre><span class="c1"># Funkcija za izračunavanje broja autlajera</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">count_outliers</span><span class="p">(</span><span class="n">variable</span><span class="p">):</span>
+    <span class="n">q1</span> <span class="o">=</span> <span class="n">variable</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="mf">0.25</span><span class="p">)</span>
+    <span class="n">q3</span> <span class="o">=</span> <span class="n">variable</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="mf">0.75</span><span class="p">)</span>
+    <span class="n">iqr</span> <span class="o">=</span> <span class="n">q3</span> <span class="o">-</span> <span class="n">q1</span>
+    <span class="n">lower</span> <span class="o">=</span> <span class="n">q1</span> <span class="o">-</span> <span class="mf">1.5</span> <span class="o">*</span> <span class="n">iqr</span>
+    <span class="n">upper</span> <span class="o">=</span> <span class="n">q3</span> <span class="o">+</span> <span class="mf">1.5</span> <span class="o">*</span> <span class="n">iqr</span>
+    <span class="k">return</span> <span class="p">((</span><span class="n">variable</span> <span class="o">&lt;</span> <span class="n">lower</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="n">variable</span> <span class="o">&gt;</span> <span class="n">upper</span><span class="p">))</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+
+<span class="n">outliers_per_column</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">numeric_vars</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">count_outliers</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Broj autlajera po kolonama:</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">outliers_per_column</span><span class="p">)</span>
+<span class="c1"># Sve varijable imaju autlajere, tako da ćemo koristiti standardizaciju</span>
+</pre></div>
+<div class="cell-num">In&nbsp;[21]:</div>
+<div class="highlight"><pre><span class="c1"># Proveravamo da li varijable imaju normalnu raspodelu kako bismo odlučili na koji način da izvršimo standardizaciju</span>
+<span class="n">shapiro_results</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">numeric_vars</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">shapiro</span><span class="p">(</span><span class="n">x</span><span class="p">)[</span><span class="mi">1</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Shapiro-Wilk p-vrednosti:</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">shapiro_results</span><span class="p">)</span>
+
+<span class="c1"># Sve varijable imaju p-vrednosti &lt; 0.05, što znači da nemaju normalnu raspodelu</span>
+<span class="c1"># Zbog toga ćemo ih standardizovati pomoću RobustScaler-a, koji koristi median i IQR (interkvartilni opseg, razlika između 3. i 1. kvartila)</span>
+</pre></div>
+<div class="cell-num">In&nbsp;[22]:</div>
+<div class="highlight"><pre><span class="c1"># Standardizujemo numeričke varijable pomoću RobustScaler-a</span>
+<span class="n">robust_scaler</span> <span class="o">=</span> <span class="n">RobustScaler</span><span class="p">()</span>
+<span class="n">df_st</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span> <span class="c1"># Kreiramo prazan DataFrame u koji ćemo ubaciti sve vrednosti pripremljene za KNN</span>
+<span class="n">df_st</span><span class="p">[</span><span class="n">numeric_vars</span><span class="p">]</span> <span class="o">=</span> <span class="n">robust_scaler</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">numeric_vars</span><span class="p">])</span>
+</pre></div>
+<h4>Transformacija binarnih i kategorijskih varijabli u numeričke</h4>
+<div class="cell-num">In&nbsp;[23]:</div>
+<div class="highlight"><pre><span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">info</span><span class="p">())</span>
+<span class="c1"># Jedina varijabla koja nije numerička je mode</span>
+</pre></div>
+<div class="cell-num">In&nbsp;[24]:</div>
+<div class="highlight"><pre><span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;mode&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">())</span>
+<span class="c1"># Varijabla mode ima samo dve vrednosti (&#39;Major&#39; i &#39;Minor&#39;), binarna je i možemo je mapirati u brojeve (npr. 0 i 1)</span>
+<span class="n">df_st</span><span class="p">[</span><span class="s1">&#39;mode&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;mode&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">map</span><span class="p">({</span><span class="s1">&#39;Major&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;Minor&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">})</span>
+</pre></div>
+<div class="cell-num">In&nbsp;[25]:</div>
+<div class="highlight"><pre><span class="c1"># Dodajemo i izlaznu varijablu HighStreams u standardizovani DataFrame</span>
+<span class="n">df_st</span><span class="p">[</span><span class="s1">&#39;HighStreams&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;HighStreams&#39;</span><span class="p">]</span>
+</pre></div>
+<h4>Podela na trening i test skupove</h4>
+<div class="cell-num">In&nbsp;[26]:</div>
+<div class="highlight"><pre><span class="c1"># Delimo podatke na trening (80%) i test (20%) skup</span>
+
+<span class="n">X</span> <span class="o">=</span> <span class="n">df_st</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="s1">&#39;HighStreams&#39;</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">df_st</span><span class="p">[</span><span class="s1">&#39;HighStreams&#39;</span><span class="p">]</span>
+
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">stratify</span><span class="o">=</span><span class="n">y</span><span class="p">)</span>
+</pre></div>
+<h4>Izračunavanje optimalne vrednosti za parametar <code class="literal">k</code></h4>
+<div class="cell-num">In&nbsp;[27]:</div>
+<div class="highlight"><pre><span class="n">knn</span> <span class="o">=</span> <span class="n">KNeighborsClassifier</span><span class="p">()</span>
+
+<span class="c1"># Koristimo neparne vrednosti za k (broj suseda) u opsegu od 3 do 25 kako bi uvek postojala dominantna klasa</span>
+<span class="n">param_grid</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;n_neighbors&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">26</span><span class="p">,</span> <span class="mi">2</span><span class="p">))}</span>
+
+<span class="c1"># Primenjujemo kros validaciju sa 10 iteracija</span>
+<span class="n">cv</span> <span class="o">=</span> <span class="n">GridSearchCV</span><span class="p">(</span><span class="n">estimator</span><span class="o">=</span><span class="n">knn</span><span class="p">,</span>
+                  <span class="n">param_grid</span><span class="o">=</span><span class="n">param_grid</span><span class="p">,</span>
+                  <span class="n">cv</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+                  <span class="n">scoring</span><span class="o">=</span><span class="s1">&#39;accuracy&#39;</span><span class="p">,</span>
+                  <span class="n">verbose</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+                  <span class="n">n_jobs</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">cv</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+
+<span class="n">best_k</span> <span class="o">=</span> <span class="n">cv</span><span class="o">.</span><span class="n">best_params_</span><span class="p">[</span><span class="s1">&#39;n_neighbors&#39;</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Optimalna vrednost za k:&quot;</span><span class="p">,</span> <span class="n">best_k</span><span class="p">)</span>
+<span class="c1"># Dobili smo da nam je optimalna vrednost za parametar k=11</span>
+</pre></div>
+<h4>Kreiranje KNN klasifikatora na osnovu dobijene vrednosti za k</h4>
+<div class="cell-num">In&nbsp;[28]:</div>
+<div class="highlight"><pre><span class="n">knn</span> <span class="o">=</span> <span class="n">KNeighborsClassifier</span><span class="p">(</span><span class="n">n_neighbors</span><span class="o">=</span><span class="n">best_k</span><span class="p">)</span>
+<span class="n">knn</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+</pre></div>
+<div class="cell-num">In&nbsp;[29]:</div>
+<div class="highlight"><pre><span class="n">y_pred</span> <span class="o">=</span> <span class="n">knn</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+</pre></div>
+<h4>Kreiranje matrice konfuzije</h4>
+<div class="cell-num">In&nbsp;[30]:</div>
+<div class="highlight"><pre><span class="n">cm_knn</span> <span class="o">=</span> <span class="n">confusion_matrix</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+
+<span class="n">disp</span> <span class="o">=</span> <span class="n">ConfusionMatrixDisplay</span><span class="p">(</span><span class="n">confusion_matrix</span><span class="o">=</span><span class="n">cm_knn</span><span class="p">,</span>
+                              <span class="n">display_labels</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;No&#39;</span><span class="p">,</span> <span class="s1">&#39;Yes&#39;</span><span class="p">])</span>
+<span class="n">disp</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">Blues</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+<h4>Interpretacija matrice konfuzije</h4>
+
+<ul>
+<li><strong>True positive (TP)</strong> – za 34 pesama smo predvideli da će imati veliki broj puštanja i one zaista imaju veliki broj puštanja</li>
+<li><strong>True negative (TN)</strong> – za 137 pesama smo predvideli da neće imati veliki broj puštanja i one zaista nemaju veliki broj puštanja</li>
+<li><strong>False positive (FP)</strong> – za 6 pesama smo predvideli da će imati veliki broj puštanja, a one zapravo nemaju veliki broj puštanja</li>
+<li><strong>False negative (FN)</strong> – za 14 pesama smo predvideli da neće imati veliki broj puštanja, a one zapravo imaju veliki broj puštanja</li>
+</ul>
+
+<p>Na glavnoj dijagonali matrice (34 i 137) nalaze se tačne predikcije, dok se na sporednoj dijagonali (6 i 14) nalaze pogrešne predikcije.</p>
+<h4>Evaluacione metrike</h4>
+<p>4 metrike koje se najčešće koriste za procenu uspešnosti klasifikatora su:</p>
+
+<ul>
+<li><strong>Accuracy (tačnost)</strong> – procenat tačnih predikcija (i pozitivnih i negativnih) u odnosu na sve observacije</li>
+<li><strong>Precision (preciznost)</strong> – procenat observacija za koje smo predvideli da su pozitivne i koje zaista jesu pozitivne</li>
+<li><strong>Recall (odziv)</strong> – procenat observacija koje su stvarno pozitivne i koje smo mi tačno predvideli kao pozitivne</li>
+<li><strong>F1 score</strong> – mera za balansiranje vrednosti precision-a i recall-a</li>
+</ul>
+<div class="cell-num">In&nbsp;[31]:</div>
+<div class="highlight"><pre><span class="k">def</span><span class="w"> </span><span class="nf">compute_eval_metrics</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">):</span>
+    <span class="n">accuracy</span> <span class="o">=</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+    <span class="n">precision</span> <span class="o">=</span> <span class="n">precision_score</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">,</span> <span class="n">pos_label</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">recall</span> <span class="o">=</span> <span class="n">recall_score</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">,</span> <span class="n">pos_label</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">f1</span> <span class="o">=</span> <span class="n">f1_score</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">,</span> <span class="n">pos_label</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s1">&#39;accuracy&#39;</span><span class="p">:</span> <span class="n">accuracy</span><span class="p">,</span>
+        <span class="s1">&#39;precision&#39;</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="n">precision</span><span class="p">),</span>
+        <span class="s1">&#39;recall&#39;</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="n">recall</span><span class="p">),</span>
+        <span class="s1">&#39;f1&#39;</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="n">f1</span><span class="p">)</span>
+    <span class="p">}</span>
+</pre></div>
+<div class="cell-num">In&nbsp;[32]:</div>
+<div class="highlight"><pre><span class="n">knn_eval</span> <span class="o">=</span> <span class="n">compute_eval_metrics</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">knn_eval</span><span class="p">)</span>
+</pre></div>
+<p>Tumačenje metrika u kontekstu problema koji se rešava u zadatku: - <strong>Accuracy</strong> – za 89.53% pesama smo tačno predvideli da li će imati veliki broj puštanja ili ne - <strong>Precision</strong> – od svih pesama za koje smo predvideli da će imati veliki broj puštanja, 85% zaista ima veliki broj puštanja - <strong>Recall</strong> – od svih pesama koje zaista imaju veliki broj puštanja, mi smo tačno predvideli 70.83% njih - <strong>F1 score</strong> – mera koja balansira preciznost i odziv, i u našem slučaju iznosi 0.77. Može se reći da naš model uspešno balansira između sposobnosti da prepozna većinu pesama koje zaista imaju veliki broj puštanja i toga da ne označava previše pesama kao pesme sa velikim brojem puštanja kada one to zapravo nisu.</p>
+<p><strong>Napomena:</strong> Date interpretacije u ovom rešenju predstavljaju samo jedan od mogućih načina formulacije odgovora na zahtev zadatka.</p>
+  </div>
+</div>
+<div class="footer">
+  &#169; Copyright, AI Course. &nbsp;
+  Created using <a href="#">Sphinx</a> 7.2.6.
+</div>
+</body>
+</html>

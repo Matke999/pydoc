@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>6. Hierarchical Clustering — Full Solution &#8212; AI Course documentation</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23306998'/%3E%3Ctext x='6' y='23' font-family='monospace' font-size='18' font-weight='bold' fill='%23FFD43B'%3E&gt;_%3C/text%3E%3C/SVG%3E">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;0,900;1,400&display=swap');
+*{box-sizing:border-box}
+html{font-size:100%}
+body{margin:0;background:#1a1a1a;color:#c4c4c4;
+  font-family:'Lato','Segoe UI',Helvetica,Arial,sans-serif;font-size:15px;line-height:1.6}
+a{color:#6ab0de;text-decoration:none}
+a:hover{color:#8ec6ef;text-decoration:underline}
+::-webkit-scrollbar{width:12px;height:12px}
+::-webkit-scrollbar-track{background:#1a1a1a}
+::-webkit-scrollbar-thumb{background:#3a3a3a;border-radius:6px}
+.related{background:#1a1a1a;border-bottom:1px solid #333;font-size:13px;color:#888}
+.related .inner{max-width:1200px;margin:0 auto;padding:6px 20px;
+  display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px}
+.related .crumbs a,.related .crumbs span{color:#888}
+.related .crumbs a{color:#6ab0de}
+.related .sep{color:#555;margin:0 4px}
+.related .navlinks{display:flex;gap:14px;font-size:13px}
+.related .navlinks a{color:#6ab0de}
+.docheader{background:#1a1a1a;border-bottom:1px solid #333}
+.docheader .inner{max-width:1200px;margin:0 auto;padding:10px 20px}
+.docheader .crumb{font-size:12px;color:#666;text-transform:uppercase;letter-spacing:.04em}
+.layout{max-width:1200px;margin:0 auto;display:flex}
+.sphinxsidebar{width:240px;flex:0 0 240px;background:#1a1a1a;
+  border-right:1px solid #333;padding:18px 14px 60px;font-size:14px;
+  position:sticky;top:0;align-self:flex-start;max-height:100vh;overflow-y:auto}
+.sphinxsidebar h3{color:#e0e0e0;font-size:14px;font-weight:900;margin:16px 0 5px;border-bottom:1px solid #2a2a2a;padding-bottom:4px}
+.sphinxsidebar h3:first-child{margin-top:0}
+.sphinxsidebar ul{list-style:none;margin:0;padding:0}
+.sphinxsidebar ul ul{padding-left:12px}
+.sphinxsidebar li{margin:3px 0;line-height:1.35}
+.sphinxsidebar a{color:#b0b0b0;font-size:13px}
+.sphinxsidebar a:hover{color:#fff}
+.sphinxsidebar .topic-link{display:block;padding:3px 0;color:#6ab0de;font-weight:700}
+.sphinxsidebar .topic-link:hover{color:#8ec6ef}
+.document{flex:1 1 auto;min-width:0;padding:16px 38px 80px;max-width:860px}
+h1{font-size:28px;font-weight:900;color:#e8e8e8;margin:10px 0 18px}
+h2{font-size:20px;font-weight:700;color:#e8e8e8;margin:30px 0 8px;
+  padding-bottom:4px;border-bottom:1px solid #333}
+h3{font-size:17px;font-weight:700;color:#dcdcdc;margin:18px 0 5px}
+h4{font-size:15px;font-weight:700;color:#c8c8c8;margin:12px 0 4px}
+.headerlink{visibility:hidden;color:#555;padding-left:6px;font-weight:400;font-size:.85em}
+h1:hover .headerlink,h2:hover .headerlink,h3:hover .headerlink{visibility:visible}
+p{margin:8px 0}
+code,tt{font-family:'SFMono-Regular',Menlo,Consolas,'DejaVu Sans Mono',monospace;font-size:.91em}
+code.literal{background:#2b2b2b;border:1px solid #3a3a3a;border-radius:3px;
+  padding:1px 5px;color:#d6d6d6}
+.highlight{background:#1e1e1e;border:1px solid #333;border-radius:3px;margin:8px 0}
+.highlight pre{margin:0;padding:11px 13px;overflow-x:auto;line-height:1.5;font-size:13px;
+  font-family:'SFMono-Regular',Menlo,Consolas,'DejaVu Sans Mono',monospace;background:transparent}
+.cell-num{font-size:11px;color:#555;margin:18px 0 2px;font-family:monospace}
+ol,ul{margin:8px 0;padding-left:24px}
+li{margin:3px 0}
+.admonition{margin:12px 0;padding:9px 13px;border-radius:3px;font-size:14px}
+.admonition .admonition-title{font-weight:700;margin:0 0 4px;font-size:12px;
+  text-transform:uppercase;letter-spacing:.03em}
+.admonition.note{background:#16222e;border:1px solid #2f4f6a}
+.admonition.note .admonition-title{color:#8ab8e0}
+.admonition.warning{background:#2a1818;border:1px solid #6e3b3b}
+.admonition.warning .admonition-title{color:#f08a8a}
+table.docutils{border-collapse:collapse;width:100%;font-size:13.5px;margin:12px 0}
+table.docutils th,table.docutils td{border:1px solid #3a3a3a;padding:6px 9px;text-align:left}
+table.docutils thead th{background:#262626;color:#e0e0e0}
+table.docutils tbody tr:nth-child(even){background:#202020}
+details.sub-sec{margin:10px 0;border:1px solid #333;border-radius:3px}
+details.sub-sec>summary{cursor:pointer;list-style:none;padding:8px 13px;background:#242424;
+  font-weight:700;font-size:14px;color:#cfe3f2;display:flex;align-items:center;gap:9px;user-select:none}
+details.sub-sec>summary::-webkit-details-marker{display:none}
+details.sub-sec>summary::before{content:"\25B6";font-size:10px;color:#888;transition:transform .12s}
+details.sub-sec[open]>summary::before{transform:rotate(90deg)}
+details.sub-sec>summary:hover{background:#2c2c2c}
+.sub-tag{font-family:'SFMono-Regular',Menlo,monospace;font-size:11px;font-weight:700;
+  letter-spacing:.02em;color:#9a9a9a;border:1px solid #444;border-radius:3px;padding:0 6px}
+.sub-body{padding:6px 16px 14px}
+.footer{max-width:1200px;margin:0 auto;padding:16px 20px 40px;
+  border-top:1px solid #333;color:#666;font-size:12px}
+.footer a{color:#6ab0de}
+@media(max-width:860px){.sphinxsidebar{display:none}.document{padding:14px 18px 60px}}
+@media print{
+  body{background:#fff;color:#000}.related,.sphinxsidebar,.docheader{display:none}
+  .document{max-width:none}h1,h2,h3,h4{color:#000}.highlight,.highlight pre{background:#f8f8f8;color:#000}
+  a{color:#000;text-decoration:none}
+}
+</style>
+<style>pre { line-height: 125%; }
+td.linenos .normal { color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+span.linenos { color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+td.linenos .special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+.highlight .hll { background-color: #ffffcc }
+.highlight { background: #1e1e1e; color: #D4D4D4 }
+.highlight .c { color: #8A8A7A; font-style: italic } /* Comment */
+.highlight .err { color: #D4D4D4 } /* Error */
+.highlight .esc { color: #D4D4D4 } /* Escape */
+.highlight .g { color: #D4D4D4 } /* Generic */
+.highlight .k { color: #FF6188; font-weight: bold } /* Keyword */
+.highlight .l { color: #D4D4D4 } /* Literal */
+.highlight .n { color: #D4D4D4 } /* Name */
+.highlight .o { color: #D4D4D4 } /* Operator */
+.highlight .x { color: #D4D4D4 } /* Other */
+.highlight .p { color: #D4D4D4 } /* Punctuation */
+.highlight .ch { color: #8A8A7A; font-style: italic } /* Comment.Hashbang */
+.highlight .cm { color: #8A8A7A; font-style: italic } /* Comment.Multiline */
+.highlight .cp { color: #8A8A7A; font-style: italic } /* Comment.Preproc */
+.highlight .cpf { color: #8A8A7A; font-style: italic } /* Comment.PreprocFile */
+.highlight .c1 { color: #8A8A7A; font-style: italic } /* Comment.Single */
+.highlight .cs { color: #8A8A7A; font-style: italic } /* Comment.Special */
+.highlight .gd { color: #D4D4D4 } /* Generic.Deleted */
+.highlight .ge { color: #D4D4D4 } /* Generic.Emph */
+.highlight .ges { color: #D4D4D4 } /* Generic.EmphStrong */
+.highlight .gr { color: #F87171 } /* Generic.Error */
+.highlight .gh { color: #D4D4D4 } /* Generic.Heading */
+.highlight .gi { color: #D4D4D4 } /* Generic.Inserted */
+.highlight .go { color: #6EC1B8 } /* Generic.Output */
+.highlight .gp { color: #FF5F5F; font-weight: bold } /* Generic.Prompt */
+.highlight .gs { color: #D4D4D4 } /* Generic.Strong */
+.highlight .gu { color: #D4D4D4 } /* Generic.Subheading */
+.highlight .gt { color: #D4D4D4 } /* Generic.Traceback */
+.highlight .kc { color: #FF6188; font-weight: bold } /* Keyword.Constant */
+.highlight .kd { color: #FF6188; font-weight: bold } /* Keyword.Declaration */
+.highlight .kn { color: #FF6188; font-weight: bold } /* Keyword.Namespace */
+.highlight .kp { color: #FF6188; font-weight: bold } /* Keyword.Pseudo */
+.highlight .kr { color: #FF6188; font-weight: bold } /* Keyword.Reserved */
+.highlight .kt { color: #FF6188; font-weight: bold } /* Keyword.Type */
+.highlight .ld { color: #D4D4D4 } /* Literal.Date */
+.highlight .m { color: #D9A05B } /* Literal.Number */
+.highlight .s { color: #6EC1B8 } /* Literal.String */
+.highlight .na { color: #D4D4D4 } /* Name.Attribute */
+.highlight .nb { color: #6EC1B8 } /* Name.Builtin */
+.highlight .nc { color: #D4D4D4 } /* Name.Class */
+.highlight .no { color: #D4D4D4 } /* Name.Constant */
+.highlight .nd { color: #D4D4D4 } /* Name.Decorator */
+.highlight .ni { color: #D4D4D4 } /* Name.Entity */
+.highlight .ne { color: #D4D4D4 } /* Name.Exception */
+.highlight .nf { color: #D4D4D4 } /* Name.Function */
+.highlight .nl { color: #D4D4D4 } /* Name.Label */
+.highlight .nn { color: #D4D4D4 } /* Name.Namespace */
+.highlight .nx { color: #D4D4D4 } /* Name.Other */
+.highlight .py { color: #D4D4D4 } /* Name.Property */
+.highlight .nt { color: #D4D4D4 } /* Name.Tag */
+.highlight .nv { color: #D4D4D4 } /* Name.Variable */
+.highlight .ow { color: #FF6188; font-weight: bold } /* Operator.Word */
+.highlight .pm { color: #D4D4D4 } /* Punctuation.Marker */
+.highlight .w { color: #D4D4D4 } /* Text.Whitespace */
+.highlight .mb { color: #D9A05B } /* Literal.Number.Bin */
+.highlight .mf { color: #D9A05B } /* Literal.Number.Float */
+.highlight .mh { color: #D9A05B } /* Literal.Number.Hex */
+.highlight .mi { color: #D9A05B } /* Literal.Number.Integer */
+.highlight .mo { color: #D9A05B } /* Literal.Number.Oct */
+.highlight .sa { color: #6EC1B8 } /* Literal.String.Affix */
+.highlight .sb { color: #6EC1B8 } /* Literal.String.Backtick */
+.highlight .sc { color: #6EC1B8 } /* Literal.String.Char */
+.highlight .dl { color: #6EC1B8 } /* Literal.String.Delimiter */
+.highlight .sd { color: #8A8A7A; font-style: italic } /* Literal.String.Doc */
+.highlight .s2 { color: #6EC1B8 } /* Literal.String.Double */
+.highlight .se { color: #6EC1B8 } /* Literal.String.Escape */
+.highlight .sh { color: #6EC1B8 } /* Literal.String.Heredoc */
+.highlight .si { color: #6EC1B8 } /* Literal.String.Interpol */
+.highlight .sx { color: #6EC1B8 } /* Literal.String.Other */
+.highlight .sr { color: #6EC1B8 } /* Literal.String.Regex */
+.highlight .s1 { color: #6EC1B8 } /* Literal.String.Single */
+.highlight .ss { color: #6EC1B8 } /* Literal.String.Symbol */
+.highlight .bp { color: #6EC1B8 } /* Name.Builtin.Pseudo */
+.highlight .fm { color: #D4D4D4 } /* Name.Function.Magic */
+.highlight .vc { color: #D4D4D4 } /* Name.Variable.Class */
+.highlight .vg { color: #D4D4D4 } /* Name.Variable.Global */
+.highlight .vi { color: #D4D4D4 } /* Name.Variable.Instance */
+.highlight .vm { color: #D4D4D4 } /* Name.Variable.Magic */
+.highlight .il { color: #D9A05B } /* Literal.Number.Integer.Long */</style>
+</head>
+<body>
+<div class="related">
+  <div class="inner">
+    <div class="crumbs">
+      <a href="ml_exam_reference.html">AI Course</a>
+      <span class="sep">&#187;</span>
+      <span>6. Hierarchical Clustering — Full Solution</span>
+    </div>
+    <div class="navlinks"><a href="kmeans_solution.html">&#8592; 5. KMeans Clustering — Full Solution</a>
+<span style="color:#555">|</span>
+<span style="color:#555">next &#8594;</span></div>
+  </div>
+</div>
+<div class="docheader"><div class="inner">
+  <div class="crumb">Artificial Intelligence &#183; Exam preparation</div>
+</div></div>
+<div class="layout">
+  <nav class="sphinxsidebar">
+    <h3>AI Course</h3><ul>
+  <li><a href="ml_exam_reference.html">Machine Learning Exam Reference</a></li>
+  <li><a href="lr_solution.html">1. Linear Regression — Full Solution</a></li>
+  <li><a href="dt_solution.html">2. Decision Tree — Full Solution</a></li>
+  <li><a href="knn_solution.html">3. k-NN — Full Solution</a></li>
+  <li><a href="nn_solution.html">4. Neural Network — Full Solution</a></li>
+  <li><a href="kmeans_solution.html">5. KMeans Clustering — Full Solution</a></li>
+  <li><a href="hier_solution.html" style="color:#fff;font-weight:700">6. Hierarchical Clustering — Full Solution</a></li>
+</ul>
+<h3>Previous topic</h3>
+<ul><li><a class="topic-link" href="kmeans_solution.html">5. KMeans Clustering — Full Solution</a></li></ul>
+<h3>This Page</h3>
+<ul><li><a href="#">Show Source</a></li></ul>
+    <h3>Contents</h3><ul><li style="padding-left:10px"><a href="#">Tekst zadatka</a></li><li style="padding-left:10px"><a href="#">5. Ponovna klasterizacija sa K = 4</a></li></ul>
+  </nav>
+  <div class="document" role="main">
+    <h1>6. Hierarchical Clustering — Full Solution<a class="headerlink" href="#" title="Permalink to this headline">&#182;</a></h1>
+<h2>Tekst zadatka</h2>
+
+<p>U fajlu spotify.csv dati su podaci o najpopularnijim pesmama na Spotify platformi 2023. godine. Varijable dataset-a su: - track_name: naziv pesme - released_year: godina izdanja - in_spotify_playlists: na koliko playlista na spotify platformi se nalazi pesma - in_spotify_charts: pozicije pesme na spotify rang listi - streams: broj puštanja pesme - in_apple_playlists: na koliko playlista na apple platformi se nalazi pesma - in_apple_charts: pozicije pesme na apple rang listi - bpm: mera brzine pesme (beats per minute) - mode: karakter pesme (minor / major) - energy: percipirani energetski nivo pesme - instrumentalness: nivo instrumentalnosti - liveness: nivo prisustva elemenata izvođenja uživo - speechiness: Skalirana količina izgovorenih reči u pesmi</p>
+
+<p>Potrebno je uraditi sledeće: 1. Napraviti podskup podataka koji ne sadrži pesme čija je skalirana količina izgovorenih reči (speechiness) preko 60. Za sve naredne zahteve zadatka koristiti ovako dobijen dataset. 2. Odabrati atribute (promenljive) koji će biti uključeni u model klasterizacije i navesti razlog za njihov odabir ili neodabir. 3. U dataset-u dobijenom na osnovu prethodna dva zahteva proveriti da li postoje nedostajuće vrednosti (NA, “-”, ” ”, ili ””) i ako je moguće, zameniti ih adekvatnim vrednostima. Prokomentarisati postupak zamene vrednosti, odnosno zašto je određeni metod zamene vrednosti odabran. Tako dobijeni dataset eventualno dodatno obraditi da bi bio pogodan za primenu metode klasterizacije. 4. Primenom dendrograma utvrditi najbolju vrednost za broj klastera (k) i linkage metodu. Uzeti euklidsku razdaljinu. 5. Izvršiti hijerarhijsku klasterizaciju za izabranu (tj. utvrđenu najbolju) vrednost za k i linkage metodu. 6. Interpretirati dobijene klastere (grupisane pesme) na osnovu: broja pesama po klasteru, centara klastera, disperzije od centra.</p>
+
+<p><strong>NAPOMENE</strong> - U produžetku je prikazano JEDNO moguće tačno rešenje, ali ne i jedino - Dodati su i podnaslovi (headers) između blokova sa kodom da bi se lakše pratio zadatak, ali to nije neophodno uraditi na ispitu - KLJUČNA stvar na ispitu je da se svaki korak objasni kratkim komentarima u kodu, jer inače neće biti priznat pun broj poena</p>
+<div class="cell-num">In&nbsp;[1]:</div>
+<div class="highlight"><pre><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sklearn.cluster</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">cluster</span>
+</pre></div>
+<h3>1. Napraviti podskup podataka koji ne sadrži pesme čiji je speechiness preko 60</h3>
+<div class="cell-num">In&nbsp;[2]:</div>
+<div class="highlight"><pre><span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;./data/spotify.csv&#39;</span><span class="p">)</span>
+
+<span class="c1">#Pravimo novi dataset koji sadrži samo pesme čiji speechiness je manji od ili jednak 60</span>
+<span class="n">cl_data</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;speechiness&quot;</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="mi">60</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+<span class="c1"># Bacimo pogleda na podatke koje imamo</span>
+<span class="n">cl_data</span>
+</pre></div>
+<h3>2. Odabrati atribute (promenljive) koji će biti uključeni u model klasterizacije i navesti razlog za odabir</h3>
+<div class="cell-num">In&nbsp;[3]:</div>
+<div class="highlight"><pre><span class="c1"># Da vidimo kog tipa je svaka promenljiva</span>
+<span class="n">cl_data</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
+
+<span class="c1"># Promenljiva in_spotify_charts je tipa object (zapravo se tretira kao String), a trebalo</span>
+<span class="c1"># bi da bude broj ali to ćemo naknadno videti zašto</span>
+</pre></div>
+<div class="cell-num">In&nbsp;[4]:</div>
+<div class="highlight"><pre><span class="c1"># Gledamo deskriptivne statistike za numeričke promenljive</span>
+<span class="n">cl_data</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
+
+<span class="c1"># Izdvaja se to da instrumentalness uglavnom sadrži nule (sve do 75 kvartila), pa je pitanje</span>
+<span class="c1"># da li zapravo ima smisla koristiti tu promenljivu</span>
+<span class="c1">#Osim toga, released_year uglavnom čine pesme iz raspona 2020-2023 (25 kvartil do max) i pitanje</span>
+<span class="c1"># je da li to kao informacija doprinosi boljoj klasterizaciji</span>
+</pre></div>
+<div class="cell-num">In&nbsp;[5]:</div>
+<div class="highlight"><pre><span class="c1"># Razmatramo sledeće promenljive za izbacivanje:</span>
+
+<span class="c1"># track_name - nije nam bitan naziv pesme radi klasterizacije, a i nije numerička promenljiva</span>
+
+<span class="c1"># mode - nije numerička, već kategorijska promenljiva. Pošto ima samo dve vrednosti (Major i Minor)</span>
+<span class="c1"># transformisaćemo je u binarnu (numeričku) varijablu mapiranjem u sledećem koraku (npr. 0 - Major,</span>
+<span class="c1"># 1 - Minor) i upotrebićemo je u klasterizaciji - nećemo je izbaciti.</span>
+
+<span class="c1"># Za promenljivu instrumentalness, uglavnom važi da je čine nule (o do 75 kvartila), pa nju izbacujemo</span>
+
+<span class="c1"># Ostale promenljive su numeričke (osim in_spotify_charts koja je tipa object, a trebalo</span>
+<span class="c1"># bi da bude broj ali to ćemo naknadno videti zašto u sledećem koraku) tako da one ostaju - za sada.</span>
+<span class="n">cl_data</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;track_name&quot;</span><span class="p">,</span> <span class="s2">&quot;instrumentalness&quot;</span><span class="p">],</span> <span class="n">inplace</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+</pre></div>
+<h3>3. Priprema podataka</h3>
+
+<p>U dataset-u dobijenom na osnovu prethodna dva zahteva proveriti da li postoje nedostajuće vrednosti (NA, “-”, ” ”, ili ””) i ako je moguće, zameniti ih adekvatnim vrednostima. Prokomentarisati postupak zamene vrednosti, odnosno zašto je određeni metod zamene vrednosti odabran. Tako dobijeni dataset eventualno dodatno obraditi da bi bio pogodan za primenu metode klasterizacije.</p>
+
+<h4>3.1 Transformacija kategorijskih promenljivih u numeričke</h4>
+<div class="cell-num">In&nbsp;[6]:</div>
+<div class="highlight"><pre><span class="c1"># Pretvaramo kolonu in_spotify_charts u numeričku i menjamo pogrešno unete vrednosti (&#39;-&#39;, &quot;&quot; ili &#39;_&#39; ili tj. sve što nije broj) sa NA vrednostima</span>
+<span class="n">cl_data</span><span class="p">[</span><span class="s2">&quot;in_spotify_charts&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_numeric</span><span class="p">(</span><span class="n">cl_data</span><span class="p">[</span><span class="s2">&quot;in_spotify_charts&quot;</span><span class="p">],</span> <span class="n">errors</span><span class="o">=</span><span class="s1">&#39;coerce&#39;</span><span class="p">)</span>
+
+<span class="c1"># Ponovo pogledamo tipove promenljivih</span>
+<span class="n">cl_data</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
+</pre></div>
+<div class="cell-num">In&nbsp;[7]:</div>
+<div class="highlight"><pre><span class="c1"># Kolona mode jedina nije numerička, ali nju ćemo sada pretvoriti u</span>
+<span class="c1"># binarnu (numeričku) varijablu mapiranjem u sledećem koraku (npr. 0 - Major,</span>
+<span class="c1"># 1 - Minor)</span>
+<span class="n">cl_data</span><span class="p">[</span><span class="s2">&quot;mode&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">cl_data</span><span class="p">[</span><span class="s2">&quot;mode&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">map</span><span class="p">({</span><span class="s1">&#39;Major&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;Minor&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">})</span>
+
+<span class="c1"># Ponovo pogledamo tipove promenljivih</span>
+<span class="n">cl_data</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
+
+<span class="c1"># Pogledamo i raspodelu promenljive mode</span>
+<span class="n">cl_data</span><span class="p">[</span><span class="s2">&quot;mode&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
+</pre></div>
+<h4>3.2. Nedostajuće vrednosti</h4>
+<div class="cell-num">In&nbsp;[8]:</div>
+<div class="highlight"><pre><span class="c1">#Proveravamo nedostajuće vrednosti po kolonama (koje su sada sve brojevi)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">cl_data</span><span class="o">.</span><span class="n">isnull</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
+
+<span class="c1">#Proverimo i deskriptivne statistike (nedostajuće vrednosti se i ovde vide u redu count za kolone</span>
+<span class="c1"># in_spotify_charts i in_apple_charts gde nije 952 već po 950)</span>
+<span class="n">cl_data</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
+</pre></div>
+<div class="cell-num">In&nbsp;[9]:</div>
+<div class="highlight"><pre><span class="c1"># Sa obzirom na to da ukupno imamo 4 nedostajuće vrednosti na ceo dataset od 952 instance</span>
+<span class="c1"># ok je da izbacimo te četiri instance (četiri cela reda) jer ne to bi trebalo da utiče mnogo na</span>
+<span class="c1"># rezultate klasterizacije</span>
+<span class="c1">#cl_data.dropna(inplace = True)</span>
+<span class="c1">#print(cl_data.isnull().sum())</span>
+
+<span class="c1"># Isto tako, ok je i da zamenimo te četiri nedostajuće vrednosti srednjom vrednošću</span>
+<span class="c1"># (medijana) za tu kolonu.</span>
+<span class="n">cl_data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">cl_data</span><span class="p">[</span><span class="s2">&quot;in_spotify_charts&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isnull</span><span class="p">(),</span> <span class="s2">&quot;in_spotify_charts&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">cl_data</span><span class="p">[</span><span class="s2">&quot;in_spotify_charts&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">median</span><span class="p">()</span>
+<span class="n">cl_data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">cl_data</span><span class="p">[</span><span class="s2">&quot;in_apple_charts&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isnull</span><span class="p">(),</span> <span class="s2">&quot;in_apple_charts&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">cl_data</span><span class="p">[</span><span class="s2">&quot;in_apple_charts&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">median</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">cl_data</span><span class="o">.</span><span class="n">isnull</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
+
+<span class="c1"># Ostaje svih 952 instanci i nigde ne postoji nijedna nedostajuća vrednost</span>
+<span class="n">cl_data</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
+</pre></div>
+<div class="cell-num">In&nbsp;[10]:</div>
+<div class="highlight"><pre><span class="c1"># Ovde sada postoji jedan veliki problem sa kodiranjem podataka koji će da utiče na klasterizaciju</span>
+<span class="c1"># a odnosi se na ove dve kolone: in_spotify_charts i in_apple_charts. Ako se pesma ne pojavljuje</span>
+<span class="c1"># na top listi, stoji vrednost 0. Najbolje pesme su na 1, 2 i 3 mestu a najgore na 147 odnosno 275</span>
+<span class="c1"># mestu (max) tj. što je niži broj, pesma je bolja.</span>
+<span class="c1"># - Ako se ostave ove nule, dobija se iskrivljena slika da su to NAJBOLJE pesme (0 je manje od 1, 2, 3...)</span>
+<span class="c1"># - Ako se zamene medijanom za tu kolonu, dobija se iskrivljena slika da su to osrednje pesme.</span>
+<span class="c1">#</span>
+<span class="c1"># Možda je najbolje da se ove vrednosti</span>
+<span class="c1"># zamene sa max vrednošću za tu kolonu da bi se dobila realna slika o poziciji tih pesama na top listama.</span>
+<span class="n">cl_data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">cl_data</span><span class="p">[</span><span class="s2">&quot;in_apple_charts&quot;</span><span class="p">]</span><span class="o">==</span><span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;in_apple_charts&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">cl_data</span><span class="p">[</span><span class="s2">&quot;in_apple_charts&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+<span class="n">cl_data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">cl_data</span><span class="p">[</span><span class="s2">&quot;in_spotify_charts&quot;</span><span class="p">]</span><span class="o">==</span><span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;in_spotify_charts&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">cl_data</span><span class="p">[</span><span class="s2">&quot;in_spotify_charts&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+
+<span class="c1"># Sve nule iz ove dve kolone su zamenjene max vrednostima</span>
+<span class="n">cl_data</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
+</pre></div>
+<h4>3.3 Korelacije</h4>
+<div class="cell-num">In&nbsp;[11]:</div>
+<div class="highlight"><pre><span class="kn">import</span><span class="w"> </span><span class="nn">seaborn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sb</span>
+
+<span class="c1"># Proveravamo korelacije preostalih promenljivih</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="mi">6</span><span class="p">))</span>
+<span class="n">sb</span><span class="o">.</span><span class="n">heatmap</span><span class="p">(</span><span class="n">cl_data</span><span class="o">.</span><span class="n">corr</span><span class="p">(),</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;Blues&quot;</span><span class="p">,</span><span class="n">annot</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+<div class="cell-num">In&nbsp;[12]:</div>
+<div class="highlight"><pre><span class="c1">#Promenljive streams, in_apple_playlists i in_spotify_playlists su međusobno visoko korelisane (svaka sa svakom)</span>
+<span class="c1">#i to će puno da utiče na rezultate klasterizacije. Izbacićemo bilo koje dve od te tri, na primer streams i</span>
+<span class="c1"># in_apple_playlists</span>
+<span class="n">cl_data</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;in_apple_playlists&quot;</span><span class="p">,</span> <span class="s2">&quot;streams&quot;</span><span class="p">],</span> <span class="n">inplace</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+</pre></div>
+<div class="cell-num">In&nbsp;[13]:</div>
+<div class="highlight"><pre><span class="c1"># Proveravamo šta je ostalo od podataka</span>
+<span class="n">cl_data</span>
+</pre></div>
+<h4>3.4 Outlier-i</h4>
+
+<p>Proveravamo outlier-e po kolonama jer i oni utiču na klasterizaciju Ako ima puno outlier-a (preko 10%), izbacujemo celu kolonu Ako nema puno outlier-a, radimo winsorize</p>
+<div class="cell-num">In&nbsp;[14]:</div>
+<div class="highlight"><pre><span class="c1"># Uvodimo pomoćnu funkciju draw_boxplot koja crta i prikazuje boxplot</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">draw_boxplot</span><span class="p">(</span><span class="n">podaci</span><span class="p">,</span> <span class="n">naslov</span><span class="p">):</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">boxplot</span><span class="p">(</span><span class="n">podaci</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="n">naslov</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+<div class="cell-num">In&nbsp;[15]:</div>
+<div class="highlight"><pre><span class="kn">from</span><span class="w"> </span><span class="nn">scipy.stats.mstats</span><span class="w"> </span><span class="kn">import</span> <span class="n">winsorize</span>
+
+<span class="c1">#Tražimo outliere, kolona &quot;in_spotify_playlists&quot;</span>
+<span class="n">draw_boxplot</span><span class="p">(</span><span class="n">cl_data</span><span class="p">[</span><span class="s2">&quot;in_spotify_playlists&quot;</span><span class="p">],</span> <span class="s2">&quot;in_spotify_playlists&quot;</span><span class="p">)</span>
+
+<span class="c1"># ima outliere samo na gornjoj granici, winsorize u rasponu 0 - 90 ne otklanja sve outlier-e</span>
+<span class="n">winsorized_data</span> <span class="o">=</span> <span class="n">winsorize</span><span class="p">(</span><span class="n">cl_data</span><span class="p">[</span><span class="s2">&quot;in_spotify_playlists&quot;</span><span class="p">],</span> <span class="n">limits</span><span class="o">=</span><span class="p">[</span><span class="mf">0.00</span><span class="p">,</span> <span class="mf">0.10</span><span class="p">])</span>
+<span class="n">draw_boxplot</span><span class="p">(</span><span class="n">winsorized_data</span><span class="p">,</span> <span class="s2">&quot;Winsorized in_spotify_playlists&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="c1">#Zaključak je da više od 10% vrednosti ove promenljive čine outlier-i i treba je izbaciti iz dataset-a</span>
+<span class="n">cl_data</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;in_spotify_playlists&quot;</span><span class="p">],</span> <span class="n">inplace</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+</pre></div>
+<div class="cell-num">In&nbsp;[16]:</div>
+<div class="highlight"><pre><span class="c1">#Tražimo outliere, kolona &quot;released_year&quot;</span>
+<span class="n">draw_boxplot</span><span class="p">(</span><span class="n">cl_data</span><span class="p">[</span><span class="s2">&quot;released_year&quot;</span><span class="p">],</span> <span class="s2">&quot;released_year&quot;</span><span class="p">)</span>
+
+<span class="c1"># ima outliere samo na donjoj granici, winsorize u rasponu 10 - 100 ne otklanja sve outlier-e</span>
+<span class="n">winsorized_data</span> <span class="o">=</span> <span class="n">winsorize</span><span class="p">(</span><span class="n">cl_data</span><span class="p">[</span><span class="s2">&quot;released_year&quot;</span><span class="p">],</span> <span class="n">limits</span><span class="o">=</span><span class="p">[</span><span class="mf">0.10</span><span class="p">,</span> <span class="mf">0.00</span><span class="p">])</span>
+<span class="n">draw_boxplot</span><span class="p">(</span><span class="n">winsorized_data</span><span class="p">,</span> <span class="s2">&quot;Winsorized released_year&quot;</span><span class="p">)</span>
+
+<span class="c1">#Zaključak je da više od 10% vrednosti ove promenljive čine outlier-i i treba je izbaciti iz dataset-a</span>
+<span class="n">cl_data</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;released_year&quot;</span><span class="p">],</span> <span class="n">inplace</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+</pre></div>
+<div class="cell-num">In&nbsp;[17]:</div>
+<div class="highlight"><pre><span class="c1">#Tražimo outliere, kolona &quot;in_spotify_charts&quot;</span>
+<span class="n">draw_boxplot</span><span class="p">(</span><span class="n">cl_data</span><span class="p">[</span><span class="s2">&quot;in_spotify_charts&quot;</span><span class="p">],</span> <span class="s2">&quot;in_spotify_charts&quot;</span><span class="p">)</span>
+
+<span class="c1"># Zaključak je da nema outlier-e i da ništa ne treba menjati u ovoj koloni</span>
+</pre></div>
+<div class="cell-num">In&nbsp;[18]:</div>
+<div class="highlight"><pre><span class="c1">#Tražimo outliere, kolona &quot;in_apple_charts&quot;</span>
+<span class="n">draw_boxplot</span><span class="p">(</span><span class="n">cl_data</span><span class="p">[</span><span class="s2">&quot;in_apple_charts&quot;</span><span class="p">],</span> <span class="s2">&quot;in_apple_charts&quot;</span><span class="p">)</span>
+
+<span class="c1"># ima outliere samo na gornjoj granici, winsorize u rasponu 0 - 90 NE otklanja sve outlier-e</span>
+<span class="n">winsorized_data</span> <span class="o">=</span> <span class="n">winsorize</span><span class="p">(</span><span class="n">cl_data</span><span class="p">[</span><span class="s2">&quot;in_apple_charts&quot;</span><span class="p">],</span> <span class="n">limits</span><span class="o">=</span><span class="p">[</span><span class="mf">0.00</span><span class="p">,</span> <span class="mf">0.10</span><span class="p">])</span>
+<span class="n">draw_boxplot</span><span class="p">(</span><span class="n">winsorized_data</span><span class="p">,</span> <span class="s2">&quot;Winsorized in_apple_charts 0-90&quot;</span><span class="p">)</span>
+
+<span class="c1">#Zaključak je da više od 10% vrednosti ove primenljive čine outlier-i i treba je izbaciti iz dataset-a</span>
+<span class="n">cl_data</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;in_apple_charts&quot;</span><span class="p">],</span> <span class="n">inplace</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+</pre></div>
+<div class="cell-num">In&nbsp;[19]:</div>
+<div class="highlight"><pre><span class="c1">#Tražimo outliere, kolona &quot;bpm&quot;</span>
+<span class="n">draw_boxplot</span><span class="p">(</span><span class="n">cl_data</span><span class="p">[</span><span class="s2">&quot;bpm&quot;</span><span class="p">],</span> <span class="s2">&quot;bpm&quot;</span><span class="p">)</span>
+
+<span class="c1"># ima outliere samo na gornjoj granici, winsorize u rasponu 0 - 98 otklanja sve outlier-e</span>
+<span class="n">winsorized_data</span> <span class="o">=</span> <span class="n">winsorize</span><span class="p">(</span><span class="n">cl_data</span><span class="p">[</span><span class="s2">&quot;bpm&quot;</span><span class="p">],</span> <span class="n">limits</span><span class="o">=</span><span class="p">[</span><span class="mf">0.00</span><span class="p">,</span> <span class="mf">0.02</span><span class="p">])</span>
+<span class="n">draw_boxplot</span><span class="p">(</span><span class="n">winsorized_data</span><span class="p">,</span> <span class="s2">&quot;Winsorized bpm 0-98&quot;</span><span class="p">)</span>
+
+<span class="c1">#Zaključak je da manje od 2% vrednosti ove primenljive čine outlier-i i treba te vrednosti zameniti winsorize vrednostima</span>
+<span class="n">cl_data</span><span class="p">[</span><span class="s2">&quot;bpm&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">winsorized_data</span>
+</pre></div>
+<div class="cell-num">In&nbsp;[20]:</div>
+<div class="highlight"><pre><span class="c1">#Tražimo outliere, kolona &quot;energy&quot;</span>
+<span class="n">draw_boxplot</span><span class="p">(</span><span class="n">cl_data</span><span class="p">[</span><span class="s2">&quot;energy&quot;</span><span class="p">],</span> <span class="s2">&quot;energy&quot;</span><span class="p">)</span>
+
+<span class="c1"># ima outliere samo na donjoj granici, winsorize u rasponu 1 - 100 otklanja sve outlier-e</span>
+<span class="n">winsorized_data</span> <span class="o">=</span> <span class="n">winsorize</span><span class="p">(</span><span class="n">cl_data</span><span class="p">[</span><span class="s2">&quot;energy&quot;</span><span class="p">],</span> <span class="n">limits</span><span class="o">=</span><span class="p">[</span><span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.00</span><span class="p">])</span>
+<span class="n">draw_boxplot</span><span class="p">(</span><span class="n">winsorized_data</span><span class="p">,</span> <span class="s2">&quot;Winsorized energy 1-100&quot;</span><span class="p">)</span>
+
+<span class="c1">#Zaključak je da manje od 1% vrednosti ove primenljive čine outlier-i i treba te vrednosti zameniti winsorize vrednostima</span>
+<span class="n">cl_data</span><span class="p">[</span><span class="s2">&quot;energy&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">winsorized_data</span>
+</pre></div>
+<div class="cell-num">In&nbsp;[21]:</div>
+<div class="highlight"><pre><span class="c1">#Tražimo outliere, kolona &quot;liveness&quot;</span>
+<span class="n">draw_boxplot</span><span class="p">(</span><span class="n">cl_data</span><span class="p">[</span><span class="s2">&quot;liveness&quot;</span><span class="p">],</span> <span class="s2">&quot;liveness&quot;</span><span class="p">)</span>
+
+<span class="c1"># ima outliere samo na gornjoj granici, winsorize u rasponu 0 - 95 otklanja sve outlier-e</span>
+<span class="n">winsorized_data</span> <span class="o">=</span> <span class="n">winsorize</span><span class="p">(</span><span class="n">cl_data</span><span class="p">[</span><span class="s2">&quot;liveness&quot;</span><span class="p">],</span> <span class="n">limits</span><span class="o">=</span><span class="p">[</span><span class="mf">0.00</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">])</span>
+<span class="n">draw_boxplot</span><span class="p">(</span><span class="n">winsorized_data</span><span class="p">,</span> <span class="s2">&quot;Winsorized liveness 0-95&quot;</span><span class="p">)</span>
+
+<span class="c1">#Zaključak je da manje od 5% vrednosti ove primenljive čine outlier-i i treba te vrednosti zameniti winsorize vrednostima</span>
+<span class="n">cl_data</span><span class="p">[</span><span class="s2">&quot;liveness&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">winsorized_data</span>
+</pre></div>
+<div class="cell-num">In&nbsp;[22]:</div>
+<div class="highlight"><pre><span class="c1">#Tražimo outliere, kolona &quot;speechiness&quot;</span>
+<span class="n">draw_boxplot</span><span class="p">(</span><span class="n">cl_data</span><span class="p">[</span><span class="s2">&quot;speechiness&quot;</span><span class="p">],</span> <span class="s2">&quot;speechiness&quot;</span><span class="p">)</span>
+
+<span class="c1"># ima outliere samo na gornjoj granici, winsorize u rasponu 0 - 90 NE otklanja sve outlier-e</span>
+<span class="n">winsorized_data</span> <span class="o">=</span> <span class="n">winsorize</span><span class="p">(</span><span class="n">cl_data</span><span class="p">[</span><span class="s2">&quot;speechiness&quot;</span><span class="p">],</span> <span class="n">limits</span><span class="o">=</span><span class="p">[</span><span class="mf">0.00</span><span class="p">,</span> <span class="mf">0.10</span><span class="p">])</span>
+<span class="n">draw_boxplot</span><span class="p">(</span><span class="n">winsorized_data</span><span class="p">,</span> <span class="s2">&quot;Winsorized speechiness 0-90&quot;</span><span class="p">)</span>
+
+<span class="c1">#Zaključak je da više od 10% vrednosti ove primenljive čine outlier-i i treba je izbaciti iz dataset-a</span>
+<span class="n">cl_data</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;speechiness&quot;</span><span class="p">],</span> <span class="n">inplace</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+</pre></div>
+<div class="cell-num">In&nbsp;[23]:</div>
+<div class="highlight"><pre><span class="c1"># Posle izbacivanja NA vrednosti, sređivanja i izbacivanja promenljivih sa korelacijama i outlier-ima, ostaje ovo</span>
+<span class="n">cl_data</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
+<span class="c1"># Pet promenljivih dolazi u obzir za klasterizaciju</span>
+</pre></div>
+<h4>3.5 Skaliranje (normalizacija)</h4>
+<div class="cell-num">In&nbsp;[24]:</div>
+<div class="highlight"><pre><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.preprocessing</span><span class="w"> </span><span class="kn">import</span> <span class="n">MinMaxScaler</span>
+
+<span class="c1"># Promenljive su u veoma različitim rasponima, potrebna je normalizacija na skalu 0-1</span>
+<span class="c1"># Koristimo MinMaxScaler koji vraća numpy array koji pretvaramo nazad u DataFrame</span>
+<span class="n">temp_data</span> <span class="o">=</span> <span class="n">MinMaxScaler</span><span class="p">()</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">cl_data</span><span class="p">)</span>
+<span class="n">cl_data_scaled</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">temp_data</span><span class="p">,</span> <span class="n">columns</span> <span class="o">=</span> <span class="n">cl_data</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
+
+<span class="c1"># Proveravamo da li je sve skalirano kako treba (raspon od 0 do 1)</span>
+<span class="n">cl_data_scaled</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
+</pre></div>
+<h3>4. Primenom dendrograma utvrditi najbolju vrednost za broj klastera (k) i linkage metodu</h3>
+<div class="cell-num">In&nbsp;[25]:</div>
+<div class="highlight"><pre><span class="kn">from</span><span class="w"> </span><span class="nn">scipy.cluster.hierarchy</span><span class="w"> </span><span class="kn">import</span> <span class="n">linkage</span><span class="p">,</span> <span class="n">dendrogram</span>
+
+<span class="c1">#Prikaz dendrograma za različite linkage metode</span>
+<span class="n">dendrogram</span><span class="p">(</span><span class="n">linkage</span><span class="p">(</span><span class="n">cl_data_scaled</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;ward&#39;</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="s1">&#39;euclidean&#39;</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Ward linkage dendrogram&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="n">dendrogram</span><span class="p">(</span><span class="n">linkage</span><span class="p">(</span><span class="n">cl_data_scaled</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;single&#39;</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="s1">&#39;euclidean&#39;</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Single linkage dendrogram&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="n">dendrogram</span><span class="p">(</span><span class="n">linkage</span><span class="p">(</span><span class="n">cl_data_scaled</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;complete&#39;</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="s1">&#39;euclidean&#39;</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Complete linkage dendrogram&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="n">dendrogram</span><span class="p">(</span><span class="n">linkage</span><span class="p">(</span><span class="n">cl_data_scaled</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;average&#39;</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="s1">&#39;euclidean&#39;</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Average linkage dendrogram&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="c1"># Ako se izaberu complete ili average linkage metode, dobija se</span>
+<span class="c1"># po 4 klastera koji su dosta &quot;bliski&quot; jedan drugom (visine na</span>
+<span class="c1"># dendrogramu nisu prevelike). Sa single i Ward linkage metodama,</span>
+<span class="c1"># dobijaju se po dva jasno odvojena klastera, sa tim da Ward linkage</span>
+<span class="c1"># dozvoljava mogućnost podele na 4 klastera (razlika u visini između 2 i 4</span>
+<span class="c1"># klastera nije velika).</span>
+<span class="c1"># Zbog svega navedenog, biramo Ward linkage metodu, a probaćemo obe</span>
+<span class="c1"># varijante - podela na dva klastera i na četiri klastera.</span>
+</pre></div>
+<h3>5. Izvršiti hijerarhijsku klasterizaciju za izabranu (tj. utvrđenu najbolju) vrednost za k i linkage metodu</h3>
+<div class="cell-num">In&nbsp;[26]:</div>
+<div class="highlight"><pre><span class="c1"># Radimo hijerarhijsku klasterizaciju sa dva klastera i Ward linkage metodom, euklidska udaljenost</span>
+<span class="n">h_cluster</span> <span class="o">=</span> <span class="n">cluster</span><span class="o">.</span><span class="n">AgglomerativeClustering</span><span class="p">(</span><span class="n">n_clusters</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">linkage</span> <span class="o">=</span> <span class="s2">&quot;ward&quot;</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="s2">&quot;euclidean&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">cl_data_scaled</span><span class="p">)</span>
+
+<span class="c1"># U dataset u kojem se nalaze skalirani podaci</span>
+<span class="c1"># dodajemo novu kolonu sa oznakama koja instanca</span>
+<span class="c1"># pripada kojem klasteru.</span>
+<span class="n">cl_data_scaled</span><span class="p">[</span><span class="s2">&quot;cluster&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">h_cluster</span><span class="o">.</span><span class="n">labels_</span>
+</pre></div>
+<div class="cell-num">In&nbsp;[27]:</div>
+<div class="highlight"><pre><span class="n">cl_data_scaled</span>
+</pre></div>
+<h3>6. Interpretirati dobijene klastere (grupisane pesme) na osnovu: broja pesama, centara klastera, disperzije od centra</h3>
+<div class="cell-num">In&nbsp;[28]:</div>
+<div class="highlight"><pre><span class="c1"># Iscrtamo i uporedne boxplot-ove za ova dva klastera da bi ih uporedili u smislu sadržaja</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="c1"># U novijoj verziji matplotlib-a se umesto labels koristi tick_labels</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">boxplot</span><span class="p">(</span><span class="n">cl_data_scaled</span><span class="p">[</span><span class="n">cl_data_scaled</span><span class="p">[</span><span class="s2">&quot;cluster&quot;</span><span class="p">]</span><span class="o">==</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;cluster&quot;</span><span class="p">]),</span> <span class="n">labels</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;sc&quot;</span><span class="p">,</span> <span class="s2">&quot;bpm&quot;</span><span class="p">,</span> <span class="s2">&quot;mod&quot;</span><span class="p">,</span> <span class="s2">&quot;enr&quot;</span><span class="p">,</span> <span class="s2">&quot;liv&quot;</span><span class="p">))</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Klaster 1&quot;</span><span class="p">)</span>
+
+<span class="c1"># U novijoj verziji matplotlib-a se umesto labels koristi tick_labels</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">boxplot</span><span class="p">(</span><span class="n">cl_data_scaled</span><span class="p">[</span><span class="n">cl_data_scaled</span><span class="p">[</span><span class="s2">&quot;cluster&quot;</span><span class="p">]</span><span class="o">==</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;cluster&quot;</span><span class="p">]),</span> <span class="n">labels</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;sc&quot;</span><span class="p">,</span> <span class="s2">&quot;bpm&quot;</span><span class="p">,</span> <span class="s2">&quot;mod&quot;</span><span class="p">,</span> <span class="s2">&quot;enr&quot;</span><span class="p">,</span> <span class="s2">&quot;liv&quot;</span><span class="p">))</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Klaster 2&quot;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Klaster 1, N = &quot;</span><span class="p">,</span> <span class="n">cl_data_scaled</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">cl_data_scaled</span><span class="p">[</span><span class="s2">&quot;cluster&quot;</span><span class="p">]</span><span class="o">==</span><span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;cluster&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">count</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Klaster 2, N = &quot;</span><span class="p">,</span> <span class="n">cl_data_scaled</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">cl_data_scaled</span><span class="p">[</span><span class="s2">&quot;cluster&quot;</span><span class="p">]</span><span class="o">==</span><span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;cluster&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">count</span><span class="p">())</span>
+</pre></div>
+<div class="cell-num">In&nbsp;[29]:</div>
+<div class="highlight"><pre><span class="c1"># Tumačenje</span>
+
+<span class="c1"># Veličina klastera</span>
+<span class="c1"># 1. Prvi klaster ima 550 pesama a drugi 402 pesme, oba su slične veličine.</span>
+
+<span class="c1"># 2. Centri klastera</span>
+<span class="c1"># U klasteru 2 se isključivo nalaze pesme u Minor modu (1) a u klasteru 1 pesme u Major modu (0). Druga, doduše</span>
+<span class="c1"># minimalna razlika je to da je energy nivo malo niži za pesme iz prvog klastera. Pitanje je da li je ovakva</span>
+<span class="c1"># klasterizacija naročito smislena jer su po svim ostalim karakteristikama pesme skoro iste u oba klastera.</span>
+
+<span class="c1"># 3. Disperzija od centara</span>
+<span class="c1"># Za oba klastera možemo da kažemo da su skoro iste homogenosti, jedina razlika je u kolonama energy i liveness</span>
+<span class="c1"># gde je klaster 2 malo homogeniji (manja disperzija). Međutim, disperzija je inače jako velika u oba</span>
+<span class="c1"># klastera, što opet znači da  bi možda trebalo probati sa klasterizacijom sa četiri klastera.</span>
+</pre></div>
+<h2>5. Ponovna klasterizacija sa K = 4</h2>
+<div class="cell-num">In&nbsp;[30]:</div>
+<div class="highlight"><pre><span class="c1"># Posto cemo ponovo raditi klasterizaciju nad istim podacima tj. istim DataFrame-om, moramo da izbacimo kolonu cluster da ne utice na klasterizaciju</span>
+<span class="n">cl_data_scaled</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;cluster&quot;</span><span class="p">],</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># Radimo hijerarhijsku klasterizaciju sa četiri klastera i Ward linkage metodom, euklidska udaljenost</span>
+<span class="n">h_cluster</span> <span class="o">=</span> <span class="n">cluster</span><span class="o">.</span><span class="n">AgglomerativeClustering</span><span class="p">(</span><span class="n">n_clusters</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">linkage</span> <span class="o">=</span> <span class="s2">&quot;ward&quot;</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="s2">&quot;euclidean&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">cl_data_scaled</span><span class="p">)</span>
+
+<span class="c1"># U dataset u kojem se nalaze skalirani podaci</span>
+<span class="c1"># dodajemo novu kolonu sa oznakama koja instanca</span>
+<span class="c1"># pripada kojem klasteru.</span>
+<span class="n">cl_data_scaled</span><span class="p">[</span><span class="s2">&quot;cluster&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">h_cluster</span><span class="o">.</span><span class="n">labels_</span>
+</pre></div>
+<div class="cell-num">In&nbsp;[31]:</div>
+<div class="highlight"><pre><span class="n">cl_data_scaled</span>
+</pre></div>
+<h3>6. Ponovo interpretirati dobijene klastere za K = 4 na osnovu: broja pesama, centara klastera, disperzije od centra</h3>
+<div class="cell-num">In&nbsp;[32]:</div>
+<div class="highlight"><pre><span class="c1">## 6. Ponovo interpretirati dobijene klastere za K = 4 na osnovu: broja pesama, centara klastera, disperzije od centra</span>
+<span class="c1"># Iscrtamo i uporedne boxplot-ove za ova četiri klastera da bi ih uporedili u smislu sadržaja</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+
+<span class="c1"># U novijoj verziji matplotlib-a se umesto labels koristi tick_labels</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">boxplot</span><span class="p">(</span><span class="n">cl_data_scaled</span><span class="p">[</span><span class="n">cl_data_scaled</span><span class="p">[</span><span class="s2">&quot;cluster&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;cluster&#39;</span><span class="p">]),</span>
+                 <span class="n">labels</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;sc&quot;</span><span class="p">,</span> <span class="s2">&quot;bpm&quot;</span><span class="p">,</span> <span class="s2">&quot;mod&quot;</span><span class="p">,</span> <span class="s2">&quot;enr&quot;</span><span class="p">,</span> <span class="s2">&quot;liv&quot;</span><span class="p">))</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Klaster 1&quot;</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">boxplot</span><span class="p">(</span><span class="n">cl_data_scaled</span><span class="p">[</span><span class="n">cl_data_scaled</span><span class="p">[</span><span class="s2">&quot;cluster&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;cluster&#39;</span><span class="p">]),</span>
+                 <span class="n">labels</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;sc&quot;</span><span class="p">,</span> <span class="s2">&quot;bpm&quot;</span><span class="p">,</span> <span class="s2">&quot;mod&quot;</span><span class="p">,</span> <span class="s2">&quot;enr&quot;</span><span class="p">,</span> <span class="s2">&quot;liv&quot;</span><span class="p">))</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Klaster 2&quot;</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">boxplot</span><span class="p">(</span><span class="n">cl_data_scaled</span><span class="p">[</span><span class="n">cl_data_scaled</span><span class="p">[</span><span class="s2">&quot;cluster&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;cluster&#39;</span><span class="p">]),</span>
+                 <span class="n">labels</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;sc&quot;</span><span class="p">,</span> <span class="s2">&quot;bpm&quot;</span><span class="p">,</span> <span class="s2">&quot;mod&quot;</span><span class="p">,</span> <span class="s2">&quot;enr&quot;</span><span class="p">,</span> <span class="s2">&quot;liv&quot;</span><span class="p">))</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Klaster 3&quot;</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">boxplot</span><span class="p">(</span><span class="n">cl_data_scaled</span><span class="p">[</span><span class="n">cl_data_scaled</span><span class="p">[</span><span class="s2">&quot;cluster&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;cluster&#39;</span><span class="p">]),</span>
+                 <span class="n">labels</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;sc&quot;</span><span class="p">,</span> <span class="s2">&quot;bpm&quot;</span><span class="p">,</span> <span class="s2">&quot;mod&quot;</span><span class="p">,</span> <span class="s2">&quot;enr&quot;</span><span class="p">,</span> <span class="s2">&quot;liv&quot;</span><span class="p">))</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Klaster 4&quot;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Klaster 1, N = &quot;</span><span class="p">,</span> <span class="n">cl_data_scaled</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">cl_data_scaled</span><span class="p">[</span><span class="s2">&quot;cluster&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;cluster&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">count</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Klaster 2, N = &quot;</span><span class="p">,</span> <span class="n">cl_data_scaled</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">cl_data_scaled</span><span class="p">[</span><span class="s2">&quot;cluster&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;cluster&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">count</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Klaster 3, N = &quot;</span><span class="p">,</span> <span class="n">cl_data_scaled</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">cl_data_scaled</span><span class="p">[</span><span class="s2">&quot;cluster&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">2</span><span class="p">,</span> <span class="s2">&quot;cluster&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">count</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Klaster 4, N = &quot;</span><span class="p">,</span> <span class="n">cl_data_scaled</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">cl_data_scaled</span><span class="p">[</span><span class="s2">&quot;cluster&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">3</span><span class="p">,</span> <span class="s2">&quot;cluster&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">count</span><span class="p">())</span>
+</pre></div>
+<div class="cell-num">In&nbsp;[33]:</div>
+<div class="highlight"><pre><span class="c1"># Tumačenje</span>
+
+<span class="c1"># Veličina klastera</span>
+<span class="c1"># 1. Prvi klaster ima 304 pesme, drugi 175, treći 246 i četvrti 227, svi su značajne veličine.</span>
+
+<span class="c1"># 2. Centri klastera</span>
+<span class="c1"># Klaster 2 sadrži pesme u Minor modu koje su loše rangirane na spotify top listi, dok klaster 3 sadrži</span>
+<span class="c1"># pesme u Major modu koje su takođe loše rangirane na spotify top listi.</span>
+<span class="c1"># Nasuprot tome, klasteri 1 i 4 sadrže pesme koje su dobro rangirane na spotify top listi u Major modu (klaster 1)</span>
+<span class="c1"># i Minor modu (klaster 4) respektivno.</span>
+<span class="c1"># Razlika između dva klastera sa &quot;dobro rangiranim&quot; pesmama i dva klastera sa &quot;loše rangiranim&quot; pesmama je samo u tome što dobro rangirane pesme (klasteri 1 i 4) imaju malo viši nivo energije (energy).</span>
+
+<span class="c1"># 3. Disperzija od centara</span>
+<span class="c1"># Za klastere 2 i 3 se može reći da su izuzetno homogeni u smislu disperzije od centra klastera po atributu</span>
+<span class="c1"># in_spotify_charts jer ih isključivo čine loše rangirane pesme, dok su u klasterima 1 i 4 sve ostale pesme sa te top liste, pa je homogenost po tom atributu mnogo manja (odnosno std veća).</span>
+<span class="c1"># Za klaster 4 važi da je homogeniji od ostalih po atributima energy i liveness.</span>
+<span class="c1"># Ne postoje bitne razlike u homogenosti između klastera po ostalim atributima.</span>
+</pre></div>
+  </div>
+</div>
+<div class="footer">
+  &#169; Copyright, AI Course. &nbsp;
+  Created using <a href="#">Sphinx</a> 7.2.6.
+</div>
+</body>
+</html>
