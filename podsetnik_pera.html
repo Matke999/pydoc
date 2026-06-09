@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Podsetnik za Kolokvijum (by Pera) &#8212; AI Course documentation</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23306998'/%3E%3Ctext x='6' y='23' font-family='monospace' font-size='18' font-weight='bold' fill='%23FFD43B'%3E&gt;_%3C/text%3E%3C/SVG%3E">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;0,900;1,400&display=swap');
+*{box-sizing:border-box}
+html{font-size:100%}
+body{margin:0;background:#1a1a1a;color:#c4c4c4;
+  font-family:'Lato','Segoe UI',Helvetica,Arial,sans-serif;font-size:15px;line-height:1.6}
+a{color:#6ab0de;text-decoration:none}
+a:hover{color:#8ec6ef;text-decoration:underline}
+::-webkit-scrollbar{width:12px;height:12px}
+::-webkit-scrollbar-track{background:#1a1a1a}
+::-webkit-scrollbar-thumb{background:#3a3a3a;border-radius:6px}
+.related{background:#1a1a1a;border-bottom:1px solid #333;font-size:13px;color:#888}
+.related .inner{max-width:1200px;margin:0 auto;padding:6px 20px;
+  display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px}
+.related .crumbs a,.related .crumbs span{color:#888}
+.related .crumbs a{color:#6ab0de}
+.related .sep{color:#555;margin:0 4px}
+.related .navlinks{display:flex;gap:14px;font-size:13px}
+.related .navlinks a{color:#6ab0de}
+.docheader{background:#1a1a1a;border-bottom:1px solid #333}
+.docheader .inner{max-width:1200px;margin:0 auto;padding:10px 20px}
+.docheader .crumb{font-size:12px;color:#666;text-transform:uppercase;letter-spacing:.04em}
+.layout{max-width:1200px;margin:0 auto;display:flex}
+.sphinxsidebar{width:240px;flex:0 0 240px;background:#1a1a1a;
+  border-right:1px solid #333;padding:18px 14px 60px;font-size:14px;
+  position:sticky;top:0;align-self:flex-start;max-height:100vh;overflow-y:auto}
+.sphinxsidebar h3{color:#e0e0e0;font-size:14px;font-weight:900;margin:16px 0 5px;border-bottom:1px solid #2a2a2a;padding-bottom:4px}
+.sphinxsidebar h3:first-child{margin-top:0}
+.sphinxsidebar ul{list-style:none;margin:0;padding:0}
+.sphinxsidebar ul ul{padding-left:12px}
+.sphinxsidebar li{margin:3px 0;line-height:1.35}
+.sphinxsidebar a{color:#b0b0b0;font-size:13px}
+.sphinxsidebar a:hover{color:#fff}
+.sphinxsidebar .topic-link{display:block;padding:3px 0;color:#6ab0de;font-weight:700}
+.sphinxsidebar .topic-link:hover{color:#8ec6ef}
+.document{flex:1 1 auto;min-width:0;padding:16px 38px 80px;max-width:860px}
+h1{font-size:28px;font-weight:900;color:#e8e8e8;margin:10px 0 18px}
+h2{font-size:20px;font-weight:700;color:#e8e8e8;margin:30px 0 8px;
+  padding-bottom:4px;border-bottom:1px solid #333}
+h3{font-size:17px;font-weight:700;color:#dcdcdc;margin:18px 0 5px}
+h4{font-size:15px;font-weight:700;color:#c8c8c8;margin:12px 0 4px}
+.headerlink{visibility:hidden;color:#555;padding-left:6px;font-weight:400;font-size:.85em}
+h1:hover .headerlink,h2:hover .headerlink,h3:hover .headerlink{visibility:visible}
+p{margin:8px 0}
+code,tt{font-family:'SFMono-Regular',Menlo,Consolas,'DejaVu Sans Mono',monospace;font-size:.91em}
+code.literal{background:#2b2b2b;border:1px solid #3a3a3a;border-radius:3px;
+  padding:1px 5px;color:#d6d6d6}
+.highlight{background:#1e1e1e;border:1px solid #333;border-radius:3px;margin:8px 0}
+.highlight pre{margin:0;padding:11px 13px;overflow-x:auto;line-height:1.5;font-size:13px;
+  font-family:'SFMono-Regular',Menlo,Consolas,'DejaVu Sans Mono',monospace;background:transparent}
+.cell-num{font-size:11px;color:#555;margin:18px 0 2px;font-family:monospace}
+ol,ul{margin:8px 0;padding-left:24px}
+li{margin:3px 0}
+.admonition{margin:12px 0;padding:9px 13px;border-radius:3px;font-size:14px}
+.admonition .admonition-title{font-weight:700;margin:0 0 4px;font-size:12px;
+  text-transform:uppercase;letter-spacing:.03em}
+.admonition.note{background:#16222e;border:1px solid #2f4f6a}
+.admonition.note .admonition-title{color:#8ab8e0}
+.admonition.warning{background:#2a1818;border:1px solid #6e3b3b}
+.admonition.warning .admonition-title{color:#f08a8a}
+table.docutils{border-collapse:collapse;width:100%;font-size:13.5px;margin:12px 0}
+table.docutils th,table.docutils td{border:1px solid #3a3a3a;padding:6px 9px;text-align:left}
+table.docutils thead th{background:#262626;color:#e0e0e0}
+table.docutils tbody tr:nth-child(even){background:#202020}
+details.sub-sec{margin:10px 0;border:1px solid #333;border-radius:3px}
+details.sub-sec>summary{cursor:pointer;list-style:none;padding:8px 13px;background:#242424;
+  font-weight:700;font-size:14px;color:#cfe3f2;display:flex;align-items:center;gap:9px;user-select:none}
+details.sub-sec>summary::-webkit-details-marker{display:none}
+details.sub-sec>summary::before{content:"\25B6";font-size:10px;color:#888;transition:transform .12s}
+details.sub-sec[open]>summary::before{transform:rotate(90deg)}
+details.sub-sec>summary:hover{background:#2c2c2c}
+.sub-tag{font-family:'SFMono-Regular',Menlo,monospace;font-size:11px;font-weight:700;
+  letter-spacing:.02em;color:#9a9a9a;border:1px solid #444;border-radius:3px;padding:0 6px}
+.sub-body{padding:6px 16px 14px}
+.footer{max-width:1200px;margin:0 auto;padding:16px 20px 40px;
+  border-top:1px solid #333;color:#666;font-size:12px}
+.footer a{color:#6ab0de}
+@media(max-width:860px){.sphinxsidebar{display:none}.document{padding:14px 18px 60px}}
+@media print{
+  body{background:#fff;color:#000}.related,.sphinxsidebar,.docheader{display:none}
+  .document{max-width:none}h1,h2,h3,h4{color:#000}.highlight,.highlight pre{background:#f8f8f8;color:#000}
+  a{color:#000;text-decoration:none}
+}
+</style>
+<style>pre { line-height: 125%; }
+td.linenos .normal { color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+span.linenos { color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+td.linenos .special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+.highlight .hll { background-color: #ffffcc }
+.highlight { background: #1e1e1e; color: #D4D4D4 }
+.highlight .c { color: #8A8A7A; font-style: italic } /* Comment */
+.highlight .err { color: #D4D4D4 } /* Error */
+.highlight .esc { color: #D4D4D4 } /* Escape */
+.highlight .g { color: #D4D4D4 } /* Generic */
+.highlight .k { color: #FF6188; font-weight: bold } /* Keyword */
+.highlight .l { color: #D4D4D4 } /* Literal */
+.highlight .n { color: #D4D4D4 } /* Name */
+.highlight .o { color: #D4D4D4 } /* Operator */
+.highlight .x { color: #D4D4D4 } /* Other */
+.highlight .p { color: #D4D4D4 } /* Punctuation */
+.highlight .ch { color: #8A8A7A; font-style: italic } /* Comment.Hashbang */
+.highlight .cm { color: #8A8A7A; font-style: italic } /* Comment.Multiline */
+.highlight .cp { color: #8A8A7A; font-style: italic } /* Comment.Preproc */
+.highlight .cpf { color: #8A8A7A; font-style: italic } /* Comment.PreprocFile */
+.highlight .c1 { color: #8A8A7A; font-style: italic } /* Comment.Single */
+.highlight .cs { color: #8A8A7A; font-style: italic } /* Comment.Special */
+.highlight .gd { color: #D4D4D4 } /* Generic.Deleted */
+.highlight .ge { color: #D4D4D4 } /* Generic.Emph */
+.highlight .ges { color: #D4D4D4 } /* Generic.EmphStrong */
+.highlight .gr { color: #F87171 } /* Generic.Error */
+.highlight .gh { color: #D4D4D4 } /* Generic.Heading */
+.highlight .gi { color: #D4D4D4 } /* Generic.Inserted */
+.highlight .go { color: #6EC1B8 } /* Generic.Output */
+.highlight .gp { color: #FF5F5F; font-weight: bold } /* Generic.Prompt */
+.highlight .gs { color: #D4D4D4 } /* Generic.Strong */
+.highlight .gu { color: #D4D4D4 } /* Generic.Subheading */
+.highlight .gt { color: #D4D4D4 } /* Generic.Traceback */
+.highlight .kc { color: #FF6188; font-weight: bold } /* Keyword.Constant */
+.highlight .kd { color: #FF6188; font-weight: bold } /* Keyword.Declaration */
+.highlight .kn { color: #FF6188; font-weight: bold } /* Keyword.Namespace */
+.highlight .kp { color: #FF6188; font-weight: bold } /* Keyword.Pseudo */
+.highlight .kr { color: #FF6188; font-weight: bold } /* Keyword.Reserved */
+.highlight .kt { color: #FF6188; font-weight: bold } /* Keyword.Type */
+.highlight .ld { color: #D4D4D4 } /* Literal.Date */
+.highlight .m { color: #D9A05B } /* Literal.Number */
+.highlight .s { color: #6EC1B8 } /* Literal.String */
+.highlight .na { color: #D4D4D4 } /* Name.Attribute */
+.highlight .nb { color: #6EC1B8 } /* Name.Builtin */
+.highlight .nc { color: #D4D4D4 } /* Name.Class */
+.highlight .no { color: #D4D4D4 } /* Name.Constant */
+.highlight .nd { color: #D4D4D4 } /* Name.Decorator */
+.highlight .ni { color: #D4D4D4 } /* Name.Entity */
+.highlight .ne { color: #D4D4D4 } /* Name.Exception */
+.highlight .nf { color: #D4D4D4 } /* Name.Function */
+.highlight .nl { color: #D4D4D4 } /* Name.Label */
+.highlight .nn { color: #D4D4D4 } /* Name.Namespace */
+.highlight .nx { color: #D4D4D4 } /* Name.Other */
+.highlight .py { color: #D4D4D4 } /* Name.Property */
+.highlight .nt { color: #D4D4D4 } /* Name.Tag */
+.highlight .nv { color: #D4D4D4 } /* Name.Variable */
+.highlight .ow { color: #FF6188; font-weight: bold } /* Operator.Word */
+.highlight .pm { color: #D4D4D4 } /* Punctuation.Marker */
+.highlight .w { color: #D4D4D4 } /* Text.Whitespace */
+.highlight .mb { color: #D9A05B } /* Literal.Number.Bin */
+.highlight .mf { color: #D9A05B } /* Literal.Number.Float */
+.highlight .mh { color: #D9A05B } /* Literal.Number.Hex */
+.highlight .mi { color: #D9A05B } /* Literal.Number.Integer */
+.highlight .mo { color: #D9A05B } /* Literal.Number.Oct */
+.highlight .sa { color: #6EC1B8 } /* Literal.String.Affix */
+.highlight .sb { color: #6EC1B8 } /* Literal.String.Backtick */
+.highlight .sc { color: #6EC1B8 } /* Literal.String.Char */
+.highlight .dl { color: #6EC1B8 } /* Literal.String.Delimiter */
+.highlight .sd { color: #8A8A7A; font-style: italic } /* Literal.String.Doc */
+.highlight .s2 { color: #6EC1B8 } /* Literal.String.Double */
+.highlight .se { color: #6EC1B8 } /* Literal.String.Escape */
+.highlight .sh { color: #6EC1B8 } /* Literal.String.Heredoc */
+.highlight .si { color: #6EC1B8 } /* Literal.String.Interpol */
+.highlight .sx { color: #6EC1B8 } /* Literal.String.Other */
+.highlight .sr { color: #6EC1B8 } /* Literal.String.Regex */
+.highlight .s1 { color: #6EC1B8 } /* Literal.String.Single */
+.highlight .ss { color: #6EC1B8 } /* Literal.String.Symbol */
+.highlight .bp { color: #6EC1B8 } /* Name.Builtin.Pseudo */
+.highlight .fm { color: #D4D4D4 } /* Name.Function.Magic */
+.highlight .vc { color: #D4D4D4 } /* Name.Variable.Class */
+.highlight .vg { color: #D4D4D4 } /* Name.Variable.Global */
+.highlight .vi { color: #D4D4D4 } /* Name.Variable.Instance */
+.highlight .vm { color: #D4D4D4 } /* Name.Variable.Magic */
+.highlight .il { color: #D9A05B } /* Literal.Number.Integer.Long */
+/* Manual syntax highlighting classes */
+.kw{color:#FF6188;font-weight:bold}
+.str{color:#6EC1B8}
+.num{color:#D9A05B}
+.com{color:#8A8A7A;font-style:italic}
+.bi{color:#6EC1B8}
+.fn{color:#D4D4D4}
+</style>
+</head>
+<body>
+<div class="related">
+  <div class="inner">
+    <div class="crumbs">
+      <a href="ml_exam_reference.html">AI Course</a>
+      <span class="sep">&#187;</span>
+      <span>Podsetnik za kolokvijum (by Pera)</span>
+    </div>
+    <div class="navlinks"><a href="hier_solution.html">&#8592; 6. Hierarchical Clustering &#8212; Full Solution</a>
+<span style="color:#555">|</span>
+<a href="komentari_guide.html">Vodi&#269; za komentare &#8594;</a></div>
+  </div>
+</div>
+<div class="docheader"><div class="inner">
+  <div class="crumb">Artificial Intelligence &#183; Exam preparation</div>
+</div></div>
+<div class="layout">
+  <nav class="sphinxsidebar">
+    <h3>AI Course</h3><ul>
+  <li><a href="ml_exam_reference.html">Machine Learning Exam Reference</a></li>
+  <li><a href="lr_solution.html">1. Linear Regression &#8212; Full Solution</a></li>
+  <li><a href="dt_solution.html">2. Decision Tree &#8212; Full Solution</a></li>
+  <li><a href="knn_solution.html">3. k-NN &#8212; Full Solution</a></li>
+  <li><a href="nn_solution.html">4. Neural Network &#8212; Full Solution</a></li>
+  <li><a href="kmeans_solution.html">5. KMeans Clustering &#8212; Full Solution</a></li>
+  <li><a href="hier_solution.html">6. Hierarchical Clustering &#8212; Full Solution</a></li>
+  <li><a href="podsetnik_pera.html" style="color:#fff;font-weight:700">Podsetnik za kolokvijum (by Pera)</a></li>
+  <li><a href="komentari_guide.html">Vodi&#269; za komentare</a></li>
+</ul>
+<h3>Previous topic</h3>
+<ul><li><a class="topic-link" href="hier_solution.html">6. Hierarchical Clustering &#8212; Full Solution</a></li></ul>
+<h3>Next topic</h3>
+<ul><li><a class="topic-link" href="komentari_guide.html">Vodi&#269; za komentare</a></li></ul>
+<h3>This Page</h3>
+<ul><li><a href="#">Show Source</a></li></ul>
+    <h3>Contents</h3>
+    <ul>
+      <li><a href="#sredi">0. Sre&#273;ivanje podataka</a></li>
+      <li><a href="#lr">1. Multiple linearna regresija</a></li>
+      <li><a href="#dt">2. Klasifikacija &#8212; Stablo odlu&#269;ivanja</a></li>
+      <li><a href="#knn">3. Klasifikacija &#8212; k-NN</a></li>
+      <li><a href="#nn">4. Klasifikacija &#8212; Neuronske mre&#382;e</a></li>
+      <li><a href="#hier">5. Hijerarhijska klasterizacija</a></li>
+      <li><a href="#kmeans">6. K-Means klasterizacija</a></li>
+    </ul>
+  </nav>
+  <div class="document" role="main">
+    <h1>Podsetnik za Kolokvijum (by Pera)<a class="headerlink" href="#" title="Permalink to this headline">&#182;</a></h1>
+
+    <p>Podsetnik za pripremu kolokvijuma iz Inteligentnih sistema / Ve&#353;ta&#269;ke inteligencije. Svaka sekcija sadr&#382;i korake i odgovaraju&#263;i kod.</p>
+
+    <!-- ================================================================ -->
+    <!-- SECTION 0 — Sređivanje podataka                                   -->
+    <!-- ================================================================ -->
+    <h2 id="sredi">0. Sre&#273;ivanje podataka<a class="headerlink" href="#sredi" title="Permalink">&#182;</a></h2>
+
+    <details class="sub-sec">
+      <summary><span class="sub-tag">KORACI</span></summary>
+      <div class="sub-body">
+        <ul>
+          <li>U&#269;itavanje podataka: <code class="literal">pd.read_csv('path', na_values=['-', ' ', ''])</code> &#8212; direktno zamenjuje specijalne nedostaju&#263;e vrednosti (-, razmak, blanko) sa NaN</li>
+          <li>Zamena specijalnih vrednosti (ako nisu zadati u read_csv): <code class="literal">data_subset.replace(['-', ' ', ''], np.nan, inplace=True)</code></li>
+          <li>Pretvaranje numeri&#269;kih kolona u numeric: <code class="literal">pd.to_numeric(col, errors='coerce')</code> &#8212; NE i tekstualne!</li>
+          <li>Tekstualne promenljive &#8594; OneHotEncoding samo kada ima smisla za model</li>
+          <li>Proveriti NA vrednosti: ako ima zna&#269;ajan broj &#8594; <code class="literal">dropna()</code></li>
+          <li>Shapiro test: normalna raspodela (p&#8805;0.05) &#8594; <code class="literal">fillna(mean)</code>, nije normalna (p&lt;0.05) &#8594; <code class="literal">fillna(median)</code>, kategori&#269;ke &#8594; <code class="literal">fillna(mode()[0])</code></li>
+        </ul>
+      </div>
+    </details>
+
+    <details class="sub-sec" open>
+      <summary><span class="sub-tag">KOD</span></summary>
+      <div class="sub-body">
+        <div class="highlight"><pre><span class="com"># Učitavanje sa direktnom zamenom specijalnih vrednosti</span>
+df = pd.read_csv(<span class="str">'pathdofajla.ext'</span>, na_values=[<span class="str">'-'</span>, <span class="str">' '</span>, <span class="str">''</span>])</pre></div>
+
+        <div class="highlight"><pre>special_missing = [<span class="str">'-'</span>, <span class="str">' '</span>, <span class="str">''</span>]
+<span class="bi">print</span>(data_subset.isin([<span class="str">'-'</span>, <span class="str">' '</span>, <span class="str">''</span>]).sum())
+data_subset.replace(special_missing, np.nan, inplace=<span class="kw">True</span>)</pre></div>
+
+        <div class="highlight"><pre>pd.to_numeric(data_subset[<span class="str">'naziv_kolone'</span>], errors=<span class="str">'coerce'</span>)</pre></div>
+
+        <div class="highlight"><pre><span class="com"># Atributi sa NA (ali koji nisu izbačeni kao calcium)</span>
+cols_with_na = [<span class="str">'cal_fat'</span>, <span class="str">'fiber'</span>, <span class="str">'protein'</span>]
+<span class="kw">for</span> col <span class="kw">in</span> cols_with_na:
+    series = data_numeric[col].dropna()
+    stat, p = shapiro(series)
+    <span class="bi">print</span>(<span class="kw">f</span><span class="str">"{col}: p = {p:.5f} → {'nije normalna' if p &lt; 0.05 else 'normalna'} distribucija"</span>)
+
+<span class="kw">for</span> col <span class="kw">in</span> cols_with_na:
+    median = data_numeric[col].median()
+    data_numeric[col] = data_numeric[col].fillna(median)
+data_numeric.isna().sum()</pre></div>
+      </div>
+    </details>
+
+    <!-- ================================================================ -->
+    <!-- SECTION 1 — Multiple Linearna Regresija                           -->
+    <!-- ================================================================ -->
+    <h2 id="lr">1. Multiple Linearna Regresija<a class="headerlink" href="#lr" title="Permalink">&#182;</a></h2>
+
+    <details class="sub-sec">
+      <summary><span class="sub-tag">KORACI</span></summary>
+      <div class="sub-body">
+        <ol>
+          <li>Iscrtati korelacionu matricu (helper) &#8212; odabrati atribute sa korelacijom &gt; 0.5 sa ciljnom promenljivom</li>
+          <li>Podeliti na train (80%) i test (20%) skup</li>
+          <li>Kreirati OLS model ISKLJU&#268;IVO NA TRAIN SKUPU</li>
+          <li>Tuma&#269;enje modela:
+            <ul>
+              <li>Reziduali: odstupanja predvi&#273;ene od stvarne vrednosti</li>
+              <li>R&#178;: % obja&#353;njene varijabilnosti ciljne promenljive</li>
+              <li>Intercept: vrednost izlaza kada su sve nezavisne promenljive = 0</li>
+              <li>Koeficijenti: pove&#263;anje za 1 jedinicu &#8594; pove&#263;anje/smanjenje izlaza</li>
+              <li>P-values &lt; 0.05: statisti&#269;ki zna&#269;ajna vrednost</li>
+              <li>F-statistika: &#353;to ve&#263;a, p-vrednost &#353;to manja = bolji model</li>
+            </ul>
+          </li>
+          <li>Predikcije ISKLJU&#268;IVO NA TEST SKUPU</li>
+          <li>&#268;etiri dijagnosti&#269;ka grafikona:
+            <ul>
+              <li>Residuals vs Fitted: reziduali raspore&#273;eni oko horizontalne linije &#8776; 0</li>
+              <li>Normal Q-Q: ta&#269;ke du&#382; dijagonale = normalna raspodela reziduala</li>
+              <li>Scale-Location: crvena linija horizontalna, ta&#269;ke ravnomerno raspore&#273;ene</li>
+              <li>Residuals vs Leverage: identifikacija outliera i uticajnih ta&#269;aka</li>
+            </ul>
+          </li>
+          <li>Izra&#269;unati metrike (RSS, R&#178;, RMSE)</li>
+          <li>Proveriti multikolinearnost: VIF &gt; 2 &#8594; izbaciti kolonu &#8594; ponovo izra&#269;unati VIF</li>
+        </ol>
+      </div>
+    </details>
+
+    <details class="sub-sec" open>
+      <summary><span class="sub-tag">KOD</span></summary>
+      <div class="sub-body">
+        <div class="highlight"><pre>lm1 = smf.ols(<span class="kw">f</span><span class="str">'{target} ~ '</span> + <span class="str">' + '</span>.join(features), data=train_df).fit()
+<span class="bi">print</span>(lm1.summary())    <span class="com"># R², F-statistika, p-vrednosti koeficijenata</span>
+y_pred = lm1.predict(test_df[features])</pre></div>
+
+        <div class="highlight"><pre>rss = ((y_pred - y_true) ** <span class="num">2</span>).sum()
+tss = ((y_true.mean() - y_true) ** <span class="num">2</span>).sum()  <span class="com"># TSS meri totalnu „nepredvidivost"</span>
+r2_test  = <span class="num">1</span> - rss / tss       <span class="com"># R² na test-skupu — veće je bolje</span>
+rmse_test = np.sqrt(rss / <span class="bi">len</span>(y_true))  <span class="com"># RMSE — tezimo nuli</span>
+<span class="bi">print</span>(<span class="kw">f</span><span class="str">"RSS  = {rss:.2f}"</span>)
+<span class="bi">print</span>(<span class="kw">f</span><span class="str">"R²   = {r2_test:.3f}"</span>)
+<span class="bi">print</span>(<span class="kw">f</span><span class="str">"RMSE = {rmse_test:.2f}"</span>)</pre></div>
+
+        <div class="highlight"><pre><span class="com"># Drugi način (sklearn):</span>
+rss       = mean_squared_error(y_true, y_pred) * <span class="bi">len</span>(y_true)
+r2_test   = r2_score(y_true, y_pred)
+rmse_test = mean_squared_error(y_true, y_pred) ** <span class="num">0.5</span></pre></div>
+
+        <div class="admonition warning">
+          <p class="admonition-title">Upozorenje</p>
+          <p><code class="literal">random_state=123</code> za regresiju (NE 42), bez skaliranja, bez stratify. Evaluacija kroz <code class="literal">.summary()</code>, ne sklearn metrikama.</p>
+        </div>
+      </div>
+    </details>
+
+    <!-- ================================================================ -->
+    <!-- SECTION 2 — Klasifikacija: Stablo Odlučivanja                     -->
+    <!-- ================================================================ -->
+    <h2 id="dt">2. Klasifikacija: Stablo Odlu&#269;ivanja<a class="headerlink" href="#dt" title="Permalink">&#182;</a></h2>
+
+    <details class="sub-sec">
+      <summary><span class="sub-tag">KORACI</span></summary>
+      <div class="sub-body">
+        <ol>
+          <li>Kreirati izlaznu varijablu na osnovu zadatka &#8212; OBAVEZNO UKLONITI originalne varijable kori&#353;&#263;ene za kreiranje izlazne!</li>
+          <li>Kreirati plotove za svaku varijablu u odnosu na izlaznu (kdeplot za numeri&#269;ke, countplot za kategori&#269;ke). Ako se raspodele preklapaju &#8594; ne uklju&#269;iti varijablu u model.</li>
+          <li>Transformisati kategori&#269;ke u numeri&#269;ke (OneHotEncoder, drop=&#8217;first&#8217;)</li>
+          <li>Split sa stratify=y &#8212; UKLONITI IZLAZNU VARIJABLU iz X!</li>
+          <li>GridSearchCV za ccp_alpha (StratifiedKFold, 10 splits, scoring=&#8217;accuracy&#8217;)</li>
+          <li>Kreirati stablo odlu&#269;ivanja sa najboljim ccp_alpha</li>
+          <li>Napraviti predikcije</li>
+          <li>Iscrtati i prokomentarisati matricu konfuzije</li>
+          <li>Izra&#269;unati metrike: accuracy, precision, recall, F1</li>
+        </ol>
+      </div>
+    </details>
+
+    <details class="sub-sec" open>
+      <summary><span class="sub-tag">KOD</span></summary>
+      <div class="sub-body">
+        <div class="highlight"><pre><span class="com"># Za numeričke varijable</span>
+plt.figure(figsize=(<span class="num">6</span>,<span class="num">4</span>))
+sb.kdeplot(data=df, x=<span class="str">'CreditScore'</span>, hue=<span class="str">'Stayed'</span>, fill=<span class="kw">True</span>, alpha=<span class="num">0.55</span>)
+plt.tight_layout(); plt.show()
+<span class="com"># Ako se raspodele klasa preklapaju → varijabla nije korisna</span></pre></div>
+
+        <div class="highlight"><pre><span class="com"># Za kategoričke varijable</span>
+plt.figure(figsize=(<span class="num">6</span>,<span class="num">4</span>))
+sb.countplot(data=df, x=<span class="str">'HasCrCard'</span>, hue=<span class="str">'Stayed'</span>, palette=<span class="str">'pastel'</span>)
+plt.xlabel(<span class="str">'HasCrCard'</span>); plt.ylabel(<span class="str">'Broj klijenata'</span>)
+plt.legend(title=<span class="str">'Stayed'</span>); plt.tight_layout(); plt.show()</pre></div>
+
+        <div class="highlight"><pre><span class="kw">from</span> sklearn.preprocessing <span class="kw">import</span> OneHotEncoder
+ohe = OneHotEncoder(sparse_output=<span class="kw">False</span>, drop=<span class="str">'first'</span>)
+cats = [<span class="str">'Geography'</span>, <span class="str">'Gender'</span>]
+encoded_array = ohe.fit_transform(df[cats])
+encoded_cols  = ohe.get_feature_names_out(cats)
+df_ohe = pd.DataFrame(encoded_array, columns=encoded_cols, index=df.index)
+df = df.drop(columns=cats).join(df_ohe)</pre></div>
+
+        <div class="highlight"><pre>X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=<span class="num">0.2</span>, random_state=<span class="num">42</span>, stratify=y)</pre></div>
+
+        <div class="highlight"><pre><span class="kw">from</span> sklearn.tree <span class="kw">import</span> DecisionTreeClassifier
+<span class="kw">from</span> sklearn.model_selection <span class="kw">import</span> GridSearchCV, StratifiedKFold
+cv = StratifiedKFold(n_splits=<span class="num">10</span>, shuffle=<span class="kw">True</span>, random_state=<span class="num">42</span>)
+param_grid = {<span class="str">'ccp_alpha'</span>: np.arange(<span class="num">0.0</span>, <span class="num">0.05</span>, <span class="num">0.0025</span>)}
+grid = GridSearchCV(DecisionTreeClassifier(random_state=<span class="num">42</span>),
+                    param_grid=param_grid, cv=cv, scoring=<span class="str">'accuracy'</span>)
+grid.fit(X_train, y_train)
+best_ccp_alpha = grid.best_params_[<span class="str">'ccp_alpha'</span>]
+<span class="bi">print</span>(<span class="str">"Najbolja vrednost ccp_alpha:"</span>, best_ccp_alpha)</pre></div>
+
+        <div class="highlight"><pre>tree = DecisionTreeClassifier(ccp_alpha=best_ccp_alpha, random_state=<span class="num">42</span>)
+tree.fit(X_train, y_train)
+plt.figure(figsize=[<span class="num">30</span>, <span class="num">10</span>])
+plot_tree(tree, feature_names=X_train.columns,
+          class_names=[<span class="str">'No'</span>, <span class="str">'Yes'</span>], filled=<span class="kw">True</span>,
+          rounded=<span class="kw">True</span>, fontsize=<span class="num">10</span>)
+plt.title(<span class="str">"Stablo odlučivanja"</span>); plt.show()</pre></div>
+
+        <div class="highlight"><pre>cm = confusion_matrix(y_test, y_pred)
+cm_df = pd.DataFrame(cm,
+         index=[<span class="str">'Stvarno:No'</span>, <span class="str">'Stvarno:Yes'</span>],
+         columns=[<span class="str">'Predviđeno:No'</span>, <span class="str">'Predviđeno:Yes'</span>])
+<span class="bi">print</span>(cm_df)</pre></div>
+
+        <div class="highlight"><pre><span class="kw">def</span> compute_basic_eval_measures(cm, model_name=<span class="str">""</span>):
+    TP = cm[<span class="num">1</span>,<span class="num">1</span>]; TN = cm[<span class="num">0</span>,<span class="num">0</span>]
+    FP = cm[<span class="num">0</span>,<span class="num">1</span>]; FN = cm[<span class="num">1</span>,<span class="num">0</span>]
+    accuracy  = (TP + TN) / cm.sum()
+    precision = TP / (TP + FP)
+    recall    = TP / (TP + FN)
+    F1        = <span class="num">2</span> * precision * recall / (precision + recall)
+    <span class="kw">return</span> pd.Series([accuracy, precision, recall, F1],
+                     index=[<span class="str">'accuracy'</span>, <span class="str">'precision'</span>, <span class="str">'recall'</span>, <span class="str">'F1'</span>],
+                     name=model_name)</pre></div>
+
+        <div class="highlight"><pre><span class="com"># Alternativno — sklearn</span>
+accuracy  = accuracy_score(y_test, y_pred)
+precision = precision_score(y_test, y_pred)
+recall    = recall_score(y_test, y_pred)
+f1        = f1_score(y_test, y_pred)
+<span class="bi">print</span>(classification_report(y_test, y_pred))</pre></div>
+      </div>
+    </details>
+
+    <!-- ================================================================ -->
+    <!-- SECTION 3 — Klasifikacija: k-NN                                   -->
+    <!-- ================================================================ -->
+    <h2 id="knn">3. Klasifikacija: k-NN<a class="headerlink" href="#knn" title="Permalink">&#182;</a></h2>
+
+    <details class="sub-sec">
+      <summary><span class="sub-tag">KORACI</span></summary>
+      <div class="sub-body">
+        <ol>
+          <li>Odabir promenljivih kao u Decision Tree (kdeplot / countplot)</li>
+          <li>Proveriti outliere (IQR metoda):
+            <ul>
+              <li>Za kolone sa outlijerima &#8594; RobustScaler</li>
+              <li>Za kolone bez outlijera &#8594; MinMaxScaler</li>
+            </ul>
+          </li>
+          <li>Proveriti normalnu raspodelu (shapiro) &#8212; samo za odabir skalera</li>
+          <li>Podeliti na train i test skup (stratify=y)</li>
+          <li>GridSearchCV za optimalno K: neparne vrednosti range(3,26,2), cv=10, scoring=&#8217;accuracy&#8217;</li>
+          <li>Kreirati kNN model sa optimalnim K</li>
+          <li>Iscrtati i prokomentarisati matricu konfuzije</li>
+          <li>Izra&#269;unati metrike</li>
+        </ol>
+      </div>
+    </details>
+
+    <details class="sub-sec" open>
+      <summary><span class="sub-tag">KOD</span></summary>
+      <div class="sub-body">
+        <div class="highlight"><pre><span class="kw">def</span> count_outliers(variable):
+    q1 = variable.quantile(<span class="num">0.25</span>)
+    q3 = variable.quantile(<span class="num">0.75</span>)
+    iqr = q3 - q1
+    lower = q1 - <span class="num">1.5</span> * iqr
+    upper = q3 + <span class="num">1.5</span> * iqr
+    <span class="kw">return</span> ((variable &lt; lower) | (variable &gt; upper)).sum()
+
+outliers_per_column = df[numeric_vars].apply(count_outliers)
+<span class="bi">print</span>(<span class="str">"Broj autlajera po kolonama:\n"</span>, outliers_per_column)
+df[numeric_vars].boxplot(figsize=(<span class="num">10</span>, <span class="num">5</span>)); plt.xticks(rotation=<span class="num">45</span>); plt.show()</pre></div>
+
+        <div class="highlight"><pre>shapiro_results = df[numeric_vars].apply(<span class="kw">lambda</span> x: shapiro(x)[<span class="num">1</span>])
+<span class="bi">print</span>(<span class="str">"Shapiro-Wilk p-vrednosti:\n"</span>, shapiro_results)</pre></div>
+
+        <div class="highlight"><pre><span class="com"># Za p &lt; 0.05 ili kolone sa outlijerima → RobustScaler</span>
+robust_scaler = RobustScaler()
+df_st = pd.DataFrame()
+df_st[numeric_vars] = robust_scaler.fit_transform(df[numeric_vars])</pre></div>
+
+        <div class="highlight"><pre><span class="com"># Za normalizaciju (bez outlijera) → MinMaxScaler</span>
+scaler = MinMaxScaler()
+X_norm = scaler.fit_transform(X)</pre></div>
+
+        <div class="highlight"><pre>knn = KNeighborsClassifier()
+<span class="com"># Neparne vrednosti za k — uvek postoji dominantna klasa</span>
+param_grid = {<span class="str">'n_neighbors'</span>: <span class="bi">list</span>(<span class="bi">range</span>(<span class="num">3</span>, <span class="num">26</span>, <span class="num">2</span>))}
+cv = GridSearchCV(estimator=knn, param_grid=param_grid,
+                  cv=<span class="num">10</span>, scoring=<span class="str">'accuracy'</span>, verbose=<span class="num">1</span>, n_jobs=-<span class="num">1</span>)
+cv.fit(X_train, y_train)
+best_k = cv.best_params_[<span class="str">'n_neighbors'</span>]
+<span class="bi">print</span>(<span class="str">"Optimalna vrednost za k:"</span>, best_k)</pre></div>
+
+        <div class="highlight"><pre>cm_knn = confusion_matrix(y_test, y_pred)
+disp = ConfusionMatrixDisplay(confusion_matrix=cm_knn,
+                              display_labels=[<span class="str">'No'</span>, <span class="str">'Yes'</span>])
+disp.plot(cmap=plt.cm.Blues); plt.show()</pre></div>
+      </div>
+    </details>
+
+    <!-- ================================================================ -->
+    <!-- SECTION 4 — Klasifikacija: Neuronske Mreže                        -->
+    <!-- ================================================================ -->
+    <h2 id="nn">4. Klasifikacija: Neuronske Mre&#382;e<a class="headerlink" href="#nn" title="Permalink">&#182;</a></h2>
+
+    <details class="sub-sec">
+      <summary><span class="sub-tag">KORACI</span></summary>
+      <div class="sub-body">
+        <ol>
+          <li>Skalirati podatke (RobustScaler ili MinMaxScaler &#8212; videti prethodne modele)</li>
+          <li>Podeliti na train i test skup (stratify=y)</li>
+          <li>Kreirati MLPClassifier sa proizvoljnim parametrima (hidden_layer_sizes=(64,32), max_iter=1000, solver=&#8217;sgd&#8217;)</li>
+          <li>Tokom treninga mre&#382;a izvr&#353;ava:
+            <ul>
+              <li>Forward propagation: ulazni podaci &#8594; predikcija</li>
+              <li>Ra&#269;unanje gre&#353;ke (loss): predikcija vs stvarne vrednosti</li>
+              <li>Backward propagation: odre&#273;ivanje uticaja svakog parametra na gre&#353;ku</li>
+              <li>A&#382;uriranje parametara: minimizacija gre&#353;ke (gradient descent)</li>
+              <li>Jedan prolazak kroz ceo trening skup = jedna epoha</li>
+            </ul>
+          </li>
+          <li>Prikazati i prokomentarisati loss_curve_</li>
+          <li>Iscrtati i prokomentarisati matricu konfuzije</li>
+          <li>Izra&#269;unati i objasniti evaluacione metrike</li>
+        </ol>
+      </div>
+    </details>
+
+    <details class="sub-sec" open>
+      <summary><span class="sub-tag">KOD</span></summary>
+      <div class="sub-body">
+        <div class="highlight"><pre><span class="kw">from</span> sklearn.neural_network <span class="kw">import</span> MLPClassifier
+
+mlp1 = MLPClassifier(hidden_layer_sizes=(<span class="num">64</span>, <span class="num">32</span>), max_iter=<span class="num">1000</span>,
+                     random_state=<span class="num">42</span>, solver=<span class="str">'sgd'</span>)
+mlp1.fit(X_train, y_train)
+<span class="com"># Arhitektura: input(n_features) → 64 → 32 → output(1)</span>
+y_pred = mlp1.predict(X_test)</pre></div>
+
+        <div class="highlight"><pre>plt.figure()
+plt.plot(mlp1.loss_curve_)
+plt.xlabel(<span class="str">"Iteracija"</span>); plt.ylabel(<span class="str">"Loss"</span>)
+plt.title(<span class="str">"Kriva gubitaka tokom treninga"</span>)
+plt.grid(); plt.show()
+<span class="com"># Kriva treba da opada prema nuli — potvrđuje konvergenciju</span></pre></div>
+      </div>
+    </details>
+
+    <!-- ================================================================ -->
+    <!-- SECTION 5 — Hijerarhijska Klasterizacija                          -->
+    <!-- ================================================================ -->
+    <h2 id="hier">5. Hijerarhijska Klasterizacija<a class="headerlink" href="#hier" title="Permalink">&#182;</a></h2>
+
+    <details class="sub-sec">
+      <summary><span class="sub-tag">KORACI</span></summary>
+      <div class="sub-body">
+        <ol>
+          <li>Iscrtati matricu korelacije &#8212; izbaciti visokokorelisane promenljive (OSIM prethodno enkodovanih kategori&#269;kih!)</li>
+          <li>Proveriti outliere:
+            <ul>
+              <li>Ako ima &gt; 10% outlijera &#8594; izbaciti kolonu</li>
+              <li>Ako ima &#8804; 10% &#8594; <code class="literal">winsorize</code></li>
+            </ul>
+          </li>
+          <li>Skalirati podatke (MinMaxScaler)</li>
+          <li>Iscrtati dendrograme za sve linkage metode (ward, single, complete, average) &#8212; odabrati one koje daju jasno odvojene klastere</li>
+          <li>Izvr&#353;iti hijerarhijsku klasterizaciju (AgglomerativeClustering)</li>
+          <li>Interpretirati pomo&#263;u boxplot-a &#8212; veli&#269;ina klastera, centri, disperzija</li>
+          <li>Ako su klasteri previ&#353;e sli&#269;ni &#8594; pove&#263;ati K i ponoviti</li>
+        </ol>
+      </div>
+    </details>
+
+    <details class="sub-sec" open>
+      <summary><span class="sub-tag">KOD</span></summary>
+      <div class="sub-body">
+        <div class="highlight"><pre><span class="kw">def</span> draw_boxplot(podaci, naslov):
+    plt.boxplot(podaci); plt.xlabel(naslov); plt.show()
+
+<span class="kw">from</span> scipy.stats.mstats <span class="kw">import</span> winsorize
+
+<span class="com"># Ako &gt; 10% outlijera → izbaciti kolonu</span>
+draw_boxplot(cl_data[<span class="str">"in_spotify_playlists"</span>], <span class="str">"in_spotify_playlists"</span>)
+winsorized_data = winsorize(cl_data[<span class="str">"in_spotify_playlists"</span>], limits=[<span class="num">0.00</span>, <span class="num">0.10</span>])
+draw_boxplot(winsorized_data, <span class="str">"Winsorized in_spotify_playlists"</span>)
+cl_data.drop(columns=[<span class="str">"in_spotify_playlists"</span>], inplace=<span class="kw">True</span>)</pre></div>
+
+        <div class="highlight"><pre><span class="kw">from</span> scipy.cluster.hierarchy <span class="kw">import</span> linkage, dendrogram
+
+<span class="kw">for</span> method <span class="kw">in</span> [<span class="str">'ward'</span>, <span class="str">'single'</span>, <span class="str">'complete'</span>, <span class="str">'average'</span>]:
+    dendrogram(linkage(cl_data_scaled, method=method, metric=<span class="str">'euclidean'</span>))
+    plt.title(<span class="kw">f</span><span class="str">"{method.capitalize()} linkage dendrogram"</span>); plt.show()
+<span class="com"># Odabrati metodu koja daje jasno odvojene klastere</span></pre></div>
+
+        <div class="highlight"><pre><span class="kw">import</span> sklearn.cluster <span class="kw">as</span> cluster
+
+h_cluster = cluster.AgglomerativeClustering(
+    n_clusters=<span class="num">2</span>, linkage=<span class="str">"ward"</span>, metric=<span class="str">"euclidean"</span>).fit(cl_data_scaled)
+cl_data_scaled[<span class="str">"cluster"</span>] = h_cluster.labels_</pre></div>
+
+        <div class="highlight"><pre>fig, ax = plt.subplots(<span class="num">1</span>, <span class="num">2</span>)
+ax[<span class="num">0</span>].boxplot(cl_data_scaled[cl_data_scaled[<span class="str">"cluster"</span>]==<span class="num">0</span>].drop(columns=[<span class="str">"cluster"</span>]),
+              labels=(<span class="str">"sc"</span>, <span class="str">"bpm"</span>, <span class="str">"mod"</span>, <span class="str">"enr"</span>, <span class="str">"liv"</span>))
+ax[<span class="num">0</span>].set_xlabel(<span class="str">"Klaster 1"</span>)
+ax[<span class="num">1</span>].boxplot(cl_data_scaled[cl_data_scaled[<span class="str">"cluster"</span>]==<span class="num">1</span>].drop(columns=[<span class="str">"cluster"</span>]),
+              labels=(<span class="str">"sc"</span>, <span class="str">"bpm"</span>, <span class="str">"mod"</span>, <span class="str">"enr"</span>, <span class="str">"liv"</span>))
+ax[<span class="num">1</span>].set_xlabel(<span class="str">"Klaster 2"</span>)
+plt.show()
+<span class="bi">print</span>(<span class="str">"Klaster 1, N ="</span>, cl_data_scaled.loc[cl_data_scaled[<span class="str">"cluster"</span>]==<span class="num">0</span>, <span class="str">"cluster"</span>].count())
+<span class="bi">print</span>(<span class="str">"Klaster 2, N ="</span>, cl_data_scaled.loc[cl_data_scaled[<span class="str">"cluster"</span>]==<span class="num">1</span>, <span class="str">"cluster"</span>].count())</pre></div>
+      </div>
+    </details>
+
+    <!-- ================================================================ -->
+    <!-- SECTION 6 — K-Means Klasterizacija                                -->
+    <!-- ================================================================ -->
+    <h2 id="kmeans">6. K-Means Klasterizacija<a class="headerlink" href="#kmeans" title="Permalink">&#182;</a></h2>
+
+    <details class="sub-sec">
+      <summary><span class="sub-tag">KORACI</span></summary>
+      <div class="sub-body">
+        <ol>
+          <li>Isti prethodni koraci kao kod hijerarhijske klasterizacije (korelacija, outlieri, skaliranje)</li>
+          <li>Iscrtati dijagram lakat (elbow) funkcije &#8212; videti mesta gde se WCSS naglo spu&#353;ta = &#8222;lakat&#8220;</li>
+          <li>X koordinata lakata = odabrani K</li>
+          <li>Izvr&#353;iti KMeans klasterizaciju sa odabranim K (init=&#8217;k-means++&#8217;, n_init=1000, max_iter=100, random_state=0)</li>
+          <li>Interpretirati rezultate boxplot-om</li>
+          <li>Poku&#353;ati sa alternativnim laktom ako rezultati nisu zadovoljavaju&#263;i</li>
+        </ol>
+      </div>
+    </details>
+
+    <details class="sub-sec" open>
+      <summary><span class="sub-tag">KOD</span></summary>
+      <div class="sub-body">
+        <div class="highlight"><pre>wcss = []
+<span class="kw">for</span> i <span class="kw">in</span> <span class="bi">range</span>(<span class="num">1</span>, <span class="num">11</span>):
+    km = cluster.KMeans(n_clusters=i, init=<span class="str">'k-means++'</span>,
+                         max_iter=<span class="num">100</span>, n_init=<span class="num">1000</span>, random_state=<span class="num">0</span>).fit(cl_data_scaled)
+    wcss.append(km.inertia_)
+plt.plot(<span class="bi">range</span>(<span class="num">1</span>, <span class="num">11</span>), wcss)
+plt.xlabel(<span class="str">"Broj klastera (K)"</span>); plt.ylabel(<span class="str">"WCSS greška"</span>); plt.show()
+<span class="com"># Odabrati K na mestu „lakta" — tamo gde se krivulja naglo izravna</span></pre></div>
+
+        <div class="highlight"><pre><span class="com"># Klasterizacija sa odabranim K</span>
+kmeans = cluster.KMeans(n_clusters=<span class="num">2</span>, init=<span class="str">'k-means++'</span>,
+                         max_iter=<span class="num">100</span>, n_init=<span class="num">1000</span>, random_state=<span class="num">0</span>)
+kmeans.fit(cl_data_scaled)
+cl_data_scaled[<span class="str">"cluster"</span>] = kmeans.labels_</pre></div>
+      </div>
+    </details>
+
+  </div>
+</div>
+<div class="footer">
+  &#169; Copyright, AI Course. &nbsp;
+  Created using <a href="#">Sphinx</a> 7.2.6.
+</div>
+</body>
+</html>

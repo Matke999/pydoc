@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vodič za komentare &#8212; AI Course documentation</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23306998'/%3E%3Ctext x='6' y='23' font-family='monospace' font-size='18' font-weight='bold' fill='%23FFD43B'%3E&gt;_%3C/text%3E%3C/SVG%3E">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;0,900;1,400&display=swap');
+*{box-sizing:border-box}
+html{font-size:100%}
+body{margin:0;background:#1a1a1a;color:#c4c4c4;
+  font-family:'Lato','Segoe UI',Helvetica,Arial,sans-serif;font-size:15px;line-height:1.6}
+a{color:#6ab0de;text-decoration:none}
+a:hover{color:#8ec6ef;text-decoration:underline}
+::-webkit-scrollbar{width:12px;height:12px}
+::-webkit-scrollbar-track{background:#1a1a1a}
+::-webkit-scrollbar-thumb{background:#3a3a3a;border-radius:6px}
+.related{background:#1a1a1a;border-bottom:1px solid #333;font-size:13px;color:#888}
+.related .inner{max-width:1200px;margin:0 auto;padding:6px 20px;
+  display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px}
+.related .crumbs a,.related .crumbs span{color:#888}
+.related .crumbs a{color:#6ab0de}
+.related .sep{color:#555;margin:0 4px}
+.related .navlinks{display:flex;gap:14px;font-size:13px}
+.related .navlinks a{color:#6ab0de}
+.docheader{background:#1a1a1a;border-bottom:1px solid #333}
+.docheader .inner{max-width:1200px;margin:0 auto;padding:10px 20px}
+.docheader .crumb{font-size:12px;color:#666;text-transform:uppercase;letter-spacing:.04em}
+.layout{max-width:1200px;margin:0 auto;display:flex}
+.sphinxsidebar{width:240px;flex:0 0 240px;background:#1a1a1a;
+  border-right:1px solid #333;padding:18px 14px 60px;font-size:14px;
+  position:sticky;top:0;align-self:flex-start;max-height:100vh;overflow-y:auto}
+.sphinxsidebar h3{color:#e0e0e0;font-size:14px;font-weight:900;margin:16px 0 5px;border-bottom:1px solid #2a2a2a;padding-bottom:4px}
+.sphinxsidebar h3:first-child{margin-top:0}
+.sphinxsidebar ul{list-style:none;margin:0;padding:0}
+.sphinxsidebar ul ul{padding-left:12px}
+.sphinxsidebar li{margin:3px 0;line-height:1.35}
+.sphinxsidebar a{color:#b0b0b0;font-size:13px}
+.sphinxsidebar a:hover{color:#fff}
+.sphinxsidebar .topic-link{display:block;padding:3px 0;color:#6ab0de;font-weight:700}
+.sphinxsidebar .topic-link:hover{color:#8ec6ef}
+.document{flex:1 1 auto;min-width:0;padding:16px 38px 80px;max-width:860px}
+h1{font-size:28px;font-weight:900;color:#e8e8e8;margin:10px 0 18px}
+h2{font-size:20px;font-weight:700;color:#e8e8e8;margin:30px 0 8px;
+  padding-bottom:4px;border-bottom:1px solid #333}
+h3{font-size:17px;font-weight:700;color:#dcdcdc;margin:18px 0 5px}
+h4{font-size:15px;font-weight:700;color:#c8c8c8;margin:12px 0 4px}
+.headerlink{visibility:hidden;color:#555;padding-left:6px;font-weight:400;font-size:.85em}
+h1:hover .headerlink,h2:hover .headerlink,h3:hover .headerlink{visibility:visible}
+p{margin:8px 0}
+code,tt{font-family:'SFMono-Regular',Menlo,Consolas,'DejaVu Sans Mono',monospace;font-size:.91em}
+code.literal{background:#2b2b2b;border:1px solid #3a3a3a;border-radius:3px;
+  padding:1px 5px;color:#d6d6d6}
+.highlight{background:#1e1e1e;border:1px solid #333;border-radius:3px;margin:8px 0}
+.highlight pre{margin:0;padding:11px 13px;overflow-x:auto;line-height:1.5;font-size:13px;
+  font-family:'SFMono-Regular',Menlo,Consolas,'DejaVu Sans Mono',monospace;background:transparent}
+ol,ul{margin:8px 0;padding-left:24px}
+li{margin:3px 0}
+.admonition{margin:12px 0;padding:9px 13px;border-radius:3px;font-size:14px}
+.admonition .admonition-title{font-weight:700;margin:0 0 4px;font-size:12px;
+  text-transform:uppercase;letter-spacing:.03em}
+.admonition.note{background:#16222e;border:1px solid #2f4f6a}
+.admonition.note .admonition-title{color:#8ab8e0}
+.admonition.warning{background:#2a1818;border:1px solid #6e3b3b}
+.admonition.warning .admonition-title{color:#f08a8a}
+table.docutils{border-collapse:collapse;width:100%;font-size:13.5px;margin:12px 0}
+table.docutils th,table.docutils td{border:1px solid #3a3a3a;padding:6px 9px;text-align:left;vertical-align:top}
+table.docutils thead th{background:#262626;color:#e0e0e0}
+table.docutils tbody tr:nth-child(even){background:#202020}
+details.sub-sec{margin:10px 0;border:1px solid #333;border-radius:3px}
+details.sub-sec>summary{cursor:pointer;list-style:none;padding:8px 13px;background:#242424;
+  font-weight:700;font-size:14px;color:#cfe3f2;display:flex;align-items:center;gap:9px;user-select:none}
+details.sub-sec>summary::-webkit-details-marker{display:none}
+details.sub-sec>summary::before{content:"\25B6";font-size:10px;color:#888;transition:transform .12s}
+details.sub-sec[open]>summary::before{transform:rotate(90deg)}
+details.sub-sec>summary:hover{background:#2c2c2c}
+.sub-tag{font-family:'SFMono-Regular',Menlo,monospace;font-size:11px;font-weight:700;
+  letter-spacing:.02em;color:#9a9a9a;border:1px solid #444;border-radius:3px;padding:0 6px}
+.sub-body{padding:6px 16px 14px}
+.footer{max-width:1200px;margin:0 auto;padding:16px 20px 40px;
+  border-top:1px solid #333;color:#666;font-size:12px}
+.footer a{color:#6ab0de}
+/* phrase / tip boxes */
+.phrase-box{background:#1e1e2e;border-left:3px solid #4a4aaa;border-radius:3px;
+  padding:10px 14px;margin:8px 0;font-size:14px;font-style:italic;color:#b8b8e8;line-height:1.7}
+.tip-box{background:#1a2a1a;border:1px solid #3a5a3a;border-radius:3px;
+  padding:9px 13px;margin:10px 0;font-size:14px}
+.tip-box .tip-title{font-weight:700;color:#7ec87e;font-size:11px;
+  text-transform:uppercase;letter-spacing:.04em;margin-bottom:4px}
+@media(max-width:860px){.sphinxsidebar{display:none}.document{padding:14px 18px 60px}}
+@media print{
+  body{background:#fff;color:#000}.related,.sphinxsidebar,.docheader{display:none}
+  .document{max-width:none}h1,h2,h3,h4{color:#000}
+  a{color:#000;text-decoration:none}
+}
+</style>
+</head>
+<body>
+
+<div class="related">
+  <div class="inner">
+    <div class="crumbs">
+      <a href="ml_exam_reference.html">AI Course</a>
+      <span class="sep">&#187;</span>
+      <span>Vodi&#269; za komentare</span>
+    </div>
+    <div class="navlinks">
+      <a href="podsetnik_pera.html">&#8592; Podsetnik za kolokvijum (by Pera)</a>
+      <span style="color:#555">|</span>
+      <span style="color:#555">next &#8594;</span>
+    </div>
+  </div>
+</div>
+
+<div class="docheader"><div class="inner">
+  <div class="crumb">Artificial Intelligence &#183; Exam preparation</div>
+</div></div>
+
+<div class="layout">
+  <nav class="sphinxsidebar">
+    <h3>AI Course</h3>
+    <ul>
+      <li><a href="ml_exam_reference.html">Machine Learning Exam Reference</a></li>
+      <li><a href="lr_solution.html">1. Linear Regression &#8212; Full Solution</a></li>
+      <li><a href="dt_solution.html">2. Decision Tree &#8212; Full Solution</a></li>
+      <li><a href="knn_solution.html">3. k-NN &#8212; Full Solution</a></li>
+      <li><a href="nn_solution.html">4. Neural Network &#8212; Full Solution</a></li>
+      <li><a href="kmeans_solution.html">5. KMeans Clustering &#8212; Full Solution</a></li>
+      <li><a href="hier_solution.html">6. Hierarchical Clustering &#8212; Full Solution</a></li>
+      <li><a href="podsetnik_pera.html">Podsetnik za kolokvijum (by Pera)</a></li>
+      <li><a href="komentari_guide.html" style="color:#fff;font-weight:700">Vodi&#269; za komentare</a></li>
+    </ul>
+    <h3>Previous topic</h3>
+    <ul><li><a class="topic-link" href="podsetnik_pera.html">Podsetnik za kolokvijum (by Pera)</a></li></ul>
+    <h3>This Page</h3>
+    <ul><li><a href="#">Show Source</a></li></ul>
+    <h3>Contents</h3>
+    <ul>
+      <li><a href="#general">0. Op&#353;ta pravila</a></li>
+      <li><a href="#comments-sredi">1. Sre&#273;ivanje podataka</a></li>
+      <li><a href="#comments-lr">2. Multiple linearna regresija</a></li>
+      <li><a href="#comments-dt">3. Stablo odlu&#269;ivanja</a></li>
+      <li><a href="#comments-knn">4. k-NN</a></li>
+      <li><a href="#comments-nn">5. Neuronske mre&#382;e</a></li>
+      <li><a href="#comments-clu">6. Klasterizacija</a></li>
+    </ul>
+  </nav>
+
+  <div class="document" role="main">
+  <h1>Vodi&#269; za pisanje komentara<a class="headerlink" href="#" title="Permalink">&#182;</a></h1>
+  <p>Ovaj vodi&#269; obja&#353;njava &#353;ta i kako treba komentarisati u svakoj sekciji analize tokom kolokvijuma. Dobar komentar obja&#353;njava <strong>ZA&#352;TO</strong> &#8212; ne ponavljaju&#263;i &#353;ta kod radi, ve&#263; tuma&#269;e&#263;i &#353;ta rezultat zna&#269;i u kontekstu zadatka.</p>
+
+  <!-- ==================== 0. OPŠTA PRAVILA ==================== -->
+  <h2 id="general">0. Op&#353;ta pravila<a class="headerlink" href="#general" title="Permalink">&#182;</a></h2>
+
+  <ol>
+    <li><strong>Objasnite odluku, ne kod.</strong> Umesto &#8220;filtriram podatke gde total_fat &lt;= 125&#8221;, pi&#353;ite &#8220;Filtriram podskup jer se zadatak odnosi samo na proizvode sa manjim sadr&#382;ajem masti.&#8221;</li>
+    <li><strong>Tuma&#269;ite brojke.</strong> Svaki numeri&#269;ki rezultat treba da ima re&#269;enicu interpretacije. Nije dovoljno ispisati vrednost &#8212; treba re&#263;i da li je dobro ili lo&#353;e i za&#353;to.</li>
+    <li><strong>Pravdajte izbore.</strong> Svaki put kada birate (scaler, linkage metodu, k, atribute&#8230;) &#8212; objasnite kratko za&#353;to ste ba&#353; to izabrali.</li>
+    <li><strong>Zaklju&#269;ci su obavezni.</strong> Na kraju svake sekcije napi&#353;ite zaklju&#269;ak u jednoj ili dve re&#269;enice.</li>
+  </ol>
+
+  <!-- ==================== 1. SREĐIVANJE ==================== -->
+  <h2 id="comments-sredi">1. Sre&#273;ivanje podataka<a class="headerlink" href="#comments-sredi" title="Permalink">&#182;</a></h2>
+
+  <details class="sub-sec" open><summary><span class="sub-tag">&#352;TA KOMENTARISATI</span> &#8212; Sre&#273;ivanje podataka</summary>
+  <div class="sub-body">
+
+  <h3>U&#269;itavanje i zamena specijalnih vrednosti</h3>
+  <div class="phrase-box">
+    &#8220;U datasetu se koriste oznake &#8216;-&#8217;, razmak i blanko kao indikatori nedostaju&#263;ih vrednosti pored standardnog NaN. Sve ih zamenjujem sa <code>np.nan</code> kako bi pandas mogao korektno da ih tretira u daljoj analizi.&#8221;
+  </div>
+
+  <h3>pd.to_numeric</h3>
+  <div class="phrase-box">
+    &#8220;Kolona [naziv] je u&#269;itana kao tip <code>object</code> (tekst) zbog prisustva specijalnih znakova. Konvertujem je u numeri&#269;ki tip; vrednosti koje se ne mogu konvertovati postaju NaN i bi&#263;e obra&#273;ene u koraku imputacije.&#8221;
+  </div>
+
+  <h3>Proverava NA vrednosti &#8212; dropna</h3>
+  <div class="phrase-box">
+    &#8220;Kolona [naziv] ima [X]% nedostaju&#263;ih vrednosti, &#353;to je zna&#269;ajan procenat. Imputacija bi uvela previ&#353;e &#353;uma, pa kolonu izbacujem iz skupa atributa.&#8221;
+  </div>
+
+  <h3>Shapiro test i imputacija</h3>
+  <div class="phrase-box">
+    &#8220;Shapiro-Wilk test za kolonu [naziv] daje p = [vrednost]. Po&#353;to je p &lt; 0.05, raspodela <strong>nije normalna</strong> i koristim <strong>medijanu</strong> za imputaciju &#8212; medijana je otpornija na ekstremne vrednosti od aritmeti&#269;ke sredine.&#8221;<br><br>
+    ILI:<br><br>
+    &#8220;p = [vrednost] &#8805; 0.05 &#8212; raspodela je normalna, koristim <strong>aritmeti&#269;ku sredinu</strong> za imputaciju.&#8221;
+  </div>
+
+  <div class="tip-box">
+    <div class="tip-title">Napomena</div>
+    Uvek objasnite i ZA&#352;TO ste odabrali medijanu ili srednju vrednost &#8212; pozovite se na rezultat Shapiro testa, ne samo na pravilo.
+  </div>
+
+  </div></details>
+
+  <!-- ==================== 2. LINEARNA REGRESIJA ==================== -->
+  <h2 id="comments-lr">2. Multiple linearna regresija<a class="headerlink" href="#comments-lr" title="Permalink">&#182;</a></h2>
+
+  <details class="sub-sec" open><summary><span class="sub-tag">&#352;TA KOMENTARISATI</span> &#8212; Linearna regresija</summary>
+  <div class="sub-body">
+
+  <h3>Odabir atributa (korelaciona matrica)</h3>
+  <div class="phrase-box">
+    &#8220;Na osnovu korelacione matrice odabiram atribute [X, Y, Z] jer imaju korelaciju &gt; 0.5 sa ciljnom promenljivom [T]. Atribut [W] nije uklju&#269;en jer pokazuje slabu korelaciju (r = [vrednost]) i ne bi doprinosio modelu.&#8221;
+  </div>
+
+  <h3>Tuma&#269;enje lm1.summary()</h3>
+  <table class="docutils">
+    <thead><tr><th>Veli&#269;ina</th><th>&#352;ta je</th><th>Kako tuma&#269;iti</th></tr></thead>
+    <tbody>
+      <tr><td><strong>R&#178;</strong></td><td>% varijabilnosti ciljne promenljive koji model obja&#353;njava</td><td>R&#178; = 0.75 &#8594; model obja&#353;njava 75% varijabilnosti. Bli&#382;e 1 = bolji model.</td></tr>
+      <tr><td><strong>F-statistika (p)</strong></td><td>Da li model kao celina ima statisti&#269;ku zna&#269;ajnost</td><td>p &lt; 0.05 &#8594; model je statisti&#269;ki zna&#269;ajan.</td></tr>
+      <tr><td><strong>Intercept</strong></td><td>O&#269;ekivana vrednost izlaza kada su sve nezavisne promenljive = 0</td><td>p-value intercept-a govori o njegovoj statisti&#269;koj zna&#269;ajnosti.</td></tr>
+      <tr><td><strong>Koeficijenti</strong></td><td>Promena izlaza na promenu atributa za 1 jedinicu</td><td>Predznak (+/-) govori o smeru uticaja.</td></tr>
+      <tr><td><strong>p-value koef.</strong></td><td>Da li je atribut statisti&#269;ki zna&#269;ajan</td><td>p &lt; 0.05 &#8594; atribut je zna&#269;ajan prediktor.</td></tr>
+    </tbody>
+  </table>
+  <div class="phrase-box">
+    &#8220;R&#178; = [vrednost] &#8212; model obja&#353;njava [X]% varijabilnosti promenljive [T] na trening skupu.&#8221;<br>
+    &#8220;Koeficijent za [atribut] = [vrednost]: pove&#263;anje [atributa] za 1 jedinicu rezultira prome­nom [T] za [vrednost] jedinica, uz ostale atribute nepromen­jene.&#8221;<br>
+    &#8220;p-value za [atribut] = [vrednost] &lt; 0.05 &#8594; [atribut] je statisti&#269;ki zna&#269;ajan prediktor.&#8221;<br>
+    &#8220;F-statistika = [vrednost], p = [vrednost] &#8594; model kao celina je statisti&#269;ki zna&#269;ajan.&#8221;
+  </div>
+
+  <h3>&#268;etiri dijagnosti&#269;ka grafikona</h3>
+  <ul>
+    <li><strong>Residuals vs Fitted:</strong> Reziduali ravnomerno raspore&#273;eni oko 0 &#8594; pretpostavka o linearnosti je zadovoljena. Ako postoji obrazac (luk, levak) &#8594; model nije adekvatan.</li>
+    <li><strong>Normal Q-Q:</strong> Ta&#269;ke du&#382; dijagonale &#8594; reziduali imaju normalnu raspodelu (pretpostavka regresije zadovoljena). Odstupanja na krajevima su uobi&#269;ajena.</li>
+    <li><strong>Scale-Location:</strong> Horizontalna crvena linija &#8594; konstantna varijansa (homoskedasti&#269;nost). Levkasta forma &#8594; heteroskedasti&#269;nost &#8212; problem.</li>
+    <li><strong>Residuals vs Leverage:</strong> Ta&#269;ke unutar Cook&#8217;s distance granica &#8594; nema uticajnih autlajera. Ta&#269;ke van granica zna&#269;ajno uti&#269;u na model.</li>
+  </ul>
+
+  <h3>VIF i multikolinearnost</h3>
+  <div class="phrase-box">
+    &#8220;VIF &gt; 2 za atribut [X] ukazuje na multikolinearnost sa [Y]. Izbacujem [X] i fitovanjem modela lm2 bez njega proveravamo da li se R&#178; zna&#269;ajno menja. Ako R&#178; ostaje sli&#269;an &#8212; gubitak informacije je zanemarljiv.&#8221;
+  </div>
+
+  <h3>Metrike na test skupu</h3>
+  <div class="phrase-box">
+    &#8220;RSS = [vrednost] &#8212; suma kvadrata gre&#353;aka na test skupu; te&#382;imo nuli.&#8221;<br>
+    &#8220;R&#178; = [vrednost] na test skupu &#8212; model generalizuje [dobro/lo&#353;e] van trening podataka.&#8221;<br>
+    &#8220;RMSE = [vrednost] &#8212; prose&#269;na gre&#353;ka predikcije iznosi &#177;[vrednost] [jedinica mere]; te&#382;imo nuli.&#8221;
+  </div>
+
+  <div class="admonition warning">
+    <p class="admonition-title">Zamka</p>
+    <p><code class="literal">random_state=123</code> za regresiju (NE 42), bez skaliranja i bez stratify. Evaluacija je kroz <code class="literal">.summary()</code>, ne sklearn metrikama!</p>
+  </div>
+
+  </div></details>
+
+  <!-- ==================== 3. STABLO ==================== -->
+  <h2 id="comments-dt">3. Stablo odlu&#269;ivanja<a class="headerlink" href="#comments-dt" title="Permalink">&#182;</a></h2>
+
+  <details class="sub-sec" open><summary><span class="sub-tag">&#352;TA KOMENTARISATI</span> &#8212; Stablo odlu&#269;ivanja</summary>
+  <div class="sub-body">
+
+  <h3>Kreiranje izlazne varijable</h3>
+  <div class="phrase-box">
+    &#8220;Izlaznu promenljivu [naziv] kreiram na osnovu [uslova iz zadatka]. Vrednost 1 ozna&#269;ava [opis klase 1], vrednost 0 ozna&#269;ava [opis klase 0]. Originalnu promenljivu [naziv] izbacujem da ne bi direktno &#8216;odala&#8217; izlaz modelu.&#8221;
+  </div>
+
+  <h3>Odabir atributa (vizualizacija)</h3>
+  <div class="phrase-box">
+    &#8220;kdeplot za [atribut] pokazuje da su raspodele klasa [preklopljene / odvojene]. [Atribut] <strong>nije uklju&#269;en</strong> u model jer preklapanje ukazuje na slabu diskriminativnu mo&#263;.&#8221;<br><br>
+    &#8220;countplot za [atribut] pokazuje neuravnote&#382;enu distribuciju izme&#273;u klasa &#8594; uklju&#269;ujem ga jer razlikuje klase.&#8221;
+  </div>
+
+  <h3>Enkodovanje kategoričkih promenljivih</h3>
+  <div class="phrase-box">
+    &#8220;Promenljive [Geography, Gender] su kategoričke. Koristim OneHotEncoder sa <code>drop='first'</code> kako bih izbegao dummy-varijabilnu zamku (višekolinearnost). Binarne promenljive direktno mapujem na 0/1.&#8221;
+  </div>
+
+  <h3>Matrica konfuzije</h3>
+  <table class="docutils">
+    <thead><tr><th></th><th>Predvi&#273;eno: No</th><th>Predvi&#273;eno: Yes</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Stvarno: No</strong></td><td>TN &#8212; ta&#269;no negativni</td><td>FP &#8212; la&#382;no pozitivni</td></tr>
+      <tr><td><strong>Stvarno: Yes</strong></td><td>FN &#8212; la&#382;no negativni</td><td>TP &#8212; ta&#269;no pozitivni</td></tr>
+    </tbody>
+  </table>
+  <div class="phrase-box">
+    &#8220;Model je ta&#269;no klasifikovao [TN] instanci klase No i [TP] instanci klase Yes.<br>
+    La&#382;no pozitivnih (FP) = [vrednost] &#8212; model je pogre&#353;no predvideo Yes za stvarno No.<br>
+    La&#382;no negativnih (FN) = [vrednost] &#8212; model je propu­stio [vrednost] stvarnih Yes slu&#269;ajeva.&#8221;
+  </div>
+
+  <h3>Metrike</h3>
+  <table class="docutils">
+    <thead><tr><th>Metrika</th><th>Definicija</th><th>Interpretacija</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Accuracy</strong></td><td>(TP+TN) / ukupno</td><td>% ta&#269;nih predikcija ukupno. Mo&#382;e biti varljiva pri neuravnote&#382;enim klasama.</td></tr>
+      <tr><td><strong>Precision</strong></td><td>TP / (TP+FP)</td><td>Od svih predvi&#273;enih pozitivnih, koliko je zaista pozitivno. Visoka = malo la&#382;no pozitivnih.</td></tr>
+      <tr><td><strong>Recall</strong></td><td>TP / (TP+FN)</td><td>Od svih stvarnih pozitivnih, koliko je model prona&#353;ao. Visok = malo la&#382;no negativnih.</td></tr>
+      <tr><td><strong>F1</strong></td><td>2&#183;P&#183;R/(P+R)</td><td>Harmoni­jska sredina precision i recall. Koristiti kada su obe va&#382;ne.</td></tr>
+    </tbody>
+  </table>
+  <div class="phrase-box">
+    &#8220;Accuracy = [vrednost] &#8212; model ta&#269;no klasifikuje [X]% instanci.&#8221;<br>
+    &#8220;Precision = [vrednost] &#8212; od svih predvi&#273;enih pozitivnih, [X]% je zaista pozitivno.&#8221;<br>
+    &#8220;Recall = [vrednost] &#8212; model prepoznaje [X]% stvarnih pozitivnih slu&#269;ajeva.&#8221;<br>
+    &#8220;F1 = [vrednost] &#8212; balansirana mera izme&#273;u precision i recall.&#8221;
+  </div>
+
+  <h3>ccp_alpha pruning</h3>
+  <div class="phrase-box">
+    &#8220;Vrednost ccp_alpha = [vrednost] dobijena GridSearchCV-om. Ve&#263;a alpha &#8594; agresivnije orezivanje &#8594; jednostavnije stablo. Stablo sa optimalnom alphom bolje generalizuje od nerezanog jer smanjuje overfitting.&#8221;
+  </div>
+
+  </div></details>
+
+  <!-- ==================== 4. kNN ==================== -->
+  <h2 id="comments-knn">4. k-NN<a class="headerlink" href="#comments-knn" title="Permalink">&#182;</a></h2>
+
+  <details class="sub-sec" open><summary><span class="sub-tag">&#352;TA KOMENTARISATI</span> &#8212; k-NN</summary>
+  <div class="sub-body">
+
+  <h3>Za&#353;to je skaliranje obavezno</h3>
+  <p>k-NN meri euklidske distance. Bez skaliranja, promenljive sa velikim rasponom (npr. prihod u hiljadama) dominiraju nad onima sa malim rasponom (npr. starost 0&#8211;100) &#8212; model faktički ignoriše male promenljive.</p>
+
+  <h3>Odabir skalera</h3>
+  <div class="phrase-box">
+    &#8220;Proverom autlajera (IQR metoda) utvr&#273;ujem da kolone [X, Y] imaju autlajere. Koristim <strong>RobustScaler</strong> koji je robustan na ekstremne vrednosti &#8212; medijana i IQR su manje osetljivi od mean/std.&#8221;<br><br>
+    ILI:<br><br>
+    &#8220;Nema zna&#269;ajnih autlajera &#8594; koristim <strong>MinMaxScaler</strong> koji normalizuje u opseg [0, 1].&#8221;
+  </div>
+
+  <h3>Optimalno K</h3>
+  <div class="phrase-box">
+    &#8220;GridSearchCV isprobava neparne K od 3 do 25. Koristimo neparne vrednosti jer pri parnom K mo&#382;e do&#263;i do izjedna&#269;enog glasanja suseda (50:50). Optimalnim K = [vrednost] model posti&#382;e accuracy = [vrednost]% na kros-validaciji.&#8221;
+  </div>
+
+  <h3>Poređenje knn1 vs knn2</h3>
+  <div class="phrase-box">
+    &#8220;knn1 sa K=5 posti&#382;e accuracy = [X]. knn2 sa optimalnim K=[Y] posti&#382;e accuracy = [Z]. [Pobolj&#353;anje / pogor&#353;anje] od [razlika] p.p. potvr&#273;uje [zaklju&#269;ak o vrednosti optimizacije].&#8221;
+  </div>
+
+  </div></details>
+
+  <!-- ==================== 5. NEURONSKE MREŽE ==================== -->
+  <h2 id="comments-nn">5. Neuronske mre&#382;e<a class="headerlink" href="#comments-nn" title="Permalink">&#182;</a></h2>
+
+  <details class="sub-sec" open><summary><span class="sub-tag">&#352;TA KOMENTARISATI</span> &#8212; Neuronske mre&#382;e</summary>
+  <div class="sub-body">
+
+  <h3>Za&#353;to je skaliranje obavezno</h3>
+  <p>Gradijentni spust je veoma osetljiv na razmere ulaznih podataka. Bez skaliranja konvergencija je spora i nestabilna &#8212; gre&#353;ka mo&#382;e oscilirati umesto da opada.</p>
+
+  <h3>Arhitektura</h3>
+  <div class="phrase-box">
+    &#8220;Mre&#382;a ima arhitekturu: input([n_features]) &#8594; 64 neurona &#8594; 32 neurona &#8594; output(1). Dva skrivena sloja sa 64 i 32 neurona daju dovoljno kapaciteta za modelovanje nelinearnih granica izme&#273;u klasa.&#8221;
+  </div>
+
+  <h3>Koraci treninga (za obja&#353;njenje u tekstu)</h3>
+  <ol>
+    <li><strong>Forward propagation</strong> &#8212; ulazni podaci prolaze kroz mre&#382;u i izra&#269;unava se predikcija modela.</li>
+    <li><strong>Ra&#269;unanje gre&#353;ke (loss)</strong> &#8212; predikcija se poredi sa stvarnim vrednostima.</li>
+    <li><strong>Backward propagation</strong> &#8212; odre&#273;uje se kako svaki parametar mre&#382;e uti&#269;e na gre&#353;ku.</li>
+    <li><strong>A&#382;uriranje parametara</strong> &#8212; te&#382;ine se a&#382;uriraju putem SGD-a sa ciljem minimizacije gre&#353;ke.</li>
+    <li>Jedan prolazak kroz ceo trening skup = jedna <strong>epoha</strong>. Proces se ponavlja <code>max_iter</code> puta.</li>
+  </ol>
+
+  <h3>Loss kriva</h3>
+  <div class="phrase-box">
+    &#8220;Loss kriva monotono opada i stabilizuje se &#8594; mre&#382;a je konvergirala. Ako loss nastavlja da opada bez stabilizacije &#8594; potrebno je vi&#353;e iteracija (<code>max_iter</code>). Ako loss osciluje &#8594; learning rate je preveliki ili podaci nisu dobro skalirani.&#8221;
+  </div>
+
+  <h3>Metrike (iste kao stablo odlu&#269;ivanja)</h3>
+  <div class="phrase-box">
+    &#8220;Neuronska mre&#382;a posti&#382;e accuracy = [X]%, &#353;to je [bolje/lo&#353;ije] od stabla odlu&#269;ivanja ([Y]%). Precision = [vrednost], recall = [vrednost], F1 = [vrednost].&#8221;
+  </div>
+
+  </div></details>
+
+  <!-- ==================== 6. KLASTERIZACIJA ==================== -->
+  <h2 id="comments-clu">6. Klasterizacija<a class="headerlink" href="#comments-clu" title="Permalink">&#182;</a></h2>
+
+  <details class="sub-sec" open><summary><span class="sub-tag">&#352;TA KOMENTARISATI</span> &#8212; Klasterizacija</summary>
+  <div class="sub-body">
+
+  <div class="admonition note">
+    <p class="admonition-title">Va&#382;no</p>
+    <p>Klasterizacija je <strong>unsupervised</strong> &#8212; nema ta&#269;nih/neta&#269;nih odgovora. Ocenjujete se na osnovu smislenosti interpretacije klastera i obrazlo&#382;enosti izbora (K, linkage metoda, skaliranje).</p>
+  </div>
+
+  <h3>Korelaciona matrica &#8212; izbacivanje kolona</h3>
+  <div class="phrase-box">
+    &#8220;Iz matrice korelacije uo&#269;avam visoku korelaciju izme&#273;u [X] i [Y] (r &gt; 0.8). Izbacujem [Y] da bih smanjio redundantnost &#8212; klasterizacija bi ina&#269;e bila pod previ&#353;e uticajem tih atributa istovremeno.&#8221;
+  </div>
+
+  <div class="tip-box">
+    <div class="tip-title">Napomena</div>
+    NE izbacivati prethodno enkodovane kategoričke promenljive čak i ako pokazuju visoku korelaciju sa nekom od originalnih promenljivih!
+  </div>
+
+  <h3>Outlieri &#8212; winsorize ili izbacivanje</h3>
+  <div class="phrase-box">
+    &#8220;Kolona [naziv] ima [X]% autlajera (vi&#353;e od 10%) &#8594; izbacujem je jer bi dominirala nad ostalim atributima u klasterizaciji.&#8221;<br><br>
+    ILI:<br><br>
+    &#8220;Kolona [naziv] ima manjinski procenat autlajera. Primenjujem winsorize sa gornjom granicom [X]% &#8212; ekstremne vrednosti zamenjuju se vrednostima na toj percentili.&#8221;
+  </div>
+
+  <h3>Izbor linkage metode (hijerarhijska klasterizacija)</h3>
+  <div class="phrase-box">
+    &#8220;Dendrogram sa <strong>ward</strong> linkage metodom pokazuje jasno odvojena dva klastera sa velikim skokom u visinama spajanja &#8594; odabiram ward kao metodu za finalnu klasterizaciju.&#8221;<br><br>
+    &#8220;Single linkage pokazuje problem &#8216;lanca&#8217; (chain effect) &#8212; klasteri se spajaju u dugim nizovima umesto kompaktnih grupa &#8594; nije prikladan za ovaj zadatak.&#8221;
+  </div>
+
+  <h3>Odabir K &#8212; elbow (KMeans) i dendrogram (hijerarhijska)</h3>
+  <div class="phrase-box">
+    &#8220;Elbow dijagram pokazuje nagli pad WCSS gre&#353;ke izme&#273;u K=2 i K=3, nakon &#269;ega se kriva izravnjava. Odabiram <strong>K=2</strong> jer dodatni klasteri ne donose zna&#269;ajno smanjenje gre&#353;ke.&#8221;<br><br>
+    ILI (hijerarhijska):<br><br>
+    &#8220;Dendrogram pokazuje veliki skok u visini spajanja pri prelasku sa 2 na 1 klaster &#8594; optimalno <strong>K=2</strong>.&#8221;
+  </div>
+
+  <h3>Interpretacija klastera (boxplot)</h3>
+  <p>Uvek navedite: <strong>(1) veli&#269;inu klastera</strong>, <strong>(2) karakteristi&#269;ne atribute</strong>, <strong>(3) smisleno ime / opis klastera</strong>.</p>
+  <div class="phrase-box">
+    &#8220;Klaster 1 (N = [vrednost]) karakteri&#353;u visoke vrednosti [atribut1] i [atribut2], a niske vrednosti [atribut3]. Ovo sugeri&#353;e da klaster predstavlja [opis].&#8221;<br><br>
+    &#8220;Klaster 2 (N = [vrednost]) ima suprotne karakteristike &#8212; nizak [atribut1] i visok [atribut3] &#8594; [opis].&#8221;<br><br>
+    &#8220;Klasteri se jasno razlikuju po [atributima]. Disperzija (std) unutar klastera [K] je [mala/velika], &#353;to ukazuje na [kompaktne/raspr&#353;ene] grupe.&#8221;
+  </div>
+
+  <div class="tip-box">
+    <div class="tip-title">Ako su klasteri sli&#269;ni</div>
+    Ako boxplotovi pokazuju malo razlike ili su klasteri sli&#269;ni, pove&#263;ati K i ponoviti klasterizaciju. Objasnite da K=[novo] daje smislenije grupe i opisite razlike.
+  </div>
+
+  </div></details>
+
+  </div><!-- /document -->
+</div><!-- /layout -->
+
+<div class="footer">
+  &#169; Copyright, AI Course. &nbsp;Last updated manually. &nbsp;Created using <a href="#">Sphinx</a> 7.2.6.
+</div>
+
+</body>
+</html>
